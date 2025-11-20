@@ -33,7 +33,7 @@
     "depends": ["payment"],
     "external_dependencies": {
         "python": ["pycryptodome", "pycountry"],
-        # pip install pycountry
+         pip install pycountry
          pip install pycryptodome
     },
     "data": [
