@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">Up2pay Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position='inside'>
+                <group  invisible="code != 'up2pay'">
+                    <field name="up2pay_key" required="code == 'up2pay' and state != 'disabled'"/>
+                    <field name="up2pay_identifier" required="code == 'up2pay' and state != 'disabled'"/>
+                    <field name="up2pay_rank" required="code == 'up2pay' and state != 'disabled'"/>
+                    <field name="up2pay_site" required="code == 'up2pay' and state != 'disabled'"/>
+                    <field name="up2pay_server" required="code == 'up2pay' and state != 'disabled'"/>
+                    <field name="up2pay_challenge" required="code == 'up2pay' and state != 'disabled'"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>

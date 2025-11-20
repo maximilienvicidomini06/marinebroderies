@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="redirect_form">
+        <form t-att-action="api_url" method="post">
+            <input type="hidden" name="PBX_SITE" t-att-value="site"/>
+            <input type="hidden" name="PBX_RANG" t-att-value="rank"/>
+            <input type="hidden" name="PBX_HASH" t-att-value="hash"/>
+            <input type="hidden" name="PBX_CMD" t-att-value="reference"/>
+            <input type="hidden" name="PBX_IDENTIFIANT" t-att-value="identifiant"/>
+            <input type="hidden" name="PBX_TOTAL" t-att-value="amount"/>
+            <input type="hidden" name="PBX_DEVISE" t-att-value="devise"/>
+            <input type="hidden" name="PBX_PORTEUR" t-att-value="porteur"/>
+            <input type="hidden" name="PBX_RETOUR" t-att-value="retour"/>
+            <input type="hidden" name="PBX_TIME" t-att-value="pbx_time"/>
+            <input type="hidden" name="PBX_EFFECTUE" t-att-value="effectue"/>
+            <input type="hidden" name="PBX_REFUSE" t-att-value="refuse"/>
+            <input type="hidden" name="PBX_ANNULE" t-att-value="annule"/>
+            <input type="hidden" name="PBX_REPONDRE_A" t-att-value="url_ipn"/>
+            <input type="hidden" name="PBX_HMAC" t-att-value="hmac"/>
+            <input type="hidden" name="PBX_SHOPPINGCART" t-att-value="shoppingcart"/>
+            <input type="hidden" name="PBX_BILLING" t-att-value="billing"/>
+            <input type="hidden" name="PBX_SOUHAITAUTHENT" t-att-value="challenge"/>
+        </form>
+    </template>
+
+
+</odoo>
+
+

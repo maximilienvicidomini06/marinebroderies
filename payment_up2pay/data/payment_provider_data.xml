@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="payment_provider_up2pay" model="payment.provider">
+        <field name="name">Up2pay e-Transactions</field>
+        <field name="image_128"
+               type="base64"
+               file="payment_up2pay/static/src/img/up2pay_icon.png"/>
+        <field name="code">up2pay</field>
+        <field name="redirect_form_view_id" ref="redirect_form"/>
+        <field name="allow_tokenization">False</field>
+        <field name="module_id" ref="base.module_payment_up2pay"/>
+        <field name="payment_method_ids"
+               eval="[Command.set([ref('payment_up2pay.payment_method_up2pay'),])]"
+        />
+
+    </record>
+
+</odoo>
+
