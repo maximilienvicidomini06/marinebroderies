@@ -33,8 +33,8 @@
     "depends": ["payment"],
     "external_dependencies": {
         "python": ["pycryptodome", "pycountry"],
-         pip install pycountry
-         pip install pycryptodome
+         # pip install pycountry
+         # pip install pycryptodome
     },
     "data": [
         "views/res_country_views.xml",
