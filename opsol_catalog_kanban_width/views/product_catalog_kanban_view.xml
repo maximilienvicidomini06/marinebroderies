@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Héritage de la vue kanban du catalog pour :
+        - charger le champ color
+        - utiliser color comme background des cartes
+    -->
+    <record id="product_view_kanban_catalog_color_bg" model="ir.ui.view">
+        <field name="name">product.view.kanban.catalog.color.bg</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_view_kanban_catalog"/>
+        <field name="arch" type="xml">
+
+            <!-- 1) S'assurer que le champ color est chargé dans la vue -->
+            <field name="id" position="after">
+                <field name="catalog_color" invisible="1"/>
+            </field>
+
+            <xpath expr="//field[@name='product_template_attribute_value_ids']" position="after">
+                <div class="ribbon ribbon-top-right" t-if="record.catalog_color.raw_value">
+                    <span t-attf-style="background: {{record.catalog_color.raw_value}};">COULEUR</span>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
