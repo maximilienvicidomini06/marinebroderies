@@ -7,7 +7,7 @@ class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
     x_customer_delivery_date = fields.Date(
-        string='Customer Delivery Date',
+        string='Date de livraison Client',
         readonly=False,
         compute='_compute_customer_delivery_date',
         store=True

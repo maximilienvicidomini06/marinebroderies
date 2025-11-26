@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_view_search_catalog_opsol" model="ir.ui.view">
+            <field name="name">product.product.search.opsol</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_view_search_catalog"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_template_attribute_value_ids']" position="after">
+                    <field name="taille_product_template_attribute_value_ids" string="Taille"/>
+                </xpath>
+
+                <xpath expr="//filter[@name='categ_id']" position="after">
+                    <filter string="Taille" name="catalog_label_f" context="{'group_by':'taille_product_template_attribute_value_ids'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

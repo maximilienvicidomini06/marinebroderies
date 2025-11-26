@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields
+from odoo import api, models, fields
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -7,12 +7,19 @@ class ProductProduct(models.Model):
     catalog_color = fields.Char(
         string="Couleur (catalog)",
         compute="_compute_catalog_color",
-        store=False,
+        store=True,
+    )
+    catalog_label = fields.Char(
+        string="Couleur (catalog)",
+        compute="_compute_catalog_color",
+        store=True,
     )
 
+    @api.depends('product_template_attribute_value_ids')
     def _compute_catalog_color(self):
         for product in self:
             color = False
+            color_label = False
 
             # On récupère les valeurs d'attribut liées à ce variant
             # product_template_attribute_value_ids -> product.template.attribute.value
@@ -26,5 +33,7 @@ class ProductProduct(models.Model):
             if ptavs:
                 # On prend la première valeur de couleur trouvée
                 color = ptavs[0].product_attribute_value_id.html_color
+                color_label = ptavs[0].product_attribute_value_id.name
 
             product.catalog_color = color
+            product.catalog_label = color_label

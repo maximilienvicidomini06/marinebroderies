@@ -23,5 +23,23 @@
             </xpath>
 
         </field>
+
     </record>
+
+    <record id="product_view_search_catalog_opsolkanban" model="ir.ui.view">
+        <field name="name">product.product.search.opsol.kanban</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_view_search_catalog"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_template_attribute_value_ids']" position="after">
+                <field name="catalog_label"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='categ_id']" position="after">
+                <filter string="Couleur" name="catalog_label_f" context="{'group_by':'catalog_label'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
 </odoo>
