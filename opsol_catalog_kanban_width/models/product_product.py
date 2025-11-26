@@ -10,7 +10,7 @@ class ProductProduct(models.Model):
         store=True,
     )
     catalog_label = fields.Char(
-        string="Couleur (catalog)",
+        string="Label Couleur (catalog)",
         compute="_compute_catalog_color",
         store=True,
     )
