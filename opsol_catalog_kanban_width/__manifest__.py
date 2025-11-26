@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Product Catalog Kanban Width",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Sales",
     "summary": "Fixe la largeur des cartes de la vue catalogue à 200px",
     "author": "FMV / OpenSolution",
