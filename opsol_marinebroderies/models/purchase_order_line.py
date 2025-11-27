@@ -37,3 +37,9 @@ class PurchaseOrderLine(models.Model):
             product_id, product_qty, product_uom, location_dest_id, name, origin, company_id, values, po)
         res['sale_line_id'] = values.get('sale_line_id')
         return res
+
+    def _prepare_stock_moves(self, picking):
+        res = super(PurchaseOrderLine, self)._prepare_stock_moves(picking)
+        for move_vals in res:
+            move_vals['sale_line_id'] = self.sale_line_id.id
+        return res
