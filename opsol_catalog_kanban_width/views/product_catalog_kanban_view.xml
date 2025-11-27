@@ -19,7 +19,7 @@
 
             <xpath expr="//field[@name='product_template_attribute_value_ids']" position="after">
                 <div class="ribbon ribbon-top-right" t-if="record.catalog_color.raw_value">
-                    <span t-attf-style="background: {{record.catalog_color.raw_value}};"><field name="catalog_label"/></span>
+                    <span t-attf-style="background: {{record.catalog_color.raw_value}}; color: black;"><t t-esc="record.catalog_label.raw_value"/></span>
                 </div>
             </xpath>
 
