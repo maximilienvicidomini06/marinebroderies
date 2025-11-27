@@ -14,11 +14,12 @@
             <!-- 1) S'assurer que le champ color est chargé dans la vue -->
             <field name="id" position="after">
                 <field name="catalog_color" invisible="1"/>
+                <field name="catalog_label" invisible="1"/>
             </field>
 
             <xpath expr="//field[@name='product_template_attribute_value_ids']" position="after">
                 <div class="ribbon ribbon-top-right" t-if="record.catalog_color.raw_value">
-                    <span t-attf-style="background: {{record.catalog_color.raw_value}};">COULEUR</span>
+                    <span t-attf-style="background: {{record.catalog_color.raw_value}};"><field name="catalog_label"/></span>
                 </div>
             </xpath>
 
