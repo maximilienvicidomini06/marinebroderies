@@ -11,4 +11,6 @@ class PurchaseOrder(models.Model):
         sale_order_partners = self.order_line.mapped('sale_line_id.order_id.partner_id')
         if len(sale_order_partners) == 1:
             res['x_customer_id'] = sale_order_partners.id
+        elif len(sale_order_partners) > 1:
+            res['x_customer_id'] = sale_order_partners[0].id
         return res
