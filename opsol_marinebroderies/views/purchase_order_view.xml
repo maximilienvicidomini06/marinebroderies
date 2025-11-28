@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='order_line']/list/field[@name='date_planned']" position="after">
                     <field name="x_customer_delivery_date" optional="show"/>
+                    <field name="x_sale_partner_id" optional="show"/>
                 </xpath>
             </field>
         </record>

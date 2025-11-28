@@ -12,23 +12,34 @@ class PurchaseOrderLine(models.Model):
         compute='_compute_customer_delivery_date',
         store=True
     )
+    x_sale_partner_id = fields.Many2one(
+        'res.partner',
+        string='Client',
+        readonly=False,
+        compute='_compute_customer_delivery_date',
+        store=True
+    )
 
     @api.depends('sale_line_id', 'order_id')
     def _compute_customer_delivery_date(self):
         for line in self:
             customer_date = False
+            partner = False
             # Try to get date from sale_line_id first
             if line.sale_line_id and line.sale_line_id.order_id:
                 customer_date = line.sale_line_id.order_id.commitment_date
+                partner = line.sale_line_id.order_id.partner_id
             # If not found, try from related sale_order_id
             elif line.order_id and line.sale_order_id:
                 customer_date = line.sale_order_id.commitment_date
+                partner = line.sale_order_id.partner_id
 
             # Convert datetime to date if needed
             if customer_date and hasattr(customer_date, 'date'):
                 customer_date = customer_date.date()
 
             line.x_customer_delivery_date = customer_date
+            line.x_sale_partner_id = partner
 
     def _prepare_purchase_order_line_from_procurement(
         self, product_id, product_qty, product_uom, location_dest_id, name,
