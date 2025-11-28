@@ -19,8 +19,13 @@
 
             <xpath expr="//field[@name='product_template_attribute_value_ids']" position="after">
                 <div class="ribbon ribbon-top-right" t-if="record.catalog_color.raw_value">
-                    <span t-attf-style="background: {{record.catalog_color.raw_value}}; color: black;"><t t-esc="record.catalog_label.raw_value"/></span>
+                    <span t-attf-style="background: white; color: black;"><t t-esc="record.catalog_label.raw_value"/></span>
                 </div>
+            </xpath>
+
+            <xpath expr="//div[@name='o_kanban_price']" position="replace"></xpath>
+            <xpath expr="//field[@name='product_template_attribute_value_ids']" position="after">
+                <div name="o_kanban_price" t-attf-id="product-{{record.id.raw_value}}-price"/>
             </xpath>
 
         </field>
