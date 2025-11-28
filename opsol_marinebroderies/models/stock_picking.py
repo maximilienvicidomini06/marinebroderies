@@ -17,6 +17,19 @@ class StockPicking(models.Model):
         string='Available Moves'
     )
 
+    @api.depends('reference_ids.sale_ids', 'move_ids.sale_line_id.order_id')
+    def _compute_sale_id(self):
+        """Link the picking to a sale order only when it is unambiguous.
+
+        When a purchase order is merged we can end up with moves pointing to
+        different sale orders. Assigning that multi-recordset to the Many2one
+        field raises an error, so we keep the link only when all moves relate
+        to the same sale order.
+        """
+        for picking in self:
+            sale_orders = picking.reference_ids.sale_ids or picking.move_ids.sale_line_id.order_id
+            picking.sale_id = sale_orders if len(sale_orders) == 1 else False
+
     @api.depends('move_ids.forecast_availability', 'move_ids.forecast_expected_date')
     def _compute_available_move_ids(self):
         for picking in self:
