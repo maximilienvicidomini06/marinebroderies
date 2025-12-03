@@ -14,7 +14,8 @@
                 </xpath>
 
                 <xpath expr="//field[@name='order_line']/list/field[@name='name']" position="after">
-                    <field name="type_broderie_id" optional="hide" />
+                    <field name="type_broderie_id" optional="show" />
+                    <field name="broderie_service" optional="hide" />
                 </xpath>
 
             </field>

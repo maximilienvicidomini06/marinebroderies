@@ -6,6 +6,7 @@ from odoo.exceptions import UserError
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
+    broderie_service = fields.Boolean(string="Service de Broderie", default=False)
     type_broderie_id = fields.Many2one(
         'opsol_marinebroderies.type_broderie',
         string='Type de broderie',
