@@ -54,7 +54,7 @@ class SaleOrderLine(models.Model):
                 raise UserError(_("le type de boderie (%s) n'a pas de service rattache"), type_broderie.name)
 
             self.env['sale.order.line'].sudo().create({
-                'name': f"{type_broderie.name}: {line.product_uom_qty} x {line.name.replace('\n', '').replace('\r', '')} - date limite: {order.commitment_date or ''}",
+                'name': f"{type_broderie.name}: {line.product_uom_qty} x {line.name.replace('\n', '').replace('\r', '')} - date limite: {order.commitment_date and order.commitment_date.strftime('%d/%m/%Y') or 'N/A'}",
                 'sequence': line.sequence + 1, 'order_id': order.id,
                 'product_id': service_product.id,
                 'product_uom_qty': line.product_uom_qty, 

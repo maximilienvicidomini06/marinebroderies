@@ -1,13 +1,13 @@
 {
     'name': 'opsol_marinebroderies',
-    'version': '1.3.8',
+    'version': '1.3.9',
     'summary': 'Add custom modification for Marine Broderies',
     'description': 'Add custom modification for Marine Broderies',
     'category': 'Uncategorized',
     'author': 'OpenSolution',
     'website': 'https://www.opensolution.mc',
     'license': 'LGPL-3',
-    'depends': ['base', 'purchase', 'sale_stock', "sale_purchase", "purchase_stock", "opsol_catalog_kanban_width"],
+    'depends': ['base', 'purchase', 'sale_stock', 'sale_purchase', 'purchase_stock', 'opsol_catalog_kanban_width', 'crm'],
     'data': [
         'security/res_groups.xml',
         'security/ir.model.access.csv',
@@ -16,6 +16,7 @@
         'views/stock_picking_view.xml',
         'views/product_product_view.xml',
         'views/type_broderie_views.xml',
+        'views/crm_team_views.xml',
     ],
     'demo': [],
     'installable': True,

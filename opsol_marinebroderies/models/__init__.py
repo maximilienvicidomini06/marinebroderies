@@ -8,3 +8,4 @@ from . import product_product
 from . import product_template_attribute_value
 from . import type_broderie
 from . import sale_order
+from . import crm_team

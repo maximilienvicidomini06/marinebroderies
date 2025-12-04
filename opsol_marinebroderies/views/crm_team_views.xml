@@ -1,0 +1,12 @@
+<odoo>
+    <record id="crm_team_view_form_delivery_time" model="ir.ui.view">
+        <field name="name">crm.team.view.form.delivery.time</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form//div[@id='invoiced_target']" position="after">
+                <field name="delivery_time_days"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

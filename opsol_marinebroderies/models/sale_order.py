@@ -2,6 +2,7 @@
 
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
+from datetime import timedelta
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -9,6 +10,12 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         for rec in self:
+            if not rec.commitment_date:
+                if rec.team_id and rec.team_id.delivery_time_days:
+                    rec.commitment_date = fields.Date.today() + timedelta(days=rec.team_id.delivery_time_days)
+                else:
+                    rec.commitment_date = fields.Date.today()
+
             rec.broderie_lines()
         return super().action_confirm()
 
