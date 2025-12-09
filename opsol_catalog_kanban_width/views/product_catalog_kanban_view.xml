@@ -17,11 +17,12 @@
                 <field name="catalog_label" invisible="1"/>
             </field>
 
-            <xpath expr="//field[@name='product_template_attribute_value_ids']" position="after">
+
+            <!-- <xpath expr="//field[@name='product_template_attribute_value_ids']" position="after">
                 <div class="ribbon ribbon-top-right" t-if="record.catalog_color.raw_value" context="{'show_attribute': False}">
                     <span t-attf-style="background: {{record.catalog_color.raw_value}}; color: black;"><t t-esc="record.catalog_label.raw_value"/></span>
                 </div>
-            </xpath>
+            </xpath> -->
 
             <xpath expr="//div[@name='o_kanban_price']" position="replace"></xpath>
             <xpath expr="//field[@name='product_template_attribute_value_ids']" position="after">
