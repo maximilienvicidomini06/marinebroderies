@@ -36,3 +36,15 @@ class StockPicking(models.Model):
             picking.available_move_ids = picking.move_ids.filtered(
                 lambda m: m.forecast_availability > 0 and not m.forecast_expected_date
             )
+
+    def name_get(self):
+        res = []
+        for picking in self:
+            parts = [picking.name]
+            if picking.partner_id:
+                parts.append(picking.partner_id.display_name)
+            if picking.location_dest_id:
+                parts.append(picking.location_dest_id.display_name)
+            name = " - ".join([part for part in parts if part])
+            res.append((picking.id, name))
+        return res
