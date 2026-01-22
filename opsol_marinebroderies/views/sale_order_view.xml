@@ -18,6 +18,10 @@
                     <field name="broderie_service" optional="hide" />
                 </xpath>
 
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="aggregated_fields">product_uom_qty,price_subtotal,price_total</attribute>
+                </xpath>
+
             </field>
         </record>
     </data>
