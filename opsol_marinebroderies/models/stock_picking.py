@@ -54,33 +54,35 @@ class StockPicking(models.Model):
             new_name = " - ".join([part for part in parts if part])
             picking.display_name = new_name
 
-    def _get_default_supplier_partner(self, product):
+    def _get_default_supplier_partner(self, product, company=None, quantity=1.0, uom=None):
+        company = company or self.company_id
+        uom = uom or product.uom_id
         seller = False
         if hasattr(product, '_select_seller'):
             try:
                 seller = product._select_seller(
                     partner_id=False,
-                    quantity=1.0,
+                    quantity=quantity,
                     date=fields.Date.context_today(self),
-                    uom_id=product.uom_id,
-                    company_id=self.company_id,
+                    uom_id=uom,
+                    company_id=company,
                 )
             except TypeError:
                 seller = product._select_seller(
                     partner_id=False,
-                    quantity=1.0,
+                    quantity=quantity,
                     date=fields.Date.context_today(self),
-                    uom_id=product.uom_id,
+                    uom_id=uom,
                 )
 
         if not seller:
             today = fields.Date.context_today(self)
             sellers = product.seller_ids.filtered(
                 lambda s: (
-                    (not s.company_id or s.company_id == self.company_id)
+                    (not s.company_id or s.company_id == company)
                     and (not s.date_start or s.date_start <= today)
                     and (not s.date_end or s.date_end >= today)
-                    and (not s.min_qty or s.min_qty <= 0.0)
+                    and (not s.min_qty or s.min_qty <= quantity)
                 )
             ).sorted('sequence')
             seller = sellers[:1]
@@ -92,10 +94,18 @@ class StockPicking(models.Model):
 
     def _get_supplier_groups(self):
         self.ensure_one()
-        moves = self.move_ids.filtered(lambda m: m.state != 'cancel')
+        return self._get_supplier_groups_multi()
+
+    def _get_supplier_groups_multi(self):
+        moves = self.mapped('move_ids').filtered(lambda m: m.state != 'cancel')
         groups = {}
         for move in moves:
-            partner = self._get_default_supplier_partner(move.product_id)
+            partner = self._get_default_supplier_partner(
+                move.product_id,
+                company=move.company_id,
+                quantity=move.product_uom_qty or 0.0,
+                uom=move.product_uom,
+            )
             key = partner.id if partner else 0
             if key not in groups:
                 groups[key] = {
@@ -107,7 +117,7 @@ class StockPicking(models.Model):
         for group in groups.values():
             aggregated = {}
             for move in group['moves']:
-                description = move.name or ''
+                description = move.description_picking or ''
                 line_key = (move.product_id.id, move.product_uom.id, description)
                 if line_key not in aggregated:
                     aggregated[line_key] = {
