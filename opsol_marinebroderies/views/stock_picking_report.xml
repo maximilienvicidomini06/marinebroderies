@@ -11,28 +11,33 @@
         </record>
 
         <template id="report_stock_picking_by_supplier">
-            <t t-call="web.external_layout">
-                <t t-foreach="docs" t-as="picking">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-set="single_picking" t-value="docs[0] if len(docs) == 1 else False"/>
+                    <t t-set="supplier_groups" t-value="docs._get_supplier_groups_multi()"/>
                     <div class="page">
                         <h2>
-                            <span>PickingProduits par fournisseur</span>
+                            <span>Produits par fournisseur</span>
                         </h2>
                         <div class="mb16">
-                            <div>
+                            <div t-if="single_picking">
                                 <strong>Reference:</strong>
-                                <span t-esc="picking.name"/>
+                                <span t-esc="single_picking.name"/>
                             </div>
-                            <div t-if="picking.partner_id">
+                            <div t-else="">
+                                <strong>Pickings:</strong>
+                                <span t-esc="', '.join(docs.mapped('name'))"/>
+                            </div>
+                            <div t-if="single_picking and single_picking.partner_id">
                                 <strong>Partenaire:</strong>
-                                <span t-esc="picking.partner_id.display_name"/>
+                                <span t-esc="single_picking.partner_id.display_name"/>
                             </div>
-                            <div t-if="picking.scheduled_date">
+                            <div t-if="single_picking and single_picking.scheduled_date">
                                 <strong>Date prevue:</strong>
-                                <span t-esc="picking.scheduled_date"/>
+                                <span t-esc="single_picking.scheduled_date"/>
                             </div>
                         </div>
 
-                        <t t-set="supplier_groups" t-value="picking._get_supplier_groups()"/>
                         <t t-foreach="supplier_groups" t-as="group">
                             <h3>
                                 <span>Fournisseur:</span>
@@ -48,7 +53,7 @@
                                     <tr>
                                         <th>Produit</th>
                                         <th>Description</th>
-                                        <th class="text-right">Quantite</th>
+                                        <th class="">Quantite</th>
                                         <th>UdM</th>
                                     </tr>
                                 </thead>
@@ -58,8 +63,8 @@
                                         <td>
                                             <span t-esc="line['description']"/>
                                         </td>
-                                        <td class="text-right">
-                                            <span t-esc="line['qty']"/>
+                                        <td class="text-end">
+                                            <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])" />
                                         </td>
                                         <td t-esc="line['uom'].name"/>
                                     </tr>
