@@ -1,6 +1,6 @@
 {
     'name': 'opsol_marinebroderies',
-    'version': '1.3.14',
+    'version': '1.3.15',
     'summary': 'Add custom modification for Marine Broderies',
     'description': 'Add custom modification for Marine Broderies',
     'category': 'Uncategorized',
@@ -14,6 +14,7 @@
         'views/purchase_order_view.xml',
         'views/sale_order_view.xml',
         'views/stock_picking_view.xml',
+        'views/stock_picking_report.xml',
         'views/product_product_view.xml',
         'views/type_broderie_views.xml',
         'views/crm_team_views.xml',
