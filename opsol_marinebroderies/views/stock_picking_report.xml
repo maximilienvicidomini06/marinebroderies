@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="action_report_stock_picking_by_supplier" model="ir.actions.report">
-            <field name="name">Picking par fournisseur</field>
+            <field name="name">Produit par fournisseur</field>
             <field name="model">stock.picking</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">opsol_marinebroderies.report_stock_picking_by_supplier</field>
@@ -17,44 +17,45 @@
                     <t t-set="supplier_groups" t-value="docs._get_supplier_groups_multi()"/>
                     <div class="page">
                         <h2>
-                            <span>Produits par fournisseur</span>
+                            <span t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.title">Produits par fournisseur</span>
                         </h2>
                         <div class="mb16">
                             <div t-if="single_picking">
-                                <strong>Reference:</strong>
+                                <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.reference">Reference:</strong>
                                 <span t-esc="single_picking.name"/>
                             </div>
                             <div t-else="">
-                                <strong>Pickings:</strong>
+                                <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.pickings">Pickings:</strong>
                                 <span t-esc="', '.join(docs.mapped('name'))"/>
                             </div>
                             <div t-if="single_picking and single_picking.partner_id">
-                                <strong>Partenaire:</strong>
+                                <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.partner">Partenaire:</strong>
                                 <span t-esc="single_picking.partner_id.display_name"/>
                             </div>
                             <div t-if="single_picking and single_picking.scheduled_date">
-                                <strong>Date prevue:</strong>
+                                <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.scheduled_date">Date prevue:</strong>
                                 <span t-esc="single_picking.scheduled_date"/>
                             </div>
                         </div>
 
                         <t t-foreach="supplier_groups" t-as="group">
                             <h3>
-                                <span>Fournisseur:</span>
+                                <span t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.supplier">Fournisseur:</span>
                                 <t t-if="group['partner']">
                                     <span t-esc="group['partner'].display_name"/>
                                 </t>
                                 <t t-else="">
-                                    <span>Non disponible</span>
+                                    <span t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.unavailable">Non disponible</span>
                                 </t>
                             </h3>
                             <table class="table table-sm o_main_table">
                                 <thead>
                                     <tr>
-                                        <th>Produit</th>
-                                        <th>Description</th>
-                                        <th class="">Quantite</th>
-                                        <th>UdM</th>
+                                        <th t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.product">Produit</th>
+                                        <th t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.description">Description</th>
+                                        <th class="" t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.quantity">Quantite</th>
+                                        <th t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.uom">UdM</th>
+                                        <th t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.customer">Client</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,6 +68,9 @@
                                             <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])" />
                                         </td>
                                         <td t-esc="line['uom'].name"/>
+                                        <td>
+                                            <span t-if="line['_customer_ids']" t-esc="', '.join([customer.display_name for customer in line['_customer_ids']])"/>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -125,8 +125,12 @@ class StockPicking(models.Model):
                         'description': description,
                         'qty': 0.0,
                         'uom': move.product_uom,
+                        '_customer_ids': set(),
                     }
                 aggregated[line_key]['qty'] += move.product_uom_qty
+                customer = move.sale_line_id.order_id.partner_id if move.sale_line_id else False
+                if customer:
+                    aggregated[line_key]['_customer_ids'].add(customer)
             group['lines'] = sorted(
                 aggregated.values(),
                 key=lambda l: (l['product'].display_name, l['description'])
