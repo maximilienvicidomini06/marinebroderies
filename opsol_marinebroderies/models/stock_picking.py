@@ -46,11 +46,12 @@ class StockPicking(models.Model):
     )
     def _compute_display_name(self):
         for picking in self:
-            parts = [picking.name]
+            parts = []
             if picking.partner_id:
                 parts.append(picking.partner_id.display_name)
             if picking.location_dest_id:
                 parts.append(picking.location_dest_id.display_name)
+            parts.append(picking.name)
             new_name = " - ".join([part for part in parts if part])
             picking.display_name = new_name
 
