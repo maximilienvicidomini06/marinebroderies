@@ -53,3 +53,75 @@ class StockPicking(models.Model):
                 parts.append(picking.location_dest_id.display_name)
             new_name = " - ".join([part for part in parts if part])
             picking.display_name = new_name
+
+    def _get_default_supplier_partner(self, product):
+        seller = False
+        if hasattr(product, '_select_seller'):
+            try:
+                seller = product._select_seller(
+                    partner_id=False,
+                    quantity=1.0,
+                    date=fields.Date.context_today(self),
+                    uom_id=product.uom_id,
+                    company_id=self.company_id,
+                )
+            except TypeError:
+                seller = product._select_seller(
+                    partner_id=False,
+                    quantity=1.0,
+                    date=fields.Date.context_today(self),
+                    uom_id=product.uom_id,
+                )
+
+        if not seller:
+            today = fields.Date.context_today(self)
+            sellers = product.seller_ids.filtered(
+                lambda s: (
+                    (not s.company_id or s.company_id == self.company_id)
+                    and (not s.date_start or s.date_start <= today)
+                    and (not s.date_end or s.date_end >= today)
+                    and (not s.min_qty or s.min_qty <= 0.0)
+                )
+            ).sorted('sequence')
+            seller = sellers[:1]
+
+        if not seller:
+            return False
+
+        return getattr(seller, 'partner_id', False) or getattr(seller, 'name', False)
+
+    def _get_supplier_groups(self):
+        self.ensure_one()
+        moves = self.move_ids.filtered(lambda m: m.state != 'cancel')
+        groups = {}
+        for move in moves:
+            partner = self._get_default_supplier_partner(move.product_id)
+            key = partner.id if partner else 0
+            if key not in groups:
+                groups[key] = {
+                    'partner': partner,
+                    'moves': self.env['stock.move'],
+                    'lines': [],
+                }
+            groups[key]['moves'] |= move
+        for group in groups.values():
+            aggregated = {}
+            for move in group['moves']:
+                description = move.name or ''
+                line_key = (move.product_id.id, move.product_uom.id, description)
+                if line_key not in aggregated:
+                    aggregated[line_key] = {
+                        'product': move.product_id,
+                        'description': description,
+                        'qty': 0.0,
+                        'uom': move.product_uom,
+                    }
+                aggregated[line_key]['qty'] += move.product_uom_qty
+            group['lines'] = sorted(
+                aggregated.values(),
+                key=lambda l: (l['product'].display_name, l['description'])
+            )
+        return sorted(
+            groups.values(),
+            key=lambda g: (not g['partner'], (g['partner'].display_name if g['partner'] else ''))
+        )

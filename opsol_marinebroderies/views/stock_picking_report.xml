@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_stock_picking_by_supplier" model="ir.actions.report">
+            <field name="name">Picking par fournisseur</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">opsol_marinebroderies.report_stock_picking_by_supplier</field>
+            <field name="report_file">opsol_marinebroderies.report_stock_picking_by_supplier</field>
+            <field name="print_report_name">'Picking - %s' % (object.name)</field>
+        </record>
+
+        <template id="report_stock_picking_by_supplier">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="picking">
+                    <div class="page">
+                        <h2>
+                            <span>PickingProduits par fournisseur</span>
+                        </h2>
+                        <div class="mb16">
+                            <div>
+                                <strong>Reference:</strong>
+                                <span t-esc="picking.name"/>
+                            </div>
+                            <div t-if="picking.partner_id">
+                                <strong>Partenaire:</strong>
+                                <span t-esc="picking.partner_id.display_name"/>
+                            </div>
+                            <div t-if="picking.scheduled_date">
+                                <strong>Date prevue:</strong>
+                                <span t-esc="picking.scheduled_date"/>
+                            </div>
+                        </div>
+
+                        <t t-set="supplier_groups" t-value="picking._get_supplier_groups()"/>
+                        <t t-foreach="supplier_groups" t-as="group">
+                            <h3>
+                                <span>Fournisseur:</span>
+                                <t t-if="group['partner']">
+                                    <span t-esc="group['partner'].display_name"/>
+                                </t>
+                                <t t-else="">
+                                    <span>Non disponible</span>
+                                </t>
+                            </h3>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Produit</th>
+                                        <th>Description</th>
+                                        <th class="text-right">Quantite</th>
+                                        <th>UdM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="group['lines']" t-as="line">
+                                        <td t-esc="line['product'].display_name"/>
+                                        <td>
+                                            <span t-esc="line['description']"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['qty']"/>
+                                        </td>
+                                        <td t-esc="line['uom'].name"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
