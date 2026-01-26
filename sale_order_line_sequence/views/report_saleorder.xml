@@ -13,7 +13,31 @@
             </th>
         </xpath>
         <xpath
-            expr="//tbody[hasclass('sale_tbody')]//td[@name='td_name']/span[@t-field='line.name']/.."
+            expr="//tbody[hasclass('sale_tbody')]//td[@name='td_section_name']/span[@t-field='line.name']/.."
+            position="before"
+        >
+            <td name="td_visible_sequence">
+                <span t-field="line.visible_sequence" />
+            </td>
+        </xpath>
+        <xpath
+            expr="//tbody[hasclass('sale_tbody')]//td[@name='td_note_name']/span[@t-field='line.name']/.."
+            position="before"
+        >
+            <td name="td_visible_sequence">
+                <span t-field="line.visible_sequence" />
+            </td>
+        </xpath>
+        <xpath
+            expr="//tbody[hasclass('sale_tbody')]//td[@name='td_combo_name']/span[@t-field='line.name']/.."
+            position="before"
+        >
+            <td name="td_visible_sequence">
+                <span t-field="line.visible_sequence" />
+            </td>
+        </xpath>
+        <xpath
+            expr="//tbody[hasclass('sale_tbody')]//td[@name='td_product_name']/span[@t-field='line.name']/.."
             position="before"
         >
             <td name="td_visible_sequence">
