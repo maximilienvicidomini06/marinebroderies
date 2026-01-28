@@ -7,6 +7,34 @@ from datetime import timedelta
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    client_validation_date = fields.Datetime(
+        string="Validation client",
+        readonly=True,
+        copy=False,
+    )
+
+    def action_request_client_confirmation(self):
+        self.ensure_one()
+        template = self.env.ref(
+            "opsol_marinebroderies.mail_template_sale_order_client_validation",
+            raise_if_not_found=False,
+        )
+        if not template:
+            return False
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "mail.compose.message",
+            "view_mode": "form",
+            "target": "new",
+            "context": {
+                "default_model": "sale.order",
+                "default_res_ids": [self.id],
+                "default_use_template": True,
+                "default_template_id": template.id,
+                "default_composition_mode": "comment",
+                "force_email": True,
+            },
+        }
 
     def action_confirm(self):
         for rec in self:
@@ -18,6 +46,13 @@ class SaleOrder(models.Model):
 
             rec.broderie_lines()
         return super().action_confirm()
+
+    def action_draft(self):
+        res = super().action_draft()
+        self.filtered(lambda order: order.state == "draft").write(
+            {"client_validation_date": False}
+        )
+        return res
 
     @api.constrains('commitment_date')
     def broderie_lines(self):
