@@ -13,6 +13,26 @@
                     <field name="commitment_date" />
                 </xpath>
 
+                <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="client_validation_date" invisible="not client_validation_date"/>
+                </xpath>
+
+                <xpath expr="//header/button[@name='action_confirm'][@id='action_confirm']" position="attributes">
+                    <attribute name="invisible">state != 'sent' or not client_validation_date</attribute>
+                </xpath>
+                <xpath expr="//header/button[@name='action_confirm'][not(@id)]" position="attributes">
+                    <attribute name="invisible">state != 'draft' or not client_validation_date</attribute>
+                </xpath>
+                <xpath expr="//header/button[@name='action_confirm']" position="after">
+                    <button
+                        name="action_request_client_confirmation"
+                        type="object"
+                        string="Demander Confirmation Client"
+                        class="btn-secondary"
+                        invisible="client_validation_date"
+                    />
+                </xpath>
+
                 <xpath expr="//field[@name='order_line']/list/field[@name='name']" position="after">
                     <field name="type_broderie_id" optional="show" />
                     <field name="broderie_service" optional="hide" />
