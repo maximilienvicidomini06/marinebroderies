@@ -21,13 +21,16 @@ class CustomerPortal(sale_portal.CustomerPortal):
         except (AccessError, MissingError):
             return request.redirect("/my")
 
-        if not order_sudo.client_validation_date:
-            order_sudo.write({"client_validation_date": fields.Datetime.now()})
-
-        order_sudo.message_post(
-            body=_("Client validated the order."),
-            message_type="comment",
-            subtype_xmlid="mail.mt_comment",
-        )
+        order = order_sudo.with_user(request.env.user)
+        try:
+            if not order.client_validation_date:
+                order_sudo.write({"client_validation_date": fields.Datetime.now()})
+            order.message_post(
+                body=_("Client validated the order."),
+                message_type="comment",
+                subtype_xmlid="mail.mt_comment",
+            )
+        except AccessError:
+            return request.redirect("/my")
 
         return request.redirect(order_sudo.get_portal_url())
