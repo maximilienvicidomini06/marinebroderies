@@ -140,3 +140,98 @@ class StockPicking(models.Model):
             groups.values(),
             key=lambda g: (not g['partner'], (g['partner'].display_name if g['partner'] else ''))
         )
+
+    def _get_move_available_qty(self, move):
+        if move.state in ('done', 'cancel'):
+            return 0.0
+        if move.state in ('assigned', 'partially_available'):
+            reserved = getattr(move, 'reserved_availability', False)
+            return max(reserved or 0.0, 0.0)
+        return max(move.forecast_availability or 0.0, 0.0)
+
+    def _get_supplier_groups_multi_available(self):
+        moves = self.mapped('move_ids').filtered(lambda m: m.state != 'cancel')
+        groups = {}
+        for move in moves:
+            partner = self._get_default_supplier_partner(
+                move.product_id,
+                company=move.company_id,
+                quantity=move.product_uom_qty or 0.0,
+                uom=move.product_uom,
+            )
+            key = partner.id if partner else 0
+            if key not in groups:
+                groups[key] = {
+                    'partner': partner,
+                    'moves': self.env['stock.move'],
+                    'lines': [],
+                }
+            groups[key]['moves'] |= move
+        for group in groups.values():
+            aggregated = {}
+            for move in group['moves']:
+                description = move.description_picking or ''
+                line_key = (move.product_id.id, move.product_uom.id, description)
+                if line_key not in aggregated:
+                    aggregated[line_key] = {
+                        'product': move.product_id,
+                        'description': description,
+                        'available_qty': 0.0,
+                        'uom': move.product_uom,
+                        '_customer_ids': set(),
+                    }
+                aggregated[line_key]['available_qty'] += self._get_move_available_qty(move)
+                customer = move.sale_line_id.order_id.partner_id if move.sale_line_id else False
+                if customer:
+                    aggregated[line_key]['_customer_ids'].add(customer)
+            group['lines'] = sorted(
+                aggregated.values(),
+                key=lambda l: (l['product'].display_name, l['description'])
+            )
+        return sorted(
+            groups.values(),
+            key=lambda g: (not g['partner'], (g['partner'].display_name if g['partner'] else ''))
+        )
+
+    def _get_customer_groups_multi_available(self):
+        moves = self.mapped('move_ids').filtered(lambda m: m.state != 'cancel')
+        groups = {}
+        for move in moves:
+            customer = move.sale_line_id.order_id.partner_id if move.sale_line_id else False
+            if not customer:
+                customer = move.picking_id.partner_id
+            key = customer.id if customer else 0
+            if key not in groups:
+                groups[key] = {
+                    'partner': customer,
+                    'moves': self.env['stock.move'],
+                    'lines': [],
+                }
+            groups[key]['moves'] |= move
+        for group in groups.values():
+            aggregated = {}
+            for move in group['moves']:
+                description = move.description_picking or ''
+                line_key = (move.product_id.id, move.product_uom.id, description)
+                if line_key not in aggregated:
+                    aggregated[line_key] = {
+                        'product': move.product_id,
+                        'description': description,
+                        'available_qty': 0.0,
+                        'uom': move.product_uom,
+                        '_customer_ids': set(),
+                    }
+                aggregated[line_key]['available_qty'] += self._get_move_available_qty(move)
+                customer = move.sale_line_id.order_id.partner_id if move.sale_line_id else False
+                if not customer:
+                    customer = move.picking_id.partner_id
+                if customer:
+                    aggregated[line_key]['_customer_ids'].add(customer)
+            group['lines'] = sorted(
+                aggregated.values(),
+                key=lambda l: (l['product'].display_name, l['description'])
+            )
+        return sorted(
+            groups.values(),
+            key=lambda g: (not g['partner'], (g['partner'].display_name if g['partner'] else ''))
+        )

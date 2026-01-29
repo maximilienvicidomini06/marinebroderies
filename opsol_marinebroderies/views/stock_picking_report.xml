@@ -10,6 +10,15 @@
             <field name="print_report_name">'Picking - %s' % (object.name)</field>
         </record>
 
+        <record id="action_report_stock_picking_by_supplier_available" model="ir.actions.report">
+            <field name="name">Produit par Client (Disponible)</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">opsol_marinebroderies.report_stock_picking_by_supplier_available</field>
+            <field name="report_file">opsol_marinebroderies.report_stock_picking_by_supplier_available</field>
+            <field name="print_report_name">'Picking - %s' % (object.name)</field>
+        </record>
+
         <template id="report_stock_picking_by_supplier">
             <t t-call="web.html_container">
                 <t t-call="web.external_layout">
@@ -71,6 +80,72 @@
                                         <td>
                                             <span t-if="line['_customer_ids']" t-esc="', '.join([customer.display_name for customer in line['_customer_ids']])"/>
                                         </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_stock_picking_by_supplier_available">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-set="single_picking" t-value="docs[0] if len(docs) == 1 else False"/>
+                    <t t-set="customer_groups" t-value="docs._get_customer_groups_multi_available()"/>
+                    <div class="page">
+                        <h2>
+                            <span>Produits par client (Disponible)</span>
+                        </h2>
+                        <div class="mb16">
+                            <div t-if="single_picking">
+                                <strong>Reference:</strong>
+                                <span t-esc="single_picking.name"/>
+                            </div>
+                            <div t-else="">
+                                <strong>Pickings:</strong>
+                                <span t-esc="', '.join(docs.mapped('name'))"/>
+                            </div>
+                            <div t-if="single_picking and single_picking.partner_id">
+                                <strong>Partenaire:</strong>
+                                <span t-esc="single_picking.partner_id.display_name"/>
+                            </div>
+                            <div t-if="single_picking and single_picking.scheduled_date">
+                                <strong>Date prevue:</strong>
+                                <span t-esc="single_picking.scheduled_date"/>
+                            </div>
+                        </div>
+
+                        <t t-foreach="customer_groups" t-as="group">
+                            <h3>
+                                <span>Client:</span>
+                                <t t-if="group['partner']">
+                                    <span t-esc="group['partner'].display_name"/>
+                                </t>
+                                <t t-else="">
+                                    <span>Non disponible</span>
+                                </t>
+                            </h3>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Produit</th>
+                                        <th>Description</th>
+                                        <th class="">Quantite disponible</th>
+                                        <th>UdM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="group['lines']" t-as="line">
+                                        <td t-esc="line['product'].display_name"/>
+                                        <td>
+                                            <span t-esc="line['description']"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-esc="('%.0f' % line['available_qty']) if line['available_qty'] % 1 == 0 else ('%.2f' % line['available_qty'])" />
+                                        </td>
+                                        <td t-esc="line['uom'].name"/>
                                     </tr>
                                 </tbody>
                             </table>
