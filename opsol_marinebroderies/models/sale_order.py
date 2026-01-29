@@ -37,6 +37,18 @@ class SaleOrder(models.Model):
         }
 
     def action_confirm(self):
+        for order in self:
+            user = self.env.user
+            is_admin = user.has_group("base.group_erp_manager") # groupe Droits d'accès
+            is_salesperson = order.user_id and order.user_id == user
+            is_team_manager = order.team_id and order.team_id.user_id == user
+            if not (is_salesperson or is_team_manager or is_admin):
+                raise UserError(
+                    _(
+                        "You are not allowed to confirm this quotation. "
+                        "Only the salesperson, the sales team manager."
+                    )
+                )
         for rec in self:
             if not rec.commitment_date:
                 if rec.team_id and rec.team_id.delivery_time_days:
