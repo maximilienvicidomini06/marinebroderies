@@ -12,6 +12,13 @@ class StockMove(models.Model):
         store=True,
         readonly=True
     )
+    sale_order_id = fields.Many2one(
+        comodel_name='sale.order',
+        related='sale_line_id.order_id',
+        string='Commande client',
+        store=True,
+        readonly=True
+    )
 
     def _prepare_purchase_order_line(self, product_id, product_qty, product_uom, company_id, supplier, po):
         res = super(StockMove, self)._prepare_purchase_order_line(product_id, product_qty, product_uom, company_id, supplier, po)

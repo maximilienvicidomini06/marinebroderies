@@ -17,6 +17,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='move_ids']//list//field[@name='product_uom_qty']" position="before">
+                    <field name="sale_order_id" readonly="True" optional="show"/>
                     <field name="sale_partner_id" readonly="True" optional="show"/>
                 </xpath>
 
@@ -39,6 +40,7 @@
                                     <field name="has_tracking" column_invisible="True"/>
                                     <field name="product_id" context="{'default_is_storable': True}" required="1" readonly="(state != 'draft' and not additional) or move_lines_count &gt; 0" force_save="1" widget="move_product_label_field"/>
                                     <field name="forecast_availability" string="" widget="forecast_widget" column_invisible="parent.state in ('cancel', 'done') or parent.picking_type_code not in ['internal', 'outgoing']" optional="show"/>
+                                    <field name="sale_order_id" readonly="True" optional="show"/>
                                     <field name="sale_partner_id" readonly="True" optional="show"/>
                                     <field name="packaging_uom_qty" optional="hide" groups="uom.group_uom"/>
                                     <field name="packaging_uom_id" optional="hide" groups="uom.group_uom"/>
@@ -55,6 +57,8 @@
                                     <field name="has_lines_without_result_package" column_invisible="True"/>
                                     <field name="package_ids" optional="show" widget="package_m2m" groups="stock.group_tracking_lot" width="200px" readonly="1"/>
                                     <field name="product_uom_qty" string="Demand" readonly="not is_initial_demand_editable"/>
+                                    <field name="sale_order_id" readonly="True" optional="show"/>
+                                    <field name="sale_partner_id" readonly="True" optional="show"/>
                                     <field name="forecast_expected_date" column_invisible="True"/>
                                     <field name="product_qty" readonly="1" column_invisible="True"/>
                                     <field name="quantity" string="Quantity" readonly="not is_quantity_done_editable" column_invisible="parent.state=='draft'" decoration-danger="product_uom_qty and quantity &gt; product_uom_qty and parent.state not in ['done', 'cancel']"/>
