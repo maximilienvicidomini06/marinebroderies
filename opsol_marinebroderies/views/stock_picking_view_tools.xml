@@ -9,6 +9,9 @@
                 <xpath expr="//field[@name='move_ids']" position="attributes">
                     <attribute name="widget">opsol_stock_move_one2many</attribute>
                 </xpath>
+                <xpath expr="//field[@name='move_ids']//list//field[@name='product_id']" position="before">
+                    <field name="sequence" widget="handle"/>
+                </xpath>
             </field>
         </record>
     </data>
