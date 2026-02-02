@@ -64,6 +64,49 @@ export class OpsolMovesListRenderer extends MovesListRenderer {
             }
         }
     }
+
+    async sortDrop(dataRowId, dataGroupId, { element, previous }) {
+        const list = this.props.list;
+        const selected = list.records.filter((record) => record.selected);
+        const isMultiDrag = selected.length > 1 && selected.some((record) => record.id === dataRowId);
+
+        if (!isMultiDrag) {
+            return super.sortDrop(dataRowId, dataGroupId, { element, previous });
+        }
+
+        element.classList.remove("o_row_draggable");
+        try {
+            const orderedSelected = list.records.filter((record) => record.selected);
+            const remaining = list.records.filter((record) => !record.selected);
+            let refId = null;
+            if (previous) {
+                const prevId = previous.dataset.id;
+                if (remaining.some((record) => `${record.id}` === prevId)) {
+                    refId = prevId;
+                } else {
+                    const prevIndex = list.records.findIndex((record) => `${record.id}` === prevId);
+                    for (let i = prevIndex - 1; i >= 0; i--) {
+                        const record = list.records[i];
+                        if (!record.selected) {
+                            refId = record.id;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            for (const record of orderedSelected) {
+                this.resequencePromise = list.resequence(record.id, refId, {
+                    handleField: list.handleField,
+                });
+                await this.resequencePromise;
+                refId = record.id;
+            }
+        } finally {
+            element.classList.add("o_row_draggable");
+            await list.leaveEditMode();
+        }
+    }
 }
 
 export class OpsolStockMoveX2ManyField extends StockMoveX2ManyField {
