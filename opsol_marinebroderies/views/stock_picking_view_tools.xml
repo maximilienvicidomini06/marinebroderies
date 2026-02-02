@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_picking_form_opsol_stock_move_tools" model="ir.ui.view">
+            <field name="name">stock.picking.form.opsol.stock.move.tools</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_ids']" position="attributes">
+                    <attribute name="widget">opsol_stock_move_one2many</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
