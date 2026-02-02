@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="opsol_stock_move_tools.ListRenderer"
+       t-inherit="web.ListRenderer" t-inherit-mode="primary" owl="1">
+        <xpath expr="//table" position="before">
+            <div class="d-flex justify-content-start align-items-center mb-2 ps-4 pt-2">
+                <button type="button" class="btn btn-secondary"
+                        t-att-disabled="!hasSelectedMoves"
+                        t-on-click.stop.prevent="resetSelectedMoves">
+                    Remise a zero
+                </button>
+            </div>
+        </xpath>
+    </t>
+</templates>
