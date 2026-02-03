@@ -1,6 +1,6 @@
 {
     'name': 'opsol_stock_move_tools',
-    'version': '1.0.1',
+    'version': '1.0.2',
     'summary': 'Stock move list tools (selectors + reset)',
     'description': 'Adds selection checkboxes and reset button for stock move one2many list.',
     'category': 'Stock',

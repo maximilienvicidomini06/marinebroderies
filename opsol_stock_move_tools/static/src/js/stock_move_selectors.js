@@ -23,6 +23,10 @@ export class OpsolMovesListRenderer extends MovesListRenderer {
         return this.props.list?.records?.some((record) => record.selected);
     }
 
+    get showResetSelectedMoves() {
+        return this.props.showResetSelectedMoves !== false;
+    }
+
     get selectAll() {
         const list = this.props.list;
         if (list.isDomainSelected) {
@@ -111,11 +115,22 @@ export class OpsolMovesListRenderer extends MovesListRenderer {
 
 export class OpsolStockMoveX2ManyField extends StockMoveX2ManyField {
     static components = { ...StockMoveX2ManyField.components, ListRenderer: OpsolMovesListRenderer };
+
+    get rendererProps() {
+        const props = super.rendererProps;
+        props.showResetSelectedMoves = this.props.showResetSelectedMoves;
+        return props;
+    }
 }
 
 export const opsolStockMoveX2ManyField = {
     ...x2ManyField,
     component: OpsolStockMoveX2ManyField,
+    extractProps: (params, dynamicInfo) => {
+        const props = x2ManyField.extractProps(params, dynamicInfo);
+        props.showResetSelectedMoves = params?.options?.show_reset_selected_moves !== false;
+        return props;
+    },
 };
 
 registry.category("fields").add("opsol_stock_move_one2many", opsolStockMoveX2ManyField);
