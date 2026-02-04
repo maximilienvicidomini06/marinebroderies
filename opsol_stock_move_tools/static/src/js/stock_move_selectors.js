@@ -1,11 +1,15 @@
 /** @odoo-module */
 
 import { registry } from "@web/core/registry";
-import { x2ManyField } from "@web/views/fields/x2many/x2many_field";
-import { MovesListRenderer, StockMoveX2ManyField } from "@stock/views/picking_form/stock_move_one2many";
+import { X2ManyField, x2ManyField } from "@web/views/fields/x2many/x2many_field";
+import { ListRenderer } from "@web/views/list/list_renderer";
 
-export class OpsolMovesListRenderer extends MovesListRenderer {
+export class OpsolMovesListRenderer extends ListRenderer {
     static template = "opsol_stock_move_tools.ListRenderer";
+    static props = [
+        ...super.props,
+        "showResetSelectedMoves",
+    ];
 
     get hasSelectors() {
         this.props.allowSelectors = true;
@@ -113,24 +117,35 @@ export class OpsolMovesListRenderer extends MovesListRenderer {
     }
 }
 
-export class OpsolStockMoveX2ManyField extends StockMoveX2ManyField {
-    static components = { ...StockMoveX2ManyField.components, ListRenderer: OpsolMovesListRenderer };
+export class OpsolStockMoveX2ManyField extends X2ManyField {
+    static components = {
+            ...super.components,
+            ListRenderer: OpsolMovesListRenderer,
+        };
+    static props = {
+        ...super.props,
+        showResetSelectedMoves: { type: Boolean, optional: true },
+    };
 
     get rendererProps() {
-        const props = super.rendererProps;
-        props.showResetSelectedMoves = this.props.showResetSelectedMoves;
-        return props;
+        const rp = super.rendererProps;
+        if (this.props.viewMode === "list") {
+            rp.showResetSelectedMoves = this.props.showResetSelectedMoves;
+        }
+        return rp;
     }
 }
 
 export const opsolStockMoveX2ManyField = {
     ...x2ManyField,
     component: OpsolStockMoveX2ManyField,
-    extractProps: (params, dynamicInfo) => {
-        const props = x2ManyField.extractProps(params, dynamicInfo);
-        props.showResetSelectedMoves = params?.options?.show_reset_selected_moves !== false;
-        return props;
+    extractProps: (staticInfo, dynamicInfo) => {
+        return {
+            ...x2ManyField.extractProps(staticInfo, dynamicInfo),
+            showResetSelectedMoves: staticInfo.options?.show_reset_selected_moves ?? false,
+        };
     },
+
 };
 
 registry.category("fields").add("opsol_stock_move_one2many", opsolStockMoveX2ManyField);
