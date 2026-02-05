@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="report_ppmc_payment">
+
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <!-- <t t-set="lang" t-value="o.partner_id.lang"/> -->
+                <!-- <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'"
+                    t-call="account.report_invoice_document"
+                    t-lang="lang"/> -->
+                <t t-set="o" t-value="doc"/>
+                <t t-call="opsol_ppmc.report_ppmc_payment_document"/>
+                <t t-call="opsol_ppmc.report_ppmc_payment_document_page2"/>
+                <t t-call="opsol_ppmc.report_ppmc_payment_document_page3"/>
+            </t>
+        </t>
+
+    </template>
+
+    <template id="report_ppmc_payment_document">
+        <t t-call="opsol_ppmc.external_layout_standard">
+        
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+        
+            <t t-set="payments" t-value="doc._get_payments()"/>
+            <t t-set="header" t-value="doc._get_header_data()"/>
+            <t t-set="total_amount" t-value="sum(payments.mapped('amount'))"/>
+            
+            <!--<div t-attf-class="header o_company_#{company.id}_layout">-->
+                
+            <!--    <div class="row mb-3">-->
+            <!--        <div class="col-4">-->
+            <!--            <div><strong/> <span t-esc="company.display_name"/></div>-->
+            <!--            <div t-if="company.street"><span t-esc="company.street"/></div>-->
+            <!--            <div t-if="company.street2"><span t-esc="company.street2"/></div>-->
+            <!--            <div>-->
+            <!--                <span t-esc="company.zip or ''"/>-->
+            <!--                <span t-esc="company.city or ''"/>-->
+            <!--            </div>-->
+            <!--            <div t-if="company.country_id">-->
+            <!--                <span t-esc="company.country_id.name"/>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--        <div class="col-8">-->
+            <!--            <h2>Bordereau d'accompagnement</h2>-->
+            <!--            <div class="mb-2">Virements émis</div>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--    <div class="row mb-3">-->
+            <!--        <div class="col-3"/>-->
+            <!--        <div class="col-3 text-end text-right" style="text-align: right;">-->
+            <!--            <strong>Émis le:</strong> <span t-esc="header['emission_date']"/>-->
+            <!--        </div>-->
+            <!--        <div class="col-3 text-end text-right" style="text-align: right;">-->
+            <!--            <strong>Date tirage:</strong> <span t-esc="header['draw_date']"/>-->
+            <!--        </div>-->
+            <!--    </div>-->
+                
+            <!--</div>-->
+            <div class="page ppmc-report">
+
+                <!--<div class="mb-2">-->
+                <!--    <strong>Devise de remise:</strong>-->
+                <!--    <span t-esc="header['currency'].name"/>-->
+                <!--</div>-->
+                
+                <div class="row border mt-4 mb-2">
+                    <div class="col-6">
+                        <div><strong>Banque:</strong> <span t-esc="header['journal'].display_name if header['journal'] else ''"/></div>
+                        <div><strong>RIB:</strong> <span t-esc="header['bank_account'].acc_number if header['bank_account'] else ''"/></div>    
+                    </div>
+                    <div class="col-6">
+                        <div><strong>Agence:</strong> </div>
+                        <div><strong>Devise du RIB:</strong> Euro</div>
+                    </div>
+                    
+                </div>
+                
+                <div class="row border mt-4 mb-2">
+                    <div class="col-2">
+                        <div><strong>Donneur d'ordre</strong> </div>
+                    </div>
+                    <div class="col-4 text-start text-left">
+                        <div><strong>Opensolution</strong></div>    
+                    </div>
+                    <div class="col-6">
+                        <div><strong>Identifiant</strong> </div>
+                    </div>
+                </div>
+                
+                <div class="row border mt-4">
+                    <div class="col-2">
+                        <div><strong>Date</strong> </div>
+                    </div>
+                    <div class="col-6">
+                        <div><strong>Type</strong> </div>
+                    </div>
+                    <div class="col-2 text-start text-left">
+                        <div><strong>Nombre de pièces</strong></div>    
+                    </div>
+                    <div class="col-2">
+                        <div><strong>Montant</strong> </div>
+                    </div>
+                </div>
+                <div class="row border mb-2">
+                    <div class="col-2">
+                        <div>29/01/2026</div>
+                    </div>
+                    <div class="col-6">
+                        <div></div>
+                    </div>
+                    <div class="col-2 text-start text-left">
+                        <div>21</div>    
+                    </div>
+                    <div class="col-2">
+                        <div></div>
+                    </div>
+                </div>
+                
+            </div>
+        </t>
+    </template>
+
+    <template id="report_ppmc_payment_document_page2">
+        <t t-call="opsol_ppmc.external_layout_standard_page2">
+        
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+        
+            <t t-set="payments" t-value="doc._get_payments()"/>
+            <t t-set="header" t-value="doc._get_header_data()"/>
+            <t t-set="total_amount" t-value="sum(payments.mapped('amount'))"/>
+                
+            <!--</div>-->
+            <div class="page ppmc-report">
+
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Tiers</th>
+                            <th>Banque</th>
+                            <th>Identifiant</th>
+                            <th>N° facture</th>
+                            <th>N° de compte</th>
+                            <th>BIC</th>
+                            <th class="text-end">Montant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="payments" t-as="payment">
+                            <tr>
+                                <td><span t-esc="payment.date"/></td>
+                                <td><span t-esc="payment.partner_id.display_name"/></td>
+                                <td><span t-esc="payment.partner_id.bank_ids[:1].bank_id.name if payment.partner_id.bank_ids else ''"/></td>
+                                <td>
+                                    <span t-esc="payment.name"/>
+                                </td>
+                                <td>
+                                    <span t-esc="payment.ref or ''"/>
+                                </td>
+                                <td>
+                                    <span t-esc="payment.partner_bank_id.acc_number or ''"/>
+                                </td>
+                                <td>
+                                    <span t-esc="payment.partner_bank_id.bank_id.bic or ''"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="payment.amount"/>
+                                </td>
+                            </tr>
+                        </t>
+                        <t t-if="not payments">
+                            <tr>
+                                <td colspan="8" class="text-center">Aucun paiement fournisseur.</td>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="7" class="text-end">Total</th>
+                            <th class="text-end">
+                                <span t-esc="total_amount"/>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_ppmc_payment_document_page3">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page" style="font-family: sans-serif; font-size: 12px; color: black; padding-top: -5rem;">
+                        
+                        <div class="row">
+                            <div class="col-6 offset-6 text-start">
+                                <strong>CFM INDOSUEZ WEALTH</strong><br/>
+                                Support Client<br/>
+                                MARCHESANO<br/>
+                                Télématique<br/><br/>
+                                <strong>Adresse :</strong> <br/>
+                                <span style="text-decoration: underline;">telematique@cfm-indosuez.mc</span><br/>
+                                <strong>Tel. :</strong> +377.93.10.26.99<br/>
+                                <strong>Fax. :</strong>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4 mb-4">
+                            <div class="col-12 text-center" style="border: 2px solid black; padding: 10px;">
+                                <h2 style="margin: 0; font-weight: bold;">BORDEREAU DE CONFIRMATION</h2>
+                                <h3 style="margin: 0;">Virements SEPA</h3>
+                            </div>
+                        </div>
+
+                        <div class="row" style="border: 1px solid black;">
+                            <div class="col-8" style="border-right: 1px solid black; padding: 5px;">
+                                Télétransmission par INTERNET, <br/>
+                                Le <span t-out="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y à %H:%M')"/>
+                            </div>
+                            <div class="col-4 text-end" style="padding: 5px;">
+                                <strong>N° de transmission :</strong><br/>
+                                865-144-411-136
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered mt-4" style="border: 1px solid black !important;">
+                            <thead>
+                                <tr class="text-center" style="font-size: 10px; background-color: #f2f2f2;">
+                                    <th colspan="6">Résumé du fichier</th>
+                                </tr>
+                                <tr class="text-center" style="font-size: 10px;">
+                                    <th style="width: 10%;">Remise</th>
+                                    <th style="width: 40%;">IBAN</th>
+                                    <th style="width: 20%;">Emetteur</th>
+                                    <th style="width: 15%;">Date exécution</th>
+                                    <th colspan="2" style="width: 15%;">Montant (EUR)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center">
+                                    <td>1</td>
+                                    <td>MC58 1273 9000 7005 9265 0000 037</td>
+                                    <td>OPEN SOLUTION</td>
+                                    <td>29/01/2026</td>
+                                    <td style="border-right: none;">21</td>
+                                    <td class="text-end">20 196,00</td>
+                                </tr>
+                                <tr style="font-weight: bold;">
+                                    <td colspan="4" class="text-center">Montant total</td>
+                                    <td style="border-right: none;">21</td>
+                                    <td class="text-end">20 196,00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row mt-4" style="border-left: 1px solid black; border-top: 1px solid black; border-right: 1px solid black; border-bottom: 0px solid black;">
+                            <div class="col-12 text-center" style="border-bottom: 0px solid black; padding: 5px;">
+                                <strong>En cas d'anomalie de traitement, veuillez contacter :</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="padding: 10px; border-left: 1px solid black; border-top: 0px solid black; border-right: 0px solid black; border-bottom: 1px solid black;">
+                                <strong>Société :</strong> <span t-out="o.company_id.name"/><br/>
+                                <strong>Adresse :</strong> <span t-out="o.company_id.street"/><br/>
+                                <span class="ms-5" t-out="o.company_id.zip"/> <span t-out="o.company_id.city"/>
+                            </div>
+                            <div class="col-6" style="padding: 10px; border-left: 0px solid black; border-top: 0px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <strong>Interlocuteur :</strong><br/>
+                                <div class="text-center">
+                                    struchi@mpg.mc<br/>
+                                    <strong>Tel. :</strong> 92 16 58 88<br/>
+                                    <strong>Fax. :</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4" style="page-break-inside: avoid;">
+                            <div class="col-12" style="border: 1px solid black; padding: 0;">
+                                <div class="text-center" style="background-color: #f2f2f2; border-bottom: 1px solid black; font-size: 10px;">ZONE RESERVÉE AU CLIENT</div>
+                                <div class="row" style="min-height: 120px;">
+                                    <div class="col-6" style="border-right: 1px solid black; padding: 5px;">
+                                        Le : <br/><br/>
+                                        Cachet :
+                                    </div>
+                                    <div class="col-6 p-1">Signature :</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="page-break-inside: avoid;">
+                            <div class="col-12 mt-4" style="border: 1px solid black; padding: 0;">
+                                <div class="text-center" style="background-color: #f2f2f2; border-bottom: 1px solid black; border-top: 1px solid black; font-size: 10px;">ZONE RESERVÉE AU CFM INDOSUEZ WEALTH</div>
+                                <div class="row" style="min-height: 100px;">
+                                    <div class="col-6" style="border-right: 1px solid black; padding: 5px;">
+                                        Nom du délégataire : <br/><br/>
+                                        Fonction :
+                                    </div>
+                                    <div class="col-6 p-1">Signature :</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
