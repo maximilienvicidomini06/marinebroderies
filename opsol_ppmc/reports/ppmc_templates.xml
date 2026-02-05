@@ -83,7 +83,7 @@
                     </div>
                     <div class="col-6">
                         <div><strong>Agence:</strong> </div>
-                        <div><strong>Devise du RIB:</strong> Euro</div>
+                        <div><strong>Devise du RIB:</strong> <span t-esc="header['currency'].name if header['currency'] else ''"/></div>
                     </div>
                     
                 </div>
@@ -93,10 +93,10 @@
                         <div><strong>Donneur d'ordre</strong> </div>
                     </div>
                     <div class="col-4 text-start text-left">
-                        <div><strong>Opensolution</strong></div>    
+                        <div><strong><span t-esc="company.display_name if company else ''"/></strong></div>    
                     </div>
                     <div class="col-6">
-                        <div><strong>Identifiant</strong> </div>
+                        <div><strong>Identifiant</strong> <span t-esc="doc.name or ''"/></div>
                     </div>
                 </div>
                 
@@ -116,16 +116,19 @@
                 </div>
                 <div class="row border mb-2">
                     <div class="col-2">
-                        <div>29/01/2026</div>
+                        <div><span t-esc="doc.date" t-options='{"widget": "date"}'/></div>
                     </div>
                     <div class="col-6">
-                        <div></div>
+                        <div><span t-esc="doc.batch_type or ''"/></div>
                     </div>
                     <div class="col-2 text-start text-left">
-                        <div>21</div>    
+                        <div><span t-esc="len(payments)"/></div>    
                     </div>
                     <div class="col-2">
-                        <div></div>
+                        <div>
+                            <span t-esc="total_amount"
+                                  t-options="{'widget': 'monetary', 'display_currency': header['currency']}"/>
+                        </div>
                     </div>
                 </div>
                 
@@ -155,6 +158,12 @@
                 
             <!--</div>-->
             <div class="page ppmc-report">
+                <style>
+                    .ppmc-report .o_main_table th,
+                    .ppmc-report .o_main_table td {
+                        padding: 6px 8px !important;
+                    }
+                </style>
 
                 <table class="table table-sm o_main_table">
                     <thead>
@@ -179,7 +188,7 @@
                                     <span t-esc="payment.name"/>
                                 </td>
                                 <td>
-                                    <span t-esc="payment.ref or ''"/>
+                                    <span t-esc="payment.payment_reference or payment.memo or ''"/>
                                 </td>
                                 <td>
                                     <span t-esc="payment.partner_bank_id.acc_number or ''"/>
@@ -188,7 +197,8 @@
                                     <span t-esc="payment.partner_bank_id.bank_id.bic or ''"/>
                                 </td>
                                 <td class="text-end">
-                                    <span t-esc="payment.amount"/>
+                                    <span t-esc="payment.amount"
+                                          t-options="{'widget': 'monetary', 'display_currency': payment.currency_id}"/>
                                 </td>
                             </tr>
                         </t>
@@ -202,7 +212,8 @@
                         <tr>
                             <th colspan="7" class="text-end">Total</th>
                             <th class="text-end">
-                                <span t-esc="total_amount"/>
+                                <span t-esc="total_amount"
+                                      t-options="{'widget': 'monetary', 'display_currency': header['currency']}"/>
                             </th>
                         </tr>
                     </tfoot>
@@ -215,18 +226,26 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.basic_layout">
-                    <div class="page" style="font-family: sans-serif; font-size: 12px; color: black; padding-top: -5rem;">
+                    <div class="page ppmc-page3" style="font-family: sans-serif; font-size: 12px; color: black; padding-top: -5rem;">
                         
                         <div class="row">
                             <div class="col-6 offset-6 text-start">
-                                <strong>CFM INDOSUEZ WEALTH</strong><br/>
-                                Support Client<br/>
-                                MARCHESANO<br/>
-                                Télématique<br/><br/>
-                                <strong>Adresse :</strong> <br/>
-                                <span style="text-decoration: underline;">telematique@cfm-indosuez.mc</span><br/>
-                                <strong>Tel. :</strong> +377.93.10.26.99<br/>
-                                <strong>Fax. :</strong>
+                                <t t-set="company" t-value="o.company_id"/>
+                                <div><strong/> <span t-esc="company.display_name"/></div>
+                                <div t-if="company.street"><span t-esc="company.street"/></div>
+                                <div t-if="company.street2"><span t-esc="company.street2"/></div>
+                                <div>
+                                    <span t-esc="company.zip or ''"/>
+                                    <span t-esc="company.city or ''"/>
+                                </div>
+                                <div t-if="company.country_id">
+                                    <span t-esc="company.country_id.name"/>
+                                </div>
+                                <br/>
+                                <strong>Adresse :</strong><br/>
+                                <span t-if="company.email" style="text-decoration: underline;" t-esc="company.email"/><br/>
+                                <strong>Tel. :</strong> <span t-esc="o.company_id.phone or ''"/><br/>
+                                <!-- fax field not available in this Odoo version -->
                             </div>
                         </div>
 
@@ -244,7 +263,7 @@
                             </div>
                             <div class="col-4 text-end" style="padding: 5px;">
                                 <strong>N° de transmission :</strong><br/>
-                                865-144-411-136
+                                <br/>
                             </div>
                         </div>
 
@@ -264,16 +283,22 @@
                             <tbody>
                                 <tr class="text-center">
                                     <td>1</td>
-                                    <td>MC58 1273 9000 7005 9265 0000 037</td>
-                                    <td>OPEN SOLUTION</td>
-                                    <td>29/01/2026</td>
-                                    <td style="border-right: none;">21</td>
-                                    <td class="text-end">20 196,00</td>
+                                    <td><span t-esc="o.journal_id.bank_account_id.acc_number or ''"/></td>
+                                    <td><span t-esc="o.company_id.display_name"/></td>
+                                    <td><span t-esc="o.date" t-options='{"widget": "date"}'/></td>
+                                    <td style="border-right: none;"><span t-esc="len(o.payment_ids)"/></td>
+                                    <td class="text-end">
+                                        <span t-out="abs(o.amount)"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
                                 </tr>
                                 <tr style="font-weight: bold;">
                                     <td colspan="4" class="text-center">Montant total</td>
-                                    <td style="border-right: none;">21</td>
-                                    <td class="text-end">20 196,00</td>
+                                    <td style="border-right: none;"><span t-esc="len(o.payment_ids)"/></td>
+                                    <td class="text-end">
+                                        <span t-out="abs(o.amount)"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -292,8 +317,8 @@
                             <div class="col-6" style="padding: 10px; border-left: 0px solid black; border-top: 0px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
                                 <strong>Interlocuteur :</strong><br/>
                                 <div class="text-center">
-                                    struchi@mpg.mc<br/>
-                                    <strong>Tel. :</strong> 92 16 58 88<br/>
+                                    <br/>
+                                    <strong>Tel. :</strong> <br/>
                                     <strong>Fax. :</strong>
                                 </div>
                             </div>
@@ -301,7 +326,7 @@
 
                         <div class="row mt-4" style="page-break-inside: avoid;">
                             <div class="col-12" style="border: 1px solid black; padding: 0;">
-                                <div class="text-center" style="background-color: #f2f2f2; border-bottom: 1px solid black; font-size: 10px;">ZONE RESERVÉE AU CLIENT</div>
+                                <div class="text-center" style="background-color: #f2f2f2; border-bottom: 1px solid black; border-top: 1px solid black; border-right: 1px solid black; font-size: 10px;">ZONE RESERVÉE AU CLIENT</div>
                                 <div class="row" style="min-height: 120px;">
                                     <div class="col-6" style="border-right: 1px solid black; padding: 5px;">
                                         Le : <br/><br/>

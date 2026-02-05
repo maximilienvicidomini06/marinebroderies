@@ -1,3 +1,8 @@
+.ppmc-report {
+    font-size: 12px;
+    line-height: 1.35;
+}
+
 .ppmc-report h2 {
     font-size: 20px;
     margin: 0 0 6px 0;
@@ -26,7 +31,7 @@
 .ppmc-report th,
 .ppmc-report td {
     border: 1px solid #333;
-    padding: 4px 6px;
+    padding: 6px 8px;
     vertical-align: top;
 }
 
@@ -45,9 +50,34 @@
 
 .ppmc-report .row {
     display: flex;
-    gap: 16px;
+    gap: 8px;
 }
 
 .ppmc-report .col-6 {
     width: 50%;
+}
+
+.ppmc-report .border {
+    padding: 6px 8px;
+}
+
+.ppmc-report .border > [class^="col-"],
+.ppmc-report .border > [class*=" col-"] {
+    padding: 4px 6px;
+}
+
+.ppmc-report table.table-sm th,
+.ppmc-report table.table-sm td {
+    padding: 4px 6px;
+}
+
+.ppmc-page3 table th,
+.ppmc-page3 table td {
+    padding: 6px 8px;
+}
+
+.ppmc-footer-table th,
+.ppmc-footer-table td {
+    padding: 6px 8px;
+    vertical-align: top;
 }
