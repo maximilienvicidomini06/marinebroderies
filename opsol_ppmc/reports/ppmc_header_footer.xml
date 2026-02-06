@@ -20,7 +20,7 @@
         <div t-attf-class="header o_company_#{company.id}_layout">
                         
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
                         <div><strong/> <span t-esc="company.display_name"/></div>
                         <div t-if="company.street"><span t-esc="company.street"/></div>
                         <div t-if="company.street2"><span t-esc="company.street2"/></div>
@@ -32,18 +32,21 @@
                             <span t-esc="company.country_id.name"/>
                         </div>
                     </div>
-                    <div class="col-8 text-center">
+                    <div class="col-6 text-center">
                         <h2>Bordereau d'accompagnement</h2>
                         <h3>Virements émis</h3>
+                    </div>
+                    <div class="col-3 text-center">
+                        <br/>
                     </div>
                 </div>
                 <div class="row mb-1">
                     <div class="col-6"/>
                     <div class="col-3 text-end text-right" style="text-align: right;">
-                        <strong>Émis le:</strong> <span t-esc="header['emission_date']"/>
+                        <strong>Émis le:</strong> <span t-esc="header['emission_date']" t-options="{'widget': 'date'}"/>
                     </div>
                     <div class="col-3 text-end text-right" style="text-align: right;">
-                        <strong>Date tirage:</strong> <span t-esc="header['draw_date']"/>
+                        <strong>Date tirage:</strong> <span t-esc="header['draw_date']" t-options="{'widget': 'date'}"/>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -72,12 +75,12 @@
                 <tr>
                     <td><strong>Date de remise: <span t-esc="o.date"/></strong></td>
                     <td><strong>Nombre de pièces: 21</strong></td>
-                    <td><strong>Total Remise</strong></td>
+                    <td class="text-center"><strong>Total Remise</strong></td>
                 </tr>
                 <tr>
                     <td><strong>Reference</strong></td>
                     <td><strong>Signature</strong></td>
-                    <td rowspan="2"><strong/></td>
+                    <td rowspan="2" class="text-center align-middle"><strong><h5 t-out="abs(o.amount)" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></strong></td>
                 </tr>
                 <tr>
                     <td class="text-center"><h3><strong><span t-esc="o.name or ''"/></strong></h3></td>
@@ -108,7 +111,7 @@
             
                         
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
                         <div><strong/> <span t-esc="company.display_name"/></div>
                         <div t-if="company.street"><span t-esc="company.street"/></div>
                         <div t-if="company.street2"><span t-esc="company.street2"/></div>
@@ -120,18 +123,21 @@
                             <span t-esc="company.country_id.name"/>
                         </div>
                     </div>
-                    <div class="col-8 text-center">
+                    <div class="col-6 text-center">
                         <h2>Liste des mouvements</h2>
                         <h3>Virements émis</h3>
+                    </div>
+                    <div class="col-3 text-center">
+                        <br/>
                     </div>
                 </div>
                 <div class="row mb-1">
                     <div class="col-6"/>
                     <div class="col-3 text-end text-right" style="text-align: right;">
-                        <strong>Émis le:</strong> <span t-esc="header['emission_date']"/>
+                        <strong>Émis le:</strong> <span t-esc="header['emission_date']" t-options="{'widget': 'date'}"/>
                     </div>
                     <div class="col-3 text-end text-right" style="text-align: right;">
-                        <strong>Date tirage:</strong> <span t-esc="header['draw_date']"/>
+                        <strong>Date tirage:</strong> <span t-esc="header['draw_date']" t-options="{'widget': 'date'}"/>
                     </div>
                 </div>
                 <div class="row mb-3">
