@@ -74,7 +74,7 @@
             <table class="table table-bordered ppmc-footer-table">
                 <tr>
                     <td><strong>Date de remise: <span t-esc="o.date"/></strong></td>
-                    <td><strong>Nombre de pièces: 21</strong></td>
+                    <td><strong>Nombre de pièces: <span t-esc="len(o.payment_ids)"/></strong></td>
                     <td class="text-center"><strong>Total Remise</strong></td>
                 </tr>
                 <tr>
