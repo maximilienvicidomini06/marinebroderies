@@ -40,8 +40,8 @@
 
                 <xpath expr="//field[@name='order_line']" position="attributes">
                     <attribute name="aggregated_fields">product_uom_qty,price_subtotal,price_total</attribute>
-                    <attribute name="widget">opsol_stock_move_one2many</attribute>
-                    <attribute name="options">{'show_reset_selected_moves': False}</attribute>
+                    <!-- <attribute name="widget">opsol_stock_move_one2many</attribute> -->
+                    <!-- <attribute name="options">{'show_reset_selected_moves': False}</attribute> -->
                 </xpath>
 
             </field>
