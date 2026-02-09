@@ -1,0 +1,202 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sh_sale_invoice_merge
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-27 12:03+0000\n"
+"PO-Revision-Date: 2021-12-27 12:03+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard__merge_type
+msgid " Merge Type "
+msgstr "合併類型"
+
+#. module: sh_sale_invoice_merge
+#: model_terms:ir.ui.view,arch_db:sh_sale_invoice_merge.sh_merge_invoice_wizard_form
+#: model_terms:ir.ui.view,arch_db:sh_sale_invoice_merge.sh_merge_sale_order_wizard_form
+msgid "Cancel"
+msgstr "取消"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields.selection,name:sh_sale_invoice_merge.selection__sh_minv_merge_invoice_wizard__merge_type__cancel
+msgid "Cancel Other Invoices"
+msgstr "取消其他發票"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields.selection,name:sh_sale_invoice_merge.selection__sh_mso_merge_sale_order_wizard__merge_type__cancel
+msgid "Cancel Other Sale Orders"
+msgstr "取消其他銷售訂單"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__create_uid
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard__create_uid
+msgid "Created by"
+msgstr "由...製作"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__create_date
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard__create_date
+msgid "Created on"
+msgstr "創建於"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__partner_id
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard__partner_id
+msgid "Customer"
+msgstr "顧客"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__display_name
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard__display_name
+msgid "Display Name"
+msgstr "顯示名稱"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields.selection,name:sh_sale_invoice_merge.selection__sh_minv_merge_invoice_wizard__merge_type__nothing
+#: model:ir.model.fields.selection,name:sh_sale_invoice_merge.selection__sh_mso_merge_sale_order_wizard__merge_type__nothing
+msgid "Do Nothing"
+msgstr "沒做什麼"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__id
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__invoice_id
+msgid "Invoice"
+msgstr "發票"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__inv_type
+msgid "Invoice Type"
+msgstr "發票類型"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__invoice_ids
+msgid "Invoices"
+msgstr "發票"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard____last_update
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard____last_update
+msgid "Last Modified on"
+msgstr "最後修改了"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__write_uid
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard__write_uid
+msgid "Last Updated by"
+msgstr "最後更新"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__write_date
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard__write_date
+msgid "Last Updated on"
+msgstr "上次更新了"
+
+#. module: sh_sale_invoice_merge
+#: model_terms:ir.ui.view,arch_db:sh_sale_invoice_merge.sh_merge_invoice_wizard_form
+#: model_terms:ir.ui.view,arch_db:sh_sale_invoice_merge.sh_merge_sale_order_wizard_form
+msgid "Merge"
+msgstr "合併"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model,name:sh_sale_invoice_merge.model_sh_minv_merge_invoice_wizard
+msgid "Merge Invoice Wizard"
+msgstr "合併發票嚮導"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.actions.act_window,name:sh_sale_invoice_merge.sh_merge_invoice_multi_action
+#: model_terms:ir.ui.view,arch_db:sh_sale_invoice_merge.sh_merge_invoice_wizard_form
+msgid "Merge Invoices"
+msgstr "合併發票"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model,name:sh_sale_invoice_merge.model_sh_mso_merge_sale_order_wizard
+msgid "Merge Sale Order Wizard"
+msgstr "合併銷售訂單嚮導"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.actions.act_window,name:sh_sale_invoice_merge.sh_merge_sale_order_multi_action
+#: model_terms:ir.ui.view,arch_db:sh_sale_invoice_merge.sh_merge_sale_order_wizard_form
+msgid "Merge Sale Orders"
+msgstr "合併銷售訂單"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_minv_merge_invoice_wizard__merge_type
+msgid "Merge Type"
+msgstr "合併類型"
+
+#. module: sh_sale_invoice_merge
+#: code:addons/sh_sale_invoice_merge/wizard/merge_invoice.py:0
+#, python-format
+msgid "Please Select atleast two invoices to perform merge operation."
+msgstr "請選擇至少兩份發票以執行合併操作。"
+
+#. module: sh_sale_invoice_merge
+#: code:addons/sh_sale_invoice_merge/wizard/merge_sale_order.py:0
+#, python-format
+msgid "Please Select atleast two quotations to perform merge operation."
+msgstr "請選擇至少兩個引號以執行合併操作。"
+
+#. module: sh_sale_invoice_merge
+#: code:addons/sh_sale_invoice_merge/wizard/merge_invoice.py:0
+#: code:addons/sh_sale_invoice_merge/wizard/merge_sale_order.py:0
+#, python-format
+msgid ""
+"Programming error: wizard action executed without active_ids in context."
+msgstr ""
+"編程錯誤：在上下文中沒有Active_ID執行嚮導操作."
+
+#. module: sh_sale_invoice_merge
+#: code:addons/sh_sale_invoice_merge/wizard/merge_sale_order.py:0
+#, python-format
+msgid "Quotations"
+msgstr "報價"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields.selection,name:sh_sale_invoice_merge.selection__sh_minv_merge_invoice_wizard__merge_type__remove
+msgid "Remove Other Invoices"
+msgstr "刪除其他發票"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields.selection,name:sh_sale_invoice_merge.selection__sh_mso_merge_sale_order_wizard__merge_type__remove
+msgid "Remove Other Sale Orders"
+msgstr "刪除其他銷售訂單"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard__sale_order_id
+msgid "Sale Order"
+msgstr "銷售訂單"
+
+#. module: sh_sale_invoice_merge
+#: model:ir.model.fields,field_description:sh_sale_invoice_merge.field_sh_mso_merge_sale_order_wizard__sale_order_ids
+msgid "Sale Orders"
+msgstr "銷售訂單"
+
+#. module: sh_sale_invoice_merge
+#: code:addons/sh_sale_invoice_merge/wizard/merge_invoice.py:0
+#, python-format
+msgid "You can only merge invoices which are in draft state"
+msgstr "您只能合併在狀態草案中的發票"
+
+#. module: sh_sale_invoice_merge
+#: code:addons/sh_sale_invoice_merge/wizard/merge_sale_order.py:0
+#, python-format
+msgid ""
+"You can only merge sale orders which are in Quotation AND Quotation sent "
+"state"
+msgstr ""
+"您只能合併在發送的引用和引用中的銷售訂單 "
+"狀態"
