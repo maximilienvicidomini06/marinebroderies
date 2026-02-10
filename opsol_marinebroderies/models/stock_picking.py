@@ -193,7 +193,7 @@ class StockPicking(models.Model):
             key=lambda g: (not g['partner'], (g['partner'].display_name if g['partner'] else ''))
         )
 
-    def _get_customer_groups_multi_available(self):
+    def _get_customer_groups_multi_available(self, show_not_available=False):
         moves = self.mapped('move_ids').filtered(lambda m: m.state != 'cancel')
         groups = {}
         for move in moves:
@@ -227,10 +227,14 @@ class StockPicking(models.Model):
                     customer = move.picking_id.partner_id
                 if customer:
                     aggregated[line_key]['_customer_ids'].add(customer)
+            
+            group['total_available_qty'] = sum([l['available_qty'] for l in list(aggregated.values())])
             group['lines'] = sorted(
                 aggregated.values(),
                 key=lambda l: (l['product'].display_name, l['description'])
             )
+        if not show_not_available:
+            groups = {k: v for k, v in groups.items() if v['total_available_qty'] > 0}
         return sorted(
             groups.values(),
             key=lambda g: (not g['partner'], (g['partner'].display_name if g['partner'] else ''))
