@@ -142,12 +142,20 @@ class StockPicking(models.Model):
         )
 
     def _get_move_available_qty(self, move):
-        if move.state in ('done', 'cancel'):
-            return 0.0
-        if move.state in ('assigned', 'partially_available'):
-            reserved = getattr(move, 'reserved_availability', False)
-            return max(reserved or 0.0, 0.0)
-        return max(move.forecast_availability or 0.0, 0.0)
+        # if move.state in ('done', 'cancel'):
+        #     return 0.0
+        # if move.state in ('assigned', 'partially_available'):
+        #     reserved = getattr(move, 'reserved_availability', False)
+        #     return max(reserved or 0.0, 0.0)
+        # return max(move.forecast_availability or 0.0, 0.0)
+        product = move.product_id
+        loc_id = move.location_id.ids
+        to_date = move.picking_id.scheduled_date
+        quantity  = product.with_context({'location': loc_id})._compute_quantities_dict(
+            self.env.context.get('lot_id'), self.env.context.get('owner_id'),
+            self.env.context.get('package_id'), self.env.context.get('from_date'), to_date or self.env.context.get('to_date')
+        )
+        return max(quantity and quantity[product.id]['qty_available'] or 0.0, 0.0)
 
     def _get_supplier_groups_multi_available(self):
         moves = self.mapped('move_ids').filtered(lambda m: m.state != 'cancel')
