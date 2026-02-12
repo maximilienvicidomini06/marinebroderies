@@ -134,10 +134,12 @@
                                         <th>Description</th>
                                         <th class="">Quantite disponible</th>
                                         <th>UdM</th>
+                                        <th>Observation</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <t t-foreach="group['lines']" t-as="line">
+                                        <t t-set="is_waiting" t-value="'waiting' in line['moves'].mapped('state')" />
                                         <tr t-if="line['available_qty'] != 0">
                                             <td t-esc="line['product'].display_name"/>
                                             <td>
@@ -147,6 +149,9 @@
                                                 <span t-esc="('%.0f' % line['available_qty']) if line['available_qty'] % 1 == 0 else ('%.2f' % line['available_qty'])" />
                                             </td>
                                             <td t-esc="line['uom'].name"/>
+                                            <td>
+                                                <span t-if="is_waiting">En attente de reception</span>
+                                            </td>
                                         </tr>
                                     </t>
                                 </tbody>
