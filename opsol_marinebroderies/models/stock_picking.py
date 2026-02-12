@@ -228,7 +228,10 @@ class StockPicking(models.Model):
                         'available_qty': 0.0,
                         'uom': move.product_uom,
                         '_customer_ids': set(),
+                        'moves': move
                     }
+                else:
+                    aggregated[line_key]['moves'] |= move
                 aggregated[line_key]['available_qty'] += self._get_move_available_qty(move)
                 customer = move.sale_line_id.order_id.partner_id if move.sale_line_id else False
                 if not customer:
