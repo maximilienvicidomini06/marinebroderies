@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
+
     <template id="report_ppmc_payment">
 
         <t t-call="web.html_container">
@@ -12,7 +12,7 @@
                 <t t-set="o" t-value="doc"/>
                 <t t-call="opsol_ppmc.report_ppmc_payment_document"/>
                 <t t-call="opsol_ppmc.report_ppmc_payment_document_page2"/>
-                <t t-call="opsol_ppmc.report_ppmc_payment_document_page3"/>
+                <!-- <t t-call="opsol_ppmc.report_ppmc_payment_document_page3"/> -->
             </t>
         </t>
 
@@ -20,7 +20,7 @@
 
     <template id="report_ppmc_payment_document">
         <t t-call="opsol_ppmc.external_layout_standard">
-        
+
             <t t-if="not company">
                 <!-- Multicompany -->
                 <t t-if="company_id">
@@ -33,13 +33,13 @@
                     <t t-set="company" t-value="res_company"/>
                 </t>
             </t>
-        
+
             <t t-set="payments" t-value="doc._get_payments()"/>
             <t t-set="header" t-value="doc._get_header_data()"/>
             <t t-set="total_amount" t-value="sum(payments.mapped('amount'))"/>
-            
+
             <!--<div t-attf-class="header o_company_#{company.id}_layout">-->
-                
+
             <!--    <div class="row mb-3">-->
             <!--        <div class="col-4">-->
             <!--            <div><strong/> <span t-esc="company.display_name"/></div>-->
@@ -67,7 +67,7 @@
             <!--            <strong>Date tirage:</strong> <span t-esc="header['draw_date']"/>-->
             <!--        </div>-->
             <!--    </div>-->
-                
+
             <!--</div>-->
             <div class="page ppmc-report">
 
@@ -75,31 +75,31 @@
                 <!--    <strong>Devise de remise:</strong>-->
                 <!--    <span t-esc="header['currency'].name"/>-->
                 <!--</div>-->
-                
+
                 <div class="row border mt-4 mb-2">
                     <div class="col-6">
                         <div><strong>Banque:</strong> <span t-esc="header['journal'].display_name if header['journal'] else ''"/></div>
-                        <div><strong>RIB:</strong> <span t-esc="header['bank_account'].acc_number if header['bank_account'] else ''"/></div>    
+                        <div><strong>RIB:</strong> <span t-esc="header['bank_account'].acc_number if header['bank_account'] else ''"/></div>
                     </div>
                     <div class="col-6">
                         <div><strong>Agence:</strong> </div>
                         <div><strong>Devise du RIB:</strong> <span t-esc="header['currency'].name if header['currency'] else ''"/></div>
                     </div>
-                    
+
                 </div>
-                
+
                 <div class="row border mt-4 mb-2">
                     <div class="col-2">
                         <div><strong>Donneur d'ordre</strong> </div>
                     </div>
                     <div class="col-4 text-start text-left">
-                        <div><strong><span t-esc="company.display_name if company else ''"/></strong></div>    
+                        <div><strong><span t-esc="company.display_name if company else ''"/></strong></div>
                     </div>
                     <div class="col-6">
                         <div><strong>Identifiant</strong> <span t-esc="doc.name or ''"/></div>
                     </div>
                 </div>
-                
+
                 <div class="row border mt-4">
                     <div class="col-2">
                         <div><strong>Date</strong> </div>
@@ -108,7 +108,7 @@
                         <div><strong>Type</strong> </div>
                     </div>
                     <div class="col-2 text-start text-left">
-                        <div><strong>Nombre de pièces</strong></div>    
+                        <div><strong>Nombre de pièces</strong></div>
                     </div>
                     <div class="col-2">
                         <div><strong>Montant</strong> </div>
@@ -122,7 +122,7 @@
                         <div><span t-esc="doc.batch_type or ''"/></div>
                     </div>
                     <div class="col-2 text-start text-left">
-                        <div><span t-esc="len(payments)"/></div>    
+                        <div><span t-esc="len(payments)"/></div>
                     </div>
                     <div class="col-2">
                         <div>
@@ -131,14 +131,14 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </t>
     </template>
 
     <template id="report_ppmc_payment_document_page2">
         <t t-call="opsol_ppmc.external_layout_standard_page2">
-        
+
             <t t-if="not company">
                 <!-- Multicompany -->
                 <t t-if="company_id">
@@ -151,11 +151,11 @@
                     <t t-set="company" t-value="res_company"/>
                 </t>
             </t>
-        
+
             <t t-set="payments" t-value="doc._get_payments()"/>
             <t t-set="header" t-value="doc._get_header_data()"/>
             <t t-set="total_amount" t-value="sum(payments.mapped('amount'))"/>
-                
+
             <!--</div>-->
             <div class="page ppmc-report">
                 <style>
@@ -188,7 +188,15 @@
                                     <span t-esc="payment.name"/>
                                 </td>
                                 <td>
-                                    <span t-esc="payment.payment_reference or payment.memo or ''"/>
+                                    <t t-set="invoice" t-value="(payment.reconciled_bill_ids | payment.reconciled_invoice_ids)[:1]"/>
+                                    <t t-if="invoice">
+                                        <a t-att-href="invoice.get_portal_url()">
+                                            <span t-esc="payment.payment_reference or payment.memo or invoice.name"/>
+                                        </a>
+                                    </t>
+                                    <t t-else="">
+                                        <span t-esc="payment.payment_reference or payment.memo or ''"/>
+                                    </t>
                                 </td>
                                 <td>
                                     <span t-esc="payment.partner_bank_id.acc_number or ''"/>
@@ -227,7 +235,7 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.basic_layout">
                     <div class="page ppmc-page3" style="font-family: sans-serif; font-size: 12px; color: black; padding-top: -5rem;">
-                        
+
                         <div class="row">
                             <div class="col-6 offset-6 text-start">
                                 <t t-set="company" t-value="o.company_id"/>
@@ -354,4 +362,5 @@
             </t>
         </t>
     </template>
+
 </odoo>
