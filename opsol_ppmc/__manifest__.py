@@ -18,6 +18,8 @@ PPMC vendor payments reports and layouts.
         "reports/ppmc_report.xml",
         "reports/ppmc_header_footer.xml",
         "reports/ppmc_templates.xml",
+        "reports/order_virement_report.xml",
+        "reports/order_virement_templates.xml",
     ],
     "installable": True,
     "application": False,

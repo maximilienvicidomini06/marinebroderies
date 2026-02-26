@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_order_virement" model="ir.actions.report">
+        <field name="name">Ordre de virement</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">opsol_ppmc.report_order_virement</field>
+        <field name="report_file">opsol_ppmc.report_order_virement</field>
+        <field name="print_report_name">'Ordre_de_virement_%s' % (object.name or object.id)</field>
+        <field name="paperformat_id" ref="opsol_ppmc.paperformat_ppmc"/>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

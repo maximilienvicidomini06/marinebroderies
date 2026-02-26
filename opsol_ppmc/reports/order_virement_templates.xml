@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_order_virement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+
+                        <div class="mb-3 text-end">
+                            Monaco, le <span t-esc="o.date" t-options='{"widget": "date"}'/>
+                        </div>
+                        <div class="mb-3">
+                            Notre reference: <span t-esc="o.name or ''"/>
+                        </div>
+                        
+                        <p>
+                            Monsieur, Madame <br/>
+                            Nous vous prions de trouver ci-dessous le details des sommes que nous vous devons a la date du <span t-field="o.date" t-options='{"widget": "date"}'/>
+                        </p>
+
+                        <div class="mb-3">
+                            <strong>Paiement :</strong> <span t-esc="o.name or ''"/>
+                            <span class="ms-3"><strong>Date :</strong> <span t-esc="o.date" t-options='{"widget": "date"}'/></span>
+                        </div>
+                        <t t-set="lines" t-value="o._get_ordre_virement_lines()"/>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Numero de piece</th>
+                                    <th>Libelle</th>
+                                    <th>Echeance</th>
+                                    <th>Avoir ou reglement</th>
+                                    <th>Vos factures</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="lines" t-as="line">
+                                    <tr>
+                                        <td><span t-esc="line['date']" t-options='{"widget": "date"}'/></td>
+                                        <td><span t-esc="line['numero_piece']"/></td>
+                                        <td><span t-esc="line['libelle']"/></td>
+                                        <td>
+                                            <t t-if="line['echeance']">
+                                                <span t-esc="line['echeance']" t-options='{"widget": "date"}'/>
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <t t-if="line['avoir_ou_reglement']"> - <span t-esc="line['avoir_ou_reglement']"/></t>
+                                        </td>
+                                        <td><span t-esc="line['vos_factures']"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tr>
+                                <td colspan="4" class="text-end"><strong>Solde en votre faveur</strong></td>
+                                <td><span t-esc="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="mb-3">
+                        <p>
+                            Nous donnons ordre a notre banque d'emettre, en notre faveur un virement : <span t-esc="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> au profit du compte: <br/>
+                            <strong><span t-esc="o.partner_bank_id.acc_number or 'compte bancaire absent'"/></strong><br/>
+                            Vous en souhaitant bonne reception, veuillez agréer, Monsieur, Madame, l'assurance de nos sentiments les meilleurs. 
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
