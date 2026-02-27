@@ -3,24 +3,39 @@
     <template id="report_order_virement">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.basic_layout">
+                <t t-call="web.external_layout">
                     <div class="page">
 
-                        <div class="mb-3 text-end">
-                            Monaco, le <span t-esc="o.date" t-options='{"widget": "date"}'/>
+                        <br/>
+                        <div class="row">
+                            <div class="col-6 text-start">
+                            </div>
+                            <div class="col-6">
+                                <p>
+                                    <span class="fw-bold h4" t-esc="o.partner_id.name or ''"/> <br/>
+                                    <span t-esc="o.partner_id.street or ''"/> <br/>
+                                    <span t-esc="o.partner_id.zip or ''"/> <span t-esc="o.partner_id.city or ''"/>, <span t-esc="o.partner_id.country_id.name or ''"/> <br/>
+                                </p>
+                            </div>
                         </div>
-                        <div class="mb-3">
+                        <br/><br/>
+                        <div class="mb-3 text-end">
+                                Monaco, le <span t-esc="o.date" t-options='{"widget": "date"}'/>
+                            </div>
+                        <br/>
+                        <div class="mb-3 mt-3">
                             Notre reference: <span t-esc="o.name or ''"/>
                         </div>
-                        
-                        <p>
+                        <br/>
+                        <p class="mb-3 mt-3">
                             Monsieur, Madame <br/>
                             Nous vous prions de trouver ci-dessous le details des sommes que nous vous devons a la date du <span t-field="o.date" t-options='{"widget": "date"}'/>
                         </p>
-
-                        <div class="mb-3">
-                            <strong>Paiement :</strong> <span t-esc="o.name or ''"/>
-                            <span class="ms-3"><strong>Date :</strong> <span t-esc="o.date" t-options='{"widget": "date"}'/></span>
+                        <br/>
+                        <t t-set="is_check" t-value="o.payment_method_line_id and 'cheque' in o.payment_method_line_id.name.lower() or o.payment_method_line_id and 'chèque' in o.payment_method_line_id.name.lower() or False" />
+                        <div class="mb-3 text-start">
+                            <strong>Reference :</strong> <span t-esc="o.name" /><br/>
+                            <strong>Mode de paiement :</strong> <span t-out="o.payment_method_line_id and o.payment_method_line_id.name or ''"/><br/>
                         </div>
                         <t t-set="lines" t-value="o._get_ordre_virement_lines()"/>
                         <table class="table table-sm table-bordered">
@@ -42,7 +57,7 @@
                                         <td><span t-esc="line['libelle']"/></td>
                                         <td>
                                             <t t-if="line['echeance']">
-                                                <span t-esc="line['echeance']" t-options='{"widget": "date"}'/>
+                                                <span t-esc="line['echeance']" t-options='{"widget": "date"}' />
                                             </t>
                                         </td>
                                         <td>
@@ -51,20 +66,27 @@
                                         <td><span t-esc="line['vos_factures']"/></td>
                                     </tr>
                                 </t>
+                                <tr>
+                                    <td colspan="4" class="text-end"><strong>Solde en votre faveur</strong></td>
+                                    <td colspan="2" class="text-end"><strong><span t-esc="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></strong></td>
+                                </tr>
                             </tbody>
-                            <tr>
-                                <td colspan="4" class="text-end"><strong>Solde en votre faveur</strong></td>
-                                <td><span t-esc="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
-                            </tr>
+                            
                         </table>
-                    </div>
 
-                    <div class="mb-3">
-                        <p>
-                            Nous donnons ordre a notre banque d'emettre, en notre faveur un virement : <span t-esc="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> au profit du compte: <br/>
-                            <strong><span t-esc="o.partner_bank_id.acc_number or 'compte bancaire absent'"/></strong><br/>
-                            Vous en souhaitant bonne reception, veuillez agréer, Monsieur, Madame, l'assurance de nos sentiments les meilleurs. 
-                        </p>
+                        <br/><br/>
+                        <div class="mb-3 mt-6">
+                            <p>
+                                Nous donnons ordre a notre banque d'emettre, en notre faveur un virement : <span t-esc="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> au profit du compte: <br/>
+                                <t t-if="is_check">
+                                    <strong><span t-field="o.memo"/></strong><br/>
+                                </t>
+                                <t t-else="">
+                                    <strong><span t-esc="o.partner_bank_id.acc_number or o.partner_id.bank_ids and o.partner_id.bank_ids[0].acc_number or 'compte bancaire absent'"/></strong><br/>
+                                </t>
+                                Vous en souhaitant bonne reception, veuillez agréer, Monsieur, Madame, l'assurance de nos sentiments les meilleurs. 
+                            </p>
+                        </div>
                     </div>
                 </t>
             </t>

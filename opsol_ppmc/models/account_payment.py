@@ -23,7 +23,7 @@ class AccountPayment(models.Model):
             lines.append({
                 "date": self.date,
                 "numero_piece": self.name,
-                "libelle": self.ref or self.payment_reference or self.name,
+                "libelle": "Paiement(s) non reconcilie(s)",
                 "echeance": False,
                 "avoir_ou_reglement": "Reglement",
                 "vos_factures": "",
