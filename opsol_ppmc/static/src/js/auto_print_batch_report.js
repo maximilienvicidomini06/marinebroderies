@@ -5,9 +5,9 @@ import { patch } from "@web/core/utils/patch";
 import { useService } from "@web/core/utils/hooks";
 import { useEffect } from "@odoo/owl";
 
-patch(FormController.prototype, "opsol_ppmc_auto_print_batch_report", {
+patch(FormController.prototype, {
     setup() {
-        this._super(...arguments);
+        super.setup();
         this.actionService = useService("action");
         useEffect(
             () => {
