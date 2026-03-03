@@ -1,6 +1,6 @@
 {
     "name": "OPSol PPMC",
-    "version": "19.0.1.0.7",
+    "version": "19.0.1.0.8",
     "summary": "PPMC vendor payments report",
     "description": """
 PPMC vendor payments reports and layouts.
@@ -13,6 +13,9 @@ PPMC vendor payments reports and layouts.
         "web.report_assets_common": [
             "opsol_ppmc/static/src/css/ppmc_report.css",
         ],
+        "web.assets_backend": [
+            "opsol_ppmc/static/src/js/auto_print_batch_report.js",
+        ],
     },
     "data": [
         "reports/ppmc_report.xml",
@@ -20,7 +23,6 @@ PPMC vendor payments reports and layouts.
         "reports/ppmc_templates.xml",
         "reports/order_virement_report.xml",
         "reports/order_virement_templates.xml",
-        "data/account_batch_payment_actions.xml",
         "views/account_move_view.xml",
     ],
     "installable": True,

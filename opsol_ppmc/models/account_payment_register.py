@@ -53,8 +53,17 @@ class AccountPaymentRegister(models.TransientModel):
             batches |= self.env["account.batch.payment"].create(batch_vals)
 
         first_batch = batches[:1]
-        return self.env.ref("opsol_ppmc.action_server_ppmc_report_and_open_batch").with_context(
-            active_model="account.batch.payment",
-            active_ids=batches.ids,
-            active_id=first_batch.id,
-        ).run()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Batch Payment",
+            "res_model": "account.batch.payment",
+            "view_mode": "form",
+            "res_id": first_batch.id,
+            "target": "current",
+            "context": {
+                "active_model": "account.batch.payment",
+                "active_ids": batches.ids,
+                "active_id": first_batch.id,
+                "auto_print_ppmc_report": True,
+            },
+        }
