@@ -11,7 +11,7 @@
                     type="object"
                     string="Ordre de virement"
                     class="btn-secondary"
-                    attrs="{'invisible': [('payment_ids', '=', False)]}"
+                    invisible="not payment_ids"
                 />
             </xpath>
         </field>
