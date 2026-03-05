@@ -77,11 +77,13 @@
                         <br/><br/>
                         <div class="mb-3 mt-6">
                             <p>
-                                Nous donnons ordre a notre banque d'emettre, en notre faveur un virement : <span t-esc="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> au profit du compte: <br/>
+                                
                                 <t t-if="is_check">
-                                    <strong><span t-field="o.memo"/></strong><br/>
+                                    Nous donnons ordre à notre banque d'émettre, en votre faveur, un chèque d'un montant de <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> : <br/>
+                                    N° <strong><span t-field="o.memo"/></strong><br/>
                                 </t>
                                 <t t-else="">
+                                    Nous donnons ordre a notre banque d'emettre, en votre faveur un virement : <span t-esc="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> au profit du compte: <br/>
                                     <strong><span t-esc="o.partner_bank_id.acc_number or o.partner_id.bank_ids and o.partner_id.bank_ids[0].acc_number or 'compte bancaire absent'"/></strong><br/>
                                 </t>
                                 Vous en souhaitant bonne reception, veuillez agréer, Monsieur, Madame, l'assurance de nos sentiments les meilleurs. 
