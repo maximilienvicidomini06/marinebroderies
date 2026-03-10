@@ -193,7 +193,7 @@
                                 <td>
                                     <t t-set="invoice" t-value="(payment.reconciled_bill_ids | payment.reconciled_invoice_ids)[:1]"/>
                                     <t t-if="invoice">
-                                        <a t-att-href="invoice.get_portal_url()">
+                                        <a t-att-href="'/odoo/vendor-bills/%s' % invoice.id if invoice.move_type == 'in_invoice' else '/odoo/customer-invoices/%s' % invoice.id">
                                             <span t-esc="payment.payment_reference or payment.memo or invoice.name"/>
                                         </a>
                                     </t>
