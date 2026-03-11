@@ -53,7 +53,17 @@
                                 <t t-foreach="lines" t-as="line">
                                     <tr>
                                         <td><span t-esc="line['date']" t-options='{"widget": "date"}'/></td>
-                                        <td><span t-esc="line['numero_piece']"/></td>
+                                        <td>
+                                            <t t-if="line.get('move_id')">
+                                                <t t-set="invoice_path" t-value="'customer-credit-notes' if line.get('move_type') == 'out_refund' else ('customer-invoices' if line.get('move_type') == 'out_invoice' else ('vendor-refunds' if line.get('move_type') == 'in_refund' else 'vendor-bills'))" />
+                                                <a t-att-href="'/odoo/%s/%s' % (invoice_path, line['move_id'])">
+                                                    <span t-esc="line['numero_piece']"/>
+                                                </a>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="line['numero_piece']"/>
+                                            </t>
+                                        </td>
                                         <td><span t-esc="line['libelle']"/></td>
                                         <td>
                                             <t t-if="line['echeance']">

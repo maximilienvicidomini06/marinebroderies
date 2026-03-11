@@ -99,7 +99,13 @@
                         <div><strong><span t-esc="company.display_name if company else ''"/></strong></div>
                     </div>
                     <div class="col-6">
-                        <div><strong>Identifiant</strong> <span t-esc="doc.name or ''"/></div>
+                        <div>
+                            <strong>Identifiant</strong>
+                            <t t-set="batch_path" t-value="'customer-batch-payments' if doc.batch_type == 'inbound' else 'vendor-batch-payments'"/>
+                            <a t-att-href="'/odoo/%s/%s' % (batch_path, doc.id)">
+                                <span t-esc="doc.name or ''"/>
+                            </a>
+                        </div>
                     </div>
                 </div>
 

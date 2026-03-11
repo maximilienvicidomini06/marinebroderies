@@ -12,6 +12,8 @@ class AccountPayment(models.Model):
         for move in invoices.sorted(key=lambda m: (m.invoice_date_due or m.invoice_date or m.date, m.id)):
             lines.append({
                 "date": move.invoice_date or move.date,
+                "move_id": move.id,
+                "move_type": move.move_type,
                 "numero_piece": move.name,
                 "libelle": move.ref or move.invoice_origin or move.payment_reference or move.name,
                 "echeance": move.invoice_date_due,
@@ -22,6 +24,7 @@ class AccountPayment(models.Model):
         if not lines:
             lines.append({
                 "date": self.date,
+                "move_id": False,
                 "numero_piece": self.name,
                 "libelle": "Paiement(s) non reconcilie(s)",
                 "echeance": False,
