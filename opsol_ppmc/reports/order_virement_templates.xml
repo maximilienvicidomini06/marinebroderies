@@ -64,7 +64,7 @@
                                                 <span t-esc="line['numero_piece']"/>
                                             </t>
                                         </td>
-                                        <td><span t-esc="line['libelle']"/></td>
+                                        <td><span t-esc="line['partner']"/></td>
                                         <td>
                                             <t t-if="line['echeance']">
                                                 <span t-esc="line['echeance']" t-options='{"widget": "date"}' />
@@ -73,7 +73,7 @@
                                         <td>
                                             <t t-if="line['avoir_ou_reglement']"> - <span t-esc="line['avoir_ou_reglement']"/></t>
                                         </td>
-                                        <td><span t-esc="line['vos_factures']"/></td>
+                                        <td class="text-end"><span t-esc="line['total_ttc']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
                                     </tr>
                                 </t>
                                 <tr>

@@ -16,9 +16,11 @@ class AccountPayment(models.Model):
                 "move_type": move.move_type,
                 "numero_piece": move.name,
                 "libelle": move.ref or move.invoice_origin or move.payment_reference or move.name,
+                "partner": move.partner_id and move.partner_id.name, 
                 "echeance": move.invoice_date_due,
                 "avoir_ou_reglement": "Avoir" if move.move_type in ("in_refund", "out_refund") else "Reglement",
                 "vos_factures": move.ref or move.name,
+                "total_ttc": move.amount_total,
             })
 
         if not lines:
@@ -27,9 +29,11 @@ class AccountPayment(models.Model):
                 "move_id": False,
                 "numero_piece": self.name,
                 "libelle": "Paiement(s) non reconcilie(s)",
+                "partner": "",
                 "echeance": False,
                 "avoir_ou_reglement": "Reglement",
                 "vos_factures": "",
+                "total_ttc": self.amount,
             })
 
         return lines
