@@ -23,8 +23,17 @@
                                 Monaco, le <span t-esc="o.date" t-options='{"widget": "date"}'/>
                             </div>
                         <br/>
-                        <div class="mb-3 mt-3">
-                            Notre reference: <span t-esc="o.name or ''"/>
+                        <t t-set="linked_invoices" t-value="o.reconciled_bill_ids | o.reconciled_invoice_ids"/>
+                        <t t-set="linked_invoice_names" t-value="', '.join(linked_invoices.mapped('name'))"/>
+                        <div class="row mb-3 mt-3">
+                            <div class="col-3 text-start">
+                                Notre reference:
+                            </div>
+                            <div class="col-9 text-start">
+                                <t t-foreach="linked_invoices" t-as="_inv">
+                                    <span t-esc="_inv.ref or _inv.name"/><br />
+                                </t>
+                            </div>
                         </div>
                         <br/>
                         <p class="mb-3 mt-3">
@@ -34,7 +43,7 @@
                         <br/>
                         <t t-set="is_check" t-value="o.payment_method_line_id and 'cheque' in o.payment_method_line_id.name.lower() or o.payment_method_line_id and 'chèque' in o.payment_method_line_id.name.lower() or False" />
                         <div class="mb-3 text-start">
-                            <strong>Reference :</strong> <span t-esc="o.name" /><br/>
+                            <strong>Reference :</strong> <span t-esc="linked_invoice_names or o.name or ''" /><br/>
                             <strong>Mode de paiement :</strong> <span t-out="o.payment_method_line_id and o.payment_method_line_id.name or ''"/><br/>
                         </div>
                         <t t-set="lines" t-value="o._get_ordre_virement_lines()"/>
