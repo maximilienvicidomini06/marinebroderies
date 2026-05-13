@@ -1,0 +1,112 @@
+/* ============================================================
+   Sign Template Preview — Layout splitté liste / aperçu PDF
+   ============================================================ */
+
+/* Layout principal : flex horizontal, pleine hauteur */
+.o_sign_template_preview_layout {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* ── Panneau gauche : liste ── */
+.o_sign_template_list_panel {
+    width: 42%;
+    min-width: 300px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    border-right: 2px solid var(--bs-border-color, #dee2e6);
+    background: var(--bs-body-bg, #fff);
+    flex-shrink: 0;
+}
+
+/* La liste intérieure prend toute la hauteur disponible */
+.o_sign_template_list_panel .o_list_view,
+.o_sign_template_list_panel .o_view_controller {
+    height: 100%;
+}
+
+/* ── Panneau droit : aperçu PDF ── */
+.o_sign_template_pdf_panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--bs-light, #f8f9fa);
+    padding: 0;
+}
+
+/* En-tête du PDF (nom du fichier + bouton ouvrir) */
+.o_sign_pdf_header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--bs-body-bg, #fff);
+    border-bottom: 1px solid var(--bs-border-color, #dee2e6);
+    font-size: 0.875rem;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.o_sign_pdf_title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* iFrame d'affichage du PDF */
+.o_sign_pdf_iframe {
+    flex: 1;
+    width: 100%;
+    border: none;
+    display: block;
+    min-height: 0;
+}
+
+/* Placeholder (état vide, chargement, erreur) */
+.o_sign_preview_placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #adb5bd;
+    text-align: center;
+    padding: 32px;
+    gap: 4px;
+}
+
+.o_sign_preview_placeholder p {
+    margin: 0;
+}
+
+/* Mise en valeur de la ligne sélectionnée */
+.o_sign_template_list_panel .o_data_row.o_selected_row > td {
+    background-color: var(--bs-primary-bg-subtle, #cfe2ff) !important;
+}
+
+/* Responsive : en dessous de 900px, empilement vertical */
+@media (max-width: 900px) {
+    .o_sign_template_preview_layout {
+        flex-direction: column;
+    }
+
+    .o_sign_template_list_panel {
+        width: 100%;
+        max-width: 100%;
+        height: 40%;
+        min-height: 200px;
+        border-right: none;
+        border-bottom: 2px solid var(--bs-border-color, #dee2e6);
+    }
+
+    .o_sign_template_pdf_panel {
+        height: 60%;
+    }
+}

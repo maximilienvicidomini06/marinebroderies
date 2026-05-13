@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="sign_request_preview.SignRequestListView"
+       t-inherit="web.ListView"
+       t-inherit-mode="primary">
+
+        <xpath expr="//t[@t-component='Controller']" position="replace">
+            <div class="o_sign_template_preview_layout">
+
+                <!-- Panneau gauche : liste -->
+                <div class="o_sign_template_list_panel">
+                    <t t-component="Controller"
+                       t-props="controllerProps"/>
+                </div>
+
+                <!-- Panneau droit : aperçu PDF -->
+                <div class="o_sign_template_pdf_panel">
+
+                    <!-- Chargement -->
+                    <t t-if="controller.previewState.loading">
+                        <div class="o_sign_preview_placeholder">
+                            <i class="fa fa-spinner fa-spin fa-2x text-muted"/>
+                            <p class="text-muted mt-2">Chargement de l'aperçu…</p>
+                        </div>
+                    </t>
+
+                    <!-- Erreur -->
+                    <t t-elif="controller.previewState.error">
+                        <div class="o_sign_preview_placeholder">
+                            <i class="fa fa-exclamation-circle fa-2x text-warning"/>
+                            <p class="text-muted mt-2">
+                                <t t-esc="controller.previewState.error"/>
+                            </p>
+                        </div>
+                    </t>
+
+                    <!-- PDF disponible -->
+                    <t t-elif="controller.previewState.pdfUrl">
+                        <div class="o_sign_pdf_header">
+                            <i t-attf-class="fa fa-file-pdf-o me-2 {{ controller.previewState.isSigned ? 'text-success' : 'text-danger' }}"/>
+                            <span class="o_sign_pdf_title"
+                                  t-esc="controller.previewState.documentName"/>
+                            <span t-if="controller.previewState.isSigned"
+                                  class="badge bg-success ms-2">Signé</span>
+                            <a class="btn btn-sm btn-outline-secondary ms-auto"
+                               t-att-href="controller.previewState.pdfUrl"
+                               target="_blank"
+                               title="Ouvrir dans un nouvel onglet">
+                                <i class="fa fa-external-link"/>
+                            </a>
+                        </div>
+                        <iframe
+                            t-att-src="controller.previewState.pdfUrl"
+                            class="o_sign_pdf_iframe"
+                            frameborder="0"
+                            allowfullscreen="true"
+                        />
+                    </t>
+
+                    <!-- Aucune sélection -->
+                    <t t-else="">
+                        <div class="o_sign_preview_placeholder">
+                            <i class="fa fa-file-pdf-o fa-3x text-muted"/>
+                            <p class="text-muted mt-3">
+                                Cliquez sur un document pour afficher l'aperçu
+                            </p>
+                            <p class="text-muted small">
+                                Double-cliquez pour ouvrir le détail du document
+                            </p>
+                        </div>
+                    </t>
+
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+</templates>
