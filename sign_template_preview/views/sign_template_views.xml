@@ -18,7 +18,6 @@
                   decoration-muted="active == False">
                 <field name="display_name" string="Nom du modèle"/>
                 <field name="tag_ids" widget="many2many_tags" optional="show"/>
-                <field name="responsible_id" optional="show"/>
                 <field name="active" invisible="1"/>
             </list>
         </field>
