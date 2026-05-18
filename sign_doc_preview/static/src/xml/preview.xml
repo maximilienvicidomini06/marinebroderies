@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="sign_doc_preview.PdfPreviewDialog">
+        <Dialog size="'xl'" title="props.title">
+            <t t-set-slot="default">
+                <div class="o_sign_pdf_dialog_body">
+                    <iframe t-att-src="props.pdfUrl"
+                            class="o_sign_pdf_dialog_iframe"
+                            frameborder="0"
+                            allowfullscreen="true"/>
+                </div>
+            </t>
+            <t t-set-slot="footer">
+                <button class="btn btn-secondary" t-on-click="() => props.close()">
+                    Fermer
+                </button>
+                <button class="btn btn-primary ms-2" t-on-click="openForm">
+                    Ouvrir le détail
+                </button>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>
