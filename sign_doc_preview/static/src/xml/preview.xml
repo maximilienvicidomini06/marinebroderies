@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="sign_doc_preview.PdfPanel">
+        <div class="o_sdp_panel">
+            <t t-if="props.loading">
+                <div class="o_sdp_placeholder">
+                    <i class="fa fa-spinner fa-spin fa-2x text-muted"/>
+                    <p class="mt-2 text-muted">Chargement...</p>
+                </div>
+            </t>
+            <t t-elif="props.error">
+                <div class="o_sdp_placeholder">
+                    <i class="fa fa-exclamation-circle fa-2x text-warning"/>
+                    <p class="mt-2 text-muted"><t t-esc="props.error"/></p>
+                </div>
+            </t>
+            <t t-elif="props.pdfUrl">
+                <div class="o_sdp_header">
+                    <i t-attf-class="fa fa-file-pdf-o me-2 {{ props.isSigned ? 'text-success' : 'text-danger' }}"/>
+                    <span class="o_sdp_title" t-esc="props.docName"/>
+                    <span t-if="props.isSigned" class="badge bg-success ms-2">Signe</span>
+                    <a class="btn btn-sm btn-outline-secondary ms-auto" t-att-href="props.pdfUrl" target="_blank">
+                        <i class="fa fa-external-link"/>
+                    </a>
+                </div>
+                <iframe t-att-src="props.pdfUrl" class="o_sdp_iframe" frameborder="0"/>
+            </t>
+            <t t-else="">
+                <div class="o_sdp_placeholder">
+                    <i class="fa fa-file-pdf-o fa-3x text-muted"/>
+                    <p class="mt-3 text-muted">Cliquez sur un document pour afficher l apercu</p>
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>
