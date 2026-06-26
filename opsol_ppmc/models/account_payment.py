@@ -28,7 +28,7 @@ class AccountPayment(models.Model):
                 "date": self.date,
                 "move_id": False,
                 "numero_piece": self.name,
-                "libelle": "Paiement(s) non reconcilie(s)",
+                "libelle": self.memo or "Paiement(s) non reconcilie(s)",
                 "partner": "",
                 "echeance": False,
                 "avoir_ou_reglement": "Reglement",

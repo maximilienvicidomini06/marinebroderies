@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from venv import logger
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
 from datetime import timedelta
+import logging
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -12,6 +14,14 @@ class SaleOrder(models.Model):
         readonly=True,
         copy=False,
     )
+
+    # def onchange(self, values, field_names, fields_spec):
+    #     logger = logging.getLogger(__name__)
+    #     logger.info("=====>         onchange")
+    #     logger.info(values)
+    #     logger.info(field_names)
+    #     logger.info(fields_spec)
+    #     return super(SaleOrder, self).onchange(values, field_names, fields_spec)
 
     def action_request_client_confirmation(self):
         self.ensure_one()

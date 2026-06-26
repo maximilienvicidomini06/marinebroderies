@@ -31,7 +31,7 @@
                             </div>
                             <div class="col-9 text-start">
                                 <t t-foreach="linked_invoices" t-as="_inv">
-                                    <span t-esc="_inv.ref or _inv.name"/><br />
+                                    <span t-esc="_inv.name or _inv.ref"/><br />
                                 </t>
                             </div>
                         </div>
@@ -66,11 +66,11 @@
                                             <t t-if="line.get('move_id')">
                                                 <t t-set="invoice_path" t-value="'customer-credit-notes' if line.get('move_type') == 'out_refund' else ('customer-invoices' if line.get('move_type') == 'out_invoice' else ('vendor-refunds' if line.get('move_type') == 'in_refund' else 'vendor-bills'))" />
                                                 <a t-att-href="'/odoo/%s/%s' % (invoice_path, line['move_id'])">
-                                                    <span t-esc="line['numero_piece']"/>
+                                                    <span t-esc="line['libelle']"/>
                                                 </a>
                                             </t>
                                             <t t-else="">
-                                                <span t-esc="line['numero_piece']"/>
+                                                <span t-esc="line['libelle']"/>
                                             </t>
                                         </td>
                                         <td><span t-esc="line['partner']"/></td>
