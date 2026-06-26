@@ -204,7 +204,7 @@
                                         </a>
                                     </t>
                                     <t t-else="">
-                                        <a t-att-href="'/odoo/vendor-payments/%s' % payment.id if payment.payment_type == 'inbound' else '/odoo/customer-payments/%s' % payment.id">
+                                        <a t-att-href="'/odoo/vendor-payments/%s' % payment.id if payment.partner_type == 'supplier' else '/odoo/customer-payments/%s' % payment.id">
                                             <span t-esc="payment.payment_reference or payment.memo or payment.name"/>
                                         </a>
                                     </t>

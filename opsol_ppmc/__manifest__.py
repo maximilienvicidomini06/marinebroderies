@@ -1,6 +1,6 @@
 {
     "name": "OPSol PPMC",
-    "version": "19.0.1.0.16",
+    "version": "19.0.1.0.17",
     "summary": "PPMC vendor payments report",
     "description": """
 PPMC vendor payments reports and layouts.
