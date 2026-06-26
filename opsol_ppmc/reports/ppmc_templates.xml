@@ -14,7 +14,7 @@
                 <t t-call="opsol_ppmc.report_ppmc_payment_document_page2"/>
                 <!-- <t t-call="opsol_ppmc.report_ppmc_payment_document_page3"/> -->
                 <t t-call="opsol_ppmc.report_order_virement" >
-                    <t t-set="docs" t-value="o.payment_ids.filtered(lambda x: x.payment_method_line_id.name.lower() not in ['cheque', 'chèque'])" />
+                    <t t-set="docs" t-value="o.payment_ids.filtered(lambda x: x.payment_method_line_id.name.lower() not in ['cheque', 'chèque']).sorted(lambda p: p.date)" />
                 </t>
             </t>
         </t>
@@ -188,7 +188,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <t t-foreach="payments" t-as="payment">
+                        <t t-foreach="payments.sorted(lambda p: p.date)" t-as="payment">
                             <tr>
                                 <td><span t-esc="payment.date"/></td>
                                 <td><span t-esc="payment.partner_id.display_name"/></td>
@@ -204,7 +204,9 @@
                                         </a>
                                     </t>
                                     <t t-else="">
-                                        <span t-esc="payment.payment_reference or payment.memo or ''"/>
+                                        <a t-att-href="'/odoo/vendor-payments/%s' % payment.id if payment.payment_type == 'inbound' else '/odoo/customer-payments/%s' % payment.id">
+                                            <span t-esc="payment.payment_reference or payment.memo or payment.name"/>
+                                        </a>
                                     </t>
                                 </td>
                                 <td>
