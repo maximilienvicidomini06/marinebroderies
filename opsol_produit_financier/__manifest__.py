@@ -13,6 +13,7 @@
     "assets": {
         "web.assets_backend": [
             "opsol_produit_financier/static/src/scss/bank_rec_quick_create.scss",
+            "opsol_produit_financier/static/src/xml/bank_rec_statement_line.xml",
         ],
     },
     "installable": True,
