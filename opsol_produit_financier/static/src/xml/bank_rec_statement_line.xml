@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="opsol_produit_financier.BankRecStatementLine"
+       t-inherit="account_accountant.BankRecStatementLine"
+       t-inherit-mode="extension">
+        <xpath expr="//div[@name='statement_line_partner_name']" position="after">
+            <div t-if="recordData.financial_quantity" class="text-muted">
+                Quantite: <t t-esc="recordData.financial_quantity"/>
+            </div>
+        </xpath>
+    </t>
+</templates>
