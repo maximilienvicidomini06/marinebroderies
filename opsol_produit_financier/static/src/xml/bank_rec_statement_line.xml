@@ -3,10 +3,14 @@
     <t t-name="opsol_produit_financier.BankRecStatementLine"
        t-inherit="account_accountant.BankRecStatementLine"
        t-inherit-mode="extension">
-        <xpath expr="//span[@name='statement_line_partner_name']" position="after">
-            <span t-if="recordData.financial_partner_is_product" class="text-muted ms-1">
-                Quantite: <t t-esc="recordData.financial_quantity"/>
-            </span>
+
+        <xpath expr="//div[hasclass('o_line_amount')]" position="before">
+            <div class="d-flex align-items-start justify-content-between o_line_quantity">
+                <span t-if="recordData.financial_partner_is_product" class="text-muted ms-1">
+                    <b>Quantite:</b> <t t-esc="recordData.financial_quantity"/>
+                </span>
+            </div>
         </xpath>
+
     </t>
 </templates>
