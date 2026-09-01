@@ -49,9 +49,6 @@
         <field name="model">account.bank.statement.line</field>
         <field name="inherit_id" ref="account_accountant.view_bank_statement_line_quick_create_form_bank_rec_widget"/>
         <field name="arch" type="xml">
-            <xpath expr="//group[contains(@class, 'o_quick_create')]" position="attributes">
-                <attribute name="class" add="o_financial_quick_create" separator=" "/>
-            </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="financial_partner_is_product" invisible="1"/>
                 <field name="financial_quantity"
