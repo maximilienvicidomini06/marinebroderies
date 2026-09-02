@@ -1,6 +1,6 @@
 {
     "name": "OPSol Produits financiers",
-    "version": "19.0.1.0.7",
+    "version": "19.0.1.0.8",
     "summary": "Suivi des achats et ventes de titres depuis les releves bancaires",
     "category": "Accounting",
     "author": "OpenSolution",
@@ -16,6 +16,7 @@
         "web.assets_backend": [
             "opsol_produit_financier/static/src/scss/bank_rec_quick_create.scss",
             "opsol_produit_financier/static/src/xml/bank_rec_statement_line.xml",
+            "opsol_produit_financier/static/src/xml/financial_partner_ledger.xml",
         ],
     },
     "installable": True,

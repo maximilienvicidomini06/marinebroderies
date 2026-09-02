@@ -5,6 +5,9 @@ from odoo.exceptions import ValidationError
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    financial_mode_enabled = fields.Boolean(
+        compute="_compute_financial_mode_enabled",
+    )
     is_financial_product = fields.Boolean(
         string="Produit financier",
         help="Indique que ce partenaire represente un titre financier.",
@@ -15,6 +18,37 @@ class ResPartner(models.Model):
         index=True,
         help="Identifiant ISIN du titre financier.",
     )
+
+    @api.depends_context("company")
+    def _compute_financial_mode_enabled(self):
+        for partner in self:
+            partner.financial_mode_enabled = self.env.company.financial_mode
+
+    @api.depends(
+        "complete_name",
+        "email",
+        "vat",
+        "state_id",
+        "country_id",
+        "commercial_company_name",
+        "is_financial_product",
+        "financial_isin_code",
+    )
+    @api.depends_context(
+        "show_address",
+        "partner_show_db_id",
+        "show_email",
+        "show_vat",
+        "lang",
+        "formatted_display_name",
+        "show_more_partner_info",
+    )
+    def _compute_display_name(self):
+        super()._compute_display_name()
+        for partner in self.filtered(
+            lambda partner: partner.is_financial_product and partner.financial_isin_code
+        ):
+            partner.display_name = f"{partner.display_name} - {partner.financial_isin_code}"
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -6,6 +6,10 @@ from odoo.tools import float_compare, float_is_zero
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"
 
+    financial_mode_enabled = fields.Boolean(
+        related="company_id.financial_mode",
+        readonly=True,
+    )
     financial_partner_is_product = fields.Boolean(
         related="partner_id.is_financial_product",
         readonly=True,

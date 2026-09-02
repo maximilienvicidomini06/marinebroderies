@@ -6,7 +6,9 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[@name='sales_purchases']" position="after">
-                <page string="Produit financier" name="financial_product">
+                <page string="Produit financier" name="financial_product"
+                      invisible="not financial_mode_enabled">
+                    <field name="financial_mode_enabled" invisible="1"/>
                     <group>
                         <field name="is_financial_product"/>
                         <field name="financial_isin_code" invisible="not is_financial_product"/>

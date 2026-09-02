@@ -6,7 +6,7 @@
 
         <xpath expr="//div[hasclass('o_line_amount')]" position="before">
             <div class="d-flex align-items-start justify-content-between o_line_quantity">
-                <span t-if="recordData.financial_partner_is_product" class="text-muted ms-1">
+                <span t-if="recordData.financial_mode_enabled and recordData.financial_partner_is_product" class="text-muted ms-1">
                     <b>Quantite:</b> <t t-esc="recordData.financial_quantity"/>
                 </span>
             </div>

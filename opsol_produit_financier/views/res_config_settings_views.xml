@@ -8,7 +8,7 @@
             <xpath expr="//app[@name='account']" position="inside">
                 <block title="Produits financiers" name="financial_products_setting_container">
                     <setting id="financial_mode" company_dependent="1"
-                             help="Affiche le Grand livre financier pour la societe active.">
+                             help="Affiche le Grand livre produits financiers pour la societe active.">
                         <field name="financial_mode"/>
                     </setting>
                 </block>

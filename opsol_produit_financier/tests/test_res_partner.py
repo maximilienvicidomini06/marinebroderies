@@ -13,6 +13,17 @@ class TestResPartnerFinancialProduct(TransactionCase):
 
         self.assertEqual(partner.financial_isin_code, "FR0000120271")
 
+    def test_financial_partner_display_name_includes_isin(self):
+        financial_partner = self.env["res.partner"].create({
+            "name": "Action de test",
+            "is_financial_product": True,
+            "financial_isin_code": "FR0000120271",
+        })
+        standard_partner = self.env["res.partner"].create({"name": "Tiers standard"})
+
+        self.assertEqual(financial_partner.display_name, "Action de test - FR0000120271")
+        self.assertEqual(standard_partner.display_name, "Tiers standard")
+
     def test_invalid_financial_isin_is_rejected(self):
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create({

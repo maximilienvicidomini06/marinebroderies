@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <record id="financial_partner_ledger_report" model="account.report">
-        <field name="name">Grand livre financier</field>
+        <field name="name">Grand livre produits financiers</field>
         <field name="root_report_id" ref="account_reports.partner_ledger_report"/>
         <field name="custom_handler_model_id" ref="model_opsol_financial_partner_ledger_report_handler"/>
-        <field name="filter_account_type">both</field>
+        <field name="filter_account_type">disabled</field>
         <field name="filter_partner" eval="True"/>
         <field name="filter_unfold_all" eval="True"/>
         <field name="filter_period_comparison" eval="False"/>
@@ -55,14 +55,14 @@
     </record>
 
     <record id="action_financial_partner_ledger" model="ir.actions.client">
-        <field name="name">Grand livre financier</field>
+        <field name="name">Grand livre produits financiers</field>
         <field name="tag">account_report</field>
         <field name="path">financial-partner-ledger</field>
         <field name="context" eval="{'report_id': ref('financial_partner_ledger_report')}"/>
     </record>
 
     <menuitem id="menu_financial_partner_ledger"
-              name="Grand livre financier"
+              name="Grand livre produits financiers"
               parent="account.account_reports_partners_reports_menu"
               action="action_financial_partner_ledger"
               sequence="20"

@@ -11,10 +11,22 @@ class FinancialPartnerLedgerReportHandler(models.AbstractModel):
 
     def _custom_options_initializer(self, report, options, previous_options):
         super()._custom_options_initializer(report, options, previous_options)
+        options["custom_display_config"]["templates"].update({
+            "AccountReportFilters": "opsol_produit_financier.FinancialPartnerLedgerFilters",
+            "AccountReportLineName": "opsol_produit_financier.FinancialPartnerLedgerLineName",
+        })
         options["forced_domain"] = options.get("forced_domain", []) + [
             ("financial_quantity", "!=", 0),
             ("partner_id.is_financial_product", "=", True),
         ]
+
+    def _get_report_line_partners(self, options, partner, partner_values, level_shift=0):
+        line = super()._get_report_line_partners(
+            options, partner, partner_values, level_shift=level_shift
+        )
+        if partner:
+            line["name"] = partner.display_name[:128]
+        return line
 
     def _get_additional_column_aml_values(self):
         return SQL(

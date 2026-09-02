@@ -5,13 +5,17 @@
         <field name="model">account.bank.statement.line</field>
         <field name="inherit_id" ref="account_accountant.view_bank_statement_line_form_bank_rec_widget"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">Code ISIN</attribute>
+            </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="financial_mode_enabled" invisible="1"/>
                 <field name="financial_partner_is_product" invisible="1"/>
                 <field name="financial_quantity"
-                       invisible="not financial_partner_is_product"
+                       invisible="not financial_mode_enabled or not financial_partner_is_product"
                        readonly="is_reconciled and amount != 0"/>
                 <field name="financial_unit_price"
-                       invisible="not financial_partner_is_product"
+                       invisible="not financial_mode_enabled or not financial_partner_is_product"
                        readonly="1"/>
             </xpath>
         </field>
@@ -22,10 +26,14 @@
         <field name="model">account.bank.statement.line</field>
         <field name="inherit_id" ref="account_accountant.view_bank_statement_line_tree_bank_rec_widget"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">Code ISIN</attribute>
+            </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="financial_mode_enabled" column_invisible="True"/>
                 <field name="financial_partner_is_product" column_invisible="True"/>
                 <field name="financial_quantity"
-                       invisible="not financial_partner_is_product"
+                       invisible="not financial_mode_enabled or not financial_partner_is_product"
                        readonly="is_reconciled and amount != 0"/>
             </xpath>
         </field>
@@ -36,7 +44,11 @@
         <field name="model">account.bank.statement.line</field>
         <field name="inherit_id" ref="account_accountant.view_bank_statement_line_kanban_bank_rec_widget"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">Code ISIN</attribute>
+            </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="financial_mode_enabled"/>
                 <field name="financial_partner_is_product"/>
                 <field name="financial_quantity"/>
             </xpath>
@@ -49,13 +61,17 @@
         <field name="model">account.bank.statement.line</field>
         <field name="inherit_id" ref="account_accountant.view_bank_statement_line_quick_create_form_bank_rec_widget"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">Code ISIN</attribute>
+            </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="financial_mode_enabled" invisible="1"/>
                 <field name="financial_partner_is_product" invisible="1"/>
                 <field name="financial_quantity"
                        class="w-100"
                        nolabel="1"
                        placeholder="Quantite"
-                       invisible="not financial_partner_is_product"/>
+                       invisible="not financial_mode_enabled or not financial_partner_is_product"/>
             </xpath>
         </field>
     </record>

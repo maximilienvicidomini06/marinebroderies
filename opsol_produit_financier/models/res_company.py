@@ -6,5 +6,5 @@ class ResCompany(models.Model):
 
     financial_mode = fields.Boolean(
         string="Mode produits financiers",
-        help="Active le Grand livre financier pour cette societe.",
+        help="Active le Grand livre produits financiers pour cette societe.",
     )
