@@ -22,6 +22,46 @@ class FinancialPartnerLedgerReportHandler(models.AbstractModel):
             super()._get_additional_column_aml_values(),
         )
 
+    def _query_partners(self, report, options):
+        partners_results = super()._query_partners(report, options)
+        queries = []
+
+        for column_group_key, column_group_options in report._split_options_per_column_group(options).items():
+            query = report._get_report_query(column_group_options, "from_beginning")
+            queries.append(SQL(
+                """
+                    SELECT
+                        account_move_line.partner_id AS partner_id,
+                        %(column_group_key)s AS column_group_key,
+                        SUM(account_move_line.financial_quantity) AS financial_quantity
+                    FROM %(table_references)s
+                    WHERE %(search_condition)s
+                    GROUP BY account_move_line.partner_id
+                """,
+                column_group_key=column_group_key,
+                table_references=query.from_clause,
+                search_condition=query.where_clause,
+            ))
+
+        quantities = defaultdict(dict)
+        if queries:
+            self.env.cr.execute(SQL(" UNION ALL ").join(queries))
+            for result in self.env.cr.dictfetchall():
+                quantities[result["partner_id"]][result["column_group_key"]] = (
+                    result["financial_quantity"] or 0.0
+                )
+
+        for partner, partner_values in partners_results:
+            partner_id = partner.id if partner else None
+            for column_group_key, values in partner_values.items():
+                quantity = quantities[partner_id].get(column_group_key, 0.0)
+                values["financial_quantity_cumulative"] = quantity
+                values["financial_average_price"] = (
+                    values["balance"] / quantity if quantity else None
+                )
+
+        return partners_results
+
     def _get_initial_balance_values(self, partner_ids, options):
         initial_values = super()._get_initial_balance_values(partner_ids, options)
         report = self.env.ref("account_reports.partner_ledger_report")
