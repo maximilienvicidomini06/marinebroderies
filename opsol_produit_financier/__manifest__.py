@@ -1,6 +1,6 @@
 {
     "name": "OPSol Produits financiers",
-    "version": "19.0.1.0.5",
+    "version": "19.0.1.0.6",
     "summary": "Suivi des achats et ventes de titres depuis les releves bancaires",
     "category": "Accounting",
     "author": "OpenSolution",

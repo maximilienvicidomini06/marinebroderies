@@ -62,6 +62,40 @@ class FinancialPartnerLedgerReportHandler(models.AbstractModel):
 
         return partners_results
 
+    def _build_partner_lines(self, report, options, level_shift=0):
+        lines = []
+        totals_by_column_group = {
+            column_group_key: {
+                total: 0.0
+                for total in ("debit", "credit", "amount", "balance")
+            }
+            for column_group_key in options["column_groups"]
+        }
+
+        for partner, results in self._query_partners(report, options):
+            partner_values = defaultdict(dict)
+            for column_group_key in options["column_groups"]:
+                partner_sum = results.get(column_group_key, {})
+                values = partner_values[column_group_key]
+                for label in ("debit", "credit", "amount", "balance"):
+                    values[label] = partner_sum.get(label, 0.0)
+                    totals_by_column_group[column_group_key][label] += values[label]
+
+                values["financial_quantity_cumulative"] = partner_sum.get(
+                    "financial_quantity_cumulative", 0.0
+                )
+                values["financial_average_price"] = partner_sum.get(
+                    "financial_average_price"
+                )
+
+            lines.append(
+                self._get_report_line_partners(
+                    options, partner, partner_values, level_shift=level_shift
+                )
+            )
+
+        return lines, totals_by_column_group
+
     def _get_initial_balance_values(self, partner_ids, options):
         initial_values = super()._get_initial_balance_values(partner_ids, options)
         report = self.env.ref("account_reports.partner_ledger_report")
