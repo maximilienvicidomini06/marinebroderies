@@ -20,3 +20,13 @@ class TestResPartnerFinancialProduct(TransactionCase):
                 "is_financial_product": True,
                 "financial_isin_code": "FR0000120272",
             })
+
+    def test_financial_ledger_menu_visibility_depends_on_company_mode(self):
+        financial_menu = self.env.ref(
+            "opsol_produit_financier.menu_financial_partner_ledger"
+        )
+        self.env.company.financial_mode = False
+        self.assertIn(financial_menu.id, self.env["ir.ui.menu"]._load_menus_blacklist())
+
+        self.env.company.financial_mode = True
+        self.assertNotIn(financial_menu.id, self.env["ir.ui.menu"]._load_menus_blacklist())
