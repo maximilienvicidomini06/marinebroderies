@@ -1,0 +1,95 @@
+from collections import defaultdict
+
+from odoo import models
+from odoo.tools import SQL
+
+
+class FinancialPartnerLedgerReportHandler(models.AbstractModel):
+    _name = "opsol.financial.partner.ledger.report.handler"
+    _inherit = "account.partner.ledger.report.handler"
+    _description = "Financial Partner Ledger Custom Handler"
+
+    def _custom_options_initializer(self, report, options, previous_options):
+        super()._custom_options_initializer(report, options, previous_options)
+        options["forced_domain"] = options.get("forced_domain", []) + [
+            ("financial_quantity", "!=", 0),
+            ("partner_id.is_financial_product", "=", True),
+        ]
+
+    def _get_additional_column_aml_values(self):
+        return SQL(
+            "%s account_move_line.financial_quantity AS financial_quantity,",
+            super()._get_additional_column_aml_values(),
+        )
+
+    def _get_initial_balance_values(self, partner_ids, options):
+        initial_values = super()._get_initial_balance_values(partner_ids, options)
+        report = self.env.ref("account_reports.partner_ledger_report")
+        queries = []
+
+        for column_group_key, column_group_options in report._split_options_per_column_group(options).items():
+            initial_options = self._get_options_initial_balance(column_group_options)
+            query = report._get_report_query(
+                initial_options,
+                "from_beginning",
+                domain=[("partner_id", "in", partner_ids)],
+            )
+            queries.append(SQL(
+                """
+                    SELECT
+                        account_move_line.partner_id,
+                        %(column_group_key)s AS column_group_key,
+                        SUM(account_move_line.financial_quantity) AS financial_quantity
+                    FROM %(table_references)s
+                    WHERE %(search_condition)s
+                    GROUP BY account_move_line.partner_id
+                """,
+                column_group_key=column_group_key,
+                table_references=query.from_clause,
+                search_condition=query.where_clause,
+            ))
+
+        if queries:
+            self.env.cr.execute(SQL(" UNION ALL ").join(queries))
+            for result in self.env.cr.dictfetchall():
+                values = initial_values[result["partner_id"]][result["column_group_key"]]
+                quantity = result["financial_quantity"] or 0.0
+                values["financial_quantity_cumulative"] = quantity
+                values["financial_average_price"] = (
+                    values["balance"] / quantity if quantity else None
+                )
+
+        for partner_values in initial_values.values():
+            for values in partner_values.values():
+                quantity = values.get("financial_quantity_cumulative", 0.0)
+                values.setdefault("financial_quantity_cumulative", quantity)
+                values.setdefault(
+                    "financial_average_price",
+                    values["balance"] / quantity if quantity else None,
+                )
+
+        return initial_values
+
+    def _get_aml_values(self, options, partner_ids, offset=0, limit=None):
+        aml_values = super()._get_aml_values(options, partner_ids, offset=offset, limit=limit)
+        initial_values = self._get_initial_balance_values(partner_ids, options)
+
+        for partner_id, results in aml_values.items():
+            cumulative_quantity = defaultdict(float)
+            cumulative_balance = defaultdict(float)
+            for column_group_key, values in initial_values[partner_id].items():
+                cumulative_quantity[column_group_key] = values["financial_quantity_cumulative"]
+                cumulative_balance[column_group_key] = values["balance"]
+
+            for result in results:
+                column_group_key = result["column_group_key"]
+                cumulative_quantity[column_group_key] += result["financial_quantity"] or 0.0
+                cumulative_balance[column_group_key] += result["balance"]
+                result["financial_quantity_cumulative"] = cumulative_quantity[column_group_key]
+                result["financial_average_price"] = (
+                    cumulative_balance[column_group_key] / cumulative_quantity[column_group_key]
+                    if cumulative_quantity[column_group_key]
+                    else None
+                )
+
+        return aml_values

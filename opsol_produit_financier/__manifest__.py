@@ -1,14 +1,15 @@
 {
     "name": "OPSol Produits financiers",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "summary": "Suivi des achats et ventes de titres depuis les releves bancaires",
     "category": "Accounting",
     "author": "OpenSolution",
     "license": "LGPL-3",
-    "depends": ["account_accountant"],
+    "depends": ["account_accountant", "account_reports"],
     "data": [
         "views/res_partner_views.xml",
         "views/account_bank_statement_line_views.xml",
+        "data/financial_partner_ledger.xml",
     ],
     "assets": {
         "web.assets_backend": [
