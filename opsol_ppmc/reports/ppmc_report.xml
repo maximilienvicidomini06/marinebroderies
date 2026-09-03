@@ -18,6 +18,14 @@
         <field name="css_margins" eval="True" />
     </record>
 
+    <record id="action_paid_invoices" model="ir.actions.act_window">
+        <field name="name">Factures reglees</field>
+        <field name="path">opsol-paid-invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[(&quot;id&quot;, &quot;in&quot;, context.get(&quot;active_ids&quot;, []))]</field>
+    </record>
+
     <record id="action_report_ppmc_payments" model="ir.actions.report">
         <field name="name">Bordereau d'accompagnement</field>
         <field name="model">account.batch.payment</field>

@@ -4,6 +4,18 @@ from odoo import models
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
+    def _get_reconciled_invoices_url(self):
+        self.ensure_one()
+        invoices = self.reconciled_bill_ids | self.reconciled_invoice_ids
+        if len(invoices) > 1:
+            return "/odoo/opsol-paid-invoices?active_ids=%s" % ",".join(
+                str(invoice_id) for invoice_id in invoices.ids
+            )
+        if not invoices:
+            return False
+
+        return "/odoo/opsol-paid-invoices/%s" % invoices.id
+
     def _get_ordre_virement_lines(self):
         self.ensure_one()
 
