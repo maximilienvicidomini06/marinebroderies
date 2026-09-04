@@ -49,7 +49,7 @@ class ResPartner(models.Model):
         for partner in self.filtered(
             lambda partner: partner.is_financial_product and partner.financial_isin_code
         ):
-            partner.display_name = f"{partner.display_name} - {partner.financial_isin_code}"
+            partner.display_name = partner.financial_isin_code
 
     @api.model
     def _search_display_name(self, operator, value):
