@@ -24,6 +24,13 @@ class TestResPartnerFinancialProduct(TransactionCase):
         self.assertEqual(financial_partner.display_name, "Action de test - FR0000120271")
         self.assertEqual(standard_partner.display_name, "Tiers standard")
 
+    def test_financial_isin_is_required_for_financial_products(self):
+        with self.assertRaises(ValidationError):
+            self.env["res.partner"].create({
+                "name": "Action sans ISIN",
+                "is_financial_product": True,
+            })
+
     def test_invalid_financial_isin_is_rejected(self):
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create({
@@ -31,6 +38,23 @@ class TestResPartnerFinancialProduct(TransactionCase):
                 "is_financial_product": True,
                 "financial_isin_code": "FR0000120272",
             })
+
+    def test_financial_products_are_searched_by_isin_only(self):
+        financial_partner = self.env["res.partner"].create({
+            "name": "Action de test",
+            "is_financial_product": True,
+            "financial_isin_code": "FR0000120271",
+        })
+        standard_partner = self.env["res.partner"].create({
+            "name": "Action de test",
+        })
+
+        isin_results = self.env["res.partner"].name_search("FR0000120271")
+        name_results = self.env["res.partner"].name_search("Action de test")
+
+        self.assertIn((financial_partner.id, financial_partner.display_name), isin_results)
+        self.assertNotIn((financial_partner.id, financial_partner.display_name), name_results)
+        self.assertIn((standard_partner.id, standard_partner.display_name), name_results)
 
     def test_financial_ledger_menu_visibility_depends_on_company_mode(self):
         financial_menu = self.env.ref(

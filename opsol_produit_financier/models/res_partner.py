@@ -1,5 +1,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.fields import Domain
 
 
 class ResPartner(models.Model):
@@ -50,6 +51,18 @@ class ResPartner(models.Model):
         ):
             partner.display_name = f"{partner.display_name} - {partner.financial_isin_code}"
 
+    @api.model
+    def _search_display_name(self, operator, value):
+        is_positive = operator not in Domain.NEGATIVE_OPERATORS
+        combine = Domain.OR if is_positive else Domain.AND
+        return combine([
+            [("is_financial_product", "=", False)] + super()._search_display_name(operator, value),
+            [
+                ("is_financial_product", "=", True),
+                ("financial_isin_code", operator, value),
+            ],
+        ])
+
     @api.model_create_multi
     def create(self, vals_list):
         self._normalize_financial_isin_codes(vals_list)
@@ -69,6 +82,8 @@ class ResPartner(models.Model):
     @api.constrains("is_financial_product", "financial_isin_code")
     def _check_financial_isin_code(self):
         for partner in self:
+            if partner.is_financial_product and not partner.financial_isin_code:
+                raise ValidationError(_("Le code ISIN est obligatoire pour les produits financiers."))
             if not partner.financial_isin_code:
                 continue
             if not self._is_valid_isin(partner.financial_isin_code):

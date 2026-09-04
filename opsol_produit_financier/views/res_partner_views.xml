@@ -11,7 +11,7 @@
                     <field name="financial_mode_enabled" invisible="1"/>
                     <group>
                         <field name="is_financial_product"/>
-                        <field name="financial_isin_code" invisible="not is_financial_product"/>
+                        <field name="financial_isin_code" invisible="not is_financial_product" required="is_financial_product"/>
                     </group>
                 </page>
             </xpath>
