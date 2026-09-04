@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_order_virement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs.sorted(lambda p: p.name)" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <br/>
+                        <div class="row">
+                            <div class="col-6 text-start">
+                            </div>
+                            <div class="col-6">
+                                <p>
+                                    <span class="fw-bold h4" t-esc="o.partner_id.name or ''"/> <br/>
+                                    <span t-esc="o.partner_id.street or ''"/> <br/>
+                                    <span t-esc="o.partner_id.zip or ''"/> <span t-esc="o.partner_id.city or ''"/>, <span t-esc="o.partner_id.country_id.name or ''"/> <br/>
+                                </p>
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <div class="mb-3 text-end">
+                                Monaco, le <span t-esc="o.date" t-options='{"widget": "date"}'/>
+                            </div>
+                        <br/>
+                        <t t-set="linked_invoices" t-value="o.reconciled_bill_ids | o.reconciled_invoice_ids"/>
+                        <t t-set="linked_invoice_names" t-value="', '.join(linked_invoices.mapped('name'))"/>
+                        <div class="row mb-3 mt-3">
+                            <div class="col-3 text-start">
+                                Notre reference:
+                            </div>
+                            <div class="col-9 text-start">
+                                <t t-foreach="linked_invoices" t-as="_inv">
+                                    <span t-esc="_inv.name or _inv.ref"/><br />
+                                </t>
+                            </div>
+                        </div>
+                        <br/>
+                        <p class="mb-3 mt-3">
+                            Monsieur, Madame <br/>
+                            Nous vous prions de trouver ci-dessous le details des sommes que nous vous devons a la date du <span t-field="o.date" t-options='{"widget": "date"}'/>
+                        </p>
+                        <br/>
+                        <t t-set="is_check" t-value="o.payment_method_line_id and 'cheque' in o.payment_method_line_id.name.lower() or o.payment_method_line_id and 'chèque' in o.payment_method_line_id.name.lower() or False" />
+                        <div class="mb-3 text-start">
+                            <strong>Reference :</strong> <span t-esc="linked_invoice_names or o.name or ''" /><br/>
+                            <strong>Mode de paiement :</strong> <span t-out="o.payment_method_line_id and o.payment_method_line_id.name or ''"/><br/>
+                        </div>
+                        <t t-set="lines" t-value="o._get_ordre_virement_lines()"/>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Numero de piece</th>
+                                    <th>Libelle</th>
+                                    <th>Echeance</th>
+                                    <th>Avoir ou reglement</th>
+                                    <th>Vos factures</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="lines" t-as="line">
+                                    <tr>
+                                        <td><span t-esc="line['date']" t-options='{"widget": "date"}'/></td>
+                                        <td>
+                                            <t t-if="line.get('move_id')">
+                                                <t t-set="invoice_path" t-value="'customer-credit-notes' if line.get('move_type') == 'out_refund' else ('customer-invoices' if line.get('move_type') == 'out_invoice' else ('vendor-refunds' if line.get('move_type') == 'in_refund' else 'vendor-bills'))" />
+                                                <a t-att-href="'/odoo/%s/%s' % (invoice_path, line['move_id'])">
+                                                    <span t-esc="line['libelle']"/>
+                                                </a>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="line['libelle']"/>
+                                            </t>
+                                        </td>
+                                        <td><span t-esc="line['partner']"/></td>
+                                        <td>
+                                            <t t-if="line['echeance']">
+                                                <span t-esc="line['echeance']" t-options='{"widget": "date"}' />
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <t t-if="line['avoir_ou_reglement']"> - <span t-esc="line['avoir_ou_reglement']"/></t>
+                                        </td>
+                                        <td class="text-end"><span t-esc="line['total_ttc']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td colspan="4" class="text-end"><strong>Solde en votre faveur</strong></td>
+                                    <td colspan="2" class="text-end"><strong><span t-esc="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></strong></td>
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+
+                        <br/><br/>
+                        <div class="mb-3 mt-6">
+                            <p>
+                                
+                                <t t-if="is_check">
+                                    Nous donnons ordre à notre banque d'émettre, en votre faveur, un chèque d'un montant de <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> : <br/>
+                                    N° <strong><span t-field="o.memo"/></strong><br/>
+                                </t>
+                                <t t-else="">
+                                    Nous donnons ordre a notre banque d'emettre, en votre faveur un virement : <span t-esc="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/> au profit du compte: <br/>
+                                    <strong><span t-esc="o.partner_bank_id.acc_number or o.partner_id.bank_ids and o.partner_id.bank_ids[0].acc_number or 'compte bancaire absent'"/></strong><br/>
+                                </t>
+                                Vous en souhaitant bonne reception, veuillez agréer, Monsieur, Madame, l'assurance de nos sentiments les meilleurs. 
+                            </p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

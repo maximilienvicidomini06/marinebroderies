@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="financial_partner_ledger_report" model="account.report">
+        <field name="name">Grand livre produits financiers</field>
+        <field name="root_report_id" ref="account_reports.partner_ledger_report"/>
+        <field name="custom_handler_model_id" ref="model_opsol_financial_partner_ledger_report_handler"/>
+        <field name="filter_account_type">disabled</field>
+        <field name="filter_partner" eval="True"/>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_period_comparison" eval="False"/>
+        <field name="filter_multi_company">selector</field>
+        <field name="filter_hide_0_lines">never</field>
+        <field name="default_opening_date_filter">this_year</field>
+        <field name="search_bar" eval="True"/>
+        <field name="load_more_limit" eval="0"/>
+        <field name="column_ids">
+            <record id="financial_partner_ledger_journal_code" model="account.report.column">
+                <field name="name">Journal</field>
+                <field name="expression_label">journal_code</field>
+                <field name="figure_type">string</field>
+            </record>
+            <record id="financial_partner_ledger_account_code" model="account.report.column">
+                <field name="name">Compte</field>
+                <field name="expression_label">account_code</field>
+                <field name="figure_type">string</field>
+            </record>
+            <record id="financial_partner_ledger_quantity" model="account.report.column">
+                <field name="name">Quantite</field>
+                <field name="expression_label">financial_quantity</field>
+                <field name="figure_type">float</field>
+            </record>
+            <record id="financial_partner_ledger_cumulative_quantity" model="account.report.column">
+                <field name="name">Quantite cumulee</field>
+                <field name="expression_label">financial_quantity_cumulative</field>
+                <field name="figure_type">float</field>
+            </record>
+            <record id="financial_partner_ledger_debit" model="account.report.column">
+                <field name="name">Debit</field>
+                <field name="expression_label">debit</field>
+            </record>
+            <record id="financial_partner_ledger_credit" model="account.report.column">
+                <field name="name">Credit</field>
+                <field name="expression_label">credit</field>
+            </record>
+            <record id="financial_partner_ledger_balance" model="account.report.column">
+                <field name="name">Solde</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="financial_partner_ledger_average_price" model="account.report.column">
+                <field name="name">Prix moyen</field>
+                <field name="expression_label">financial_average_price</field>
+                <field name="figure_type">monetary</field>
+            </record>
+        </field>
+    </record>
+
+    <record id="action_financial_partner_ledger" model="ir.actions.client">
+        <field name="name">Grand livre produits financiers</field>
+        <field name="tag">account_report</field>
+        <field name="path">financial-partner-ledger</field>
+        <field name="context" eval="{'report_id': ref('financial_partner_ledger_report')}"/>
+    </record>
+
+    <menuitem id="menu_financial_partner_ledger"
+              name="Grand livre produits financiers"
+              parent="account.account_reports_partners_reports_menu"
+              action="action_financial_partner_ledger"
+              sequence="20"
+              groups="account.group_account_readonly,account.group_account_basic"/>
+</odoo>
