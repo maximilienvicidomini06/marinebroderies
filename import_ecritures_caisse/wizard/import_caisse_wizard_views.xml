@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_import_caisse_wizard_form" model="ir.ui.view">
+        <field name="name">import.caisse.wizard.form</field>
+        <field name="model">import.caisse.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import des écritures de caisse">
+                <field name="state" invisible="1"/>
+                <group invisible="state != 'draft'">
+                    <field name="file_data" filename="file_name"/>
+                    <field name="file_name" invisible="1"/>
+                    <field name="post_moves"/>
+                </group>
+                <div invisible="state != 'done'">
+                    <field name="result_html"/>
+                </div>
+                <footer>
+                    <button name="action_import" string="Importer" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button string="Fermer" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_import_caisse_wizard" model="ir.actions.act_window">
+        <field name="name">Import écritures de caisse</field>
+        <field name="res_model">import.caisse.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_import_caisse"
+              name="Import écritures de caisse"
+              parent="account.menu_finance_entries"
+              action="action_import_caisse_wizard"
+              sequence="90"/>
+</odoo>
