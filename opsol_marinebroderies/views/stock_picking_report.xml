@@ -24,30 +24,30 @@
                 <t t-call="web.external_layout">
                     <t t-set="single_picking" t-value="docs[0] if len(docs) == 1 else False"/>
                     <t t-set="supplier_groups" t-value="docs._get_supplier_groups_multi()"/>
-                    <div class="page">
-                        <h2>
-                            <span t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.title">Produits par fournisseur</span>
-                        </h2>
-                        <div class="mb16">
-                            <div t-if="single_picking">
-                                <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.reference">Reference:</strong>
-                                <span t-esc="single_picking.name"/>
+                    <t t-foreach="supplier_groups" t-as="group">
+                        <div class="page">
+                            <!-- <h2>
+                                <span t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.title">Produits par fournisseur</span>
+                            </h2> -->
+                            <div class="mb16">
+                                <div t-if="single_picking">
+                                    <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.reference">Reference:</strong>
+                                    <span t-esc="single_picking.name"/>
+                                </div>
+                                <div t-else="">
+                                    <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.pickings">Pickings:</strong>
+                                    <span t-esc="', '.join(docs.mapped('name'))"/>
+                                </div>
+                                <div t-if="single_picking and single_picking.partner_id">
+                                    <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.partner">Partenaire:</strong>
+                                    <span t-esc="single_picking.partner_id.display_name"/>
+                                </div>
+                                <div t-if="single_picking and single_picking.scheduled_date">
+                                    <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.scheduled_date">Date prevue:</strong>
+                                    <span t-esc="single_picking.scheduled_date"/>
+                                </div>
                             </div>
-                            <div t-else="">
-                                <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.pickings">Pickings:</strong>
-                                <span t-esc="', '.join(docs.mapped('name'))"/>
-                            </div>
-                            <div t-if="single_picking and single_picking.partner_id">
-                                <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.partner">Partenaire:</strong>
-                                <span t-esc="single_picking.partner_id.display_name"/>
-                            </div>
-                            <div t-if="single_picking and single_picking.scheduled_date">
-                                <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.scheduled_date">Date prevue:</strong>
-                                <span t-esc="single_picking.scheduled_date"/>
-                            </div>
-                        </div>
 
-                        <t t-foreach="supplier_groups" t-as="group">
                             <h3>
                                 <span t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.supplier">Fournisseur:</span>
                                 <t t-if="group['partner']">
@@ -83,8 +83,8 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </t>
-                    </div>
+                        </div>
+                    </t>
                 </t>
             </t>
         </template>
