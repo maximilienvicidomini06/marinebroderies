@@ -22,29 +22,29 @@
         <template id="report_stock_picking_by_supplier">
             <t t-call="web.html_container">
                 <t t-call="web.external_layout">
-                    <t t-set="single_picking" t-value="docs[0] if len(docs) == 1 else False"/>
                     <t t-set="supplier_groups" t-value="docs._get_supplier_groups_multi()"/>
                     <t t-foreach="supplier_groups" t-as="group">
-                        <div class="page">
+                        <t t-set="group_pickings" t-value="group['moves'].mapped('picking_id')"/>
+                        <div class="page" t-att-style="'page-break-after: always;' if not group_last else 'page-break-after: auto;'">
                             <!-- <h2>
                                 <span t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.title">Produits par fournisseur</span>
                             </h2> -->
                             <div class="mb16">
-                                <div t-if="single_picking">
+                                <div t-if="len(group_pickings) == 1">
                                     <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.reference">Reference:</strong>
-                                    <span t-esc="single_picking.name"/>
+                                    <span t-esc="group_pickings.name"/>
                                 </div>
                                 <div t-else="">
                                     <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.pickings">Pickings:</strong>
-                                    <span t-esc="', '.join(docs.mapped('name'))"/>
+                                    <span t-esc="', '.join(group_pickings.mapped('name'))"/>
                                 </div>
-                                <div t-if="single_picking and single_picking.partner_id">
+                                <div t-if="len(group_pickings) == 1 and group_pickings.partner_id">
                                     <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.partner">Partenaire:</strong>
-                                    <span t-esc="single_picking.partner_id.display_name"/>
+                                    <span t-esc="group_pickings.partner_id.display_name"/>
                                 </div>
-                                <div t-if="single_picking and single_picking.scheduled_date">
+                                <div t-if="len(group_pickings) == 1 and group_pickings.scheduled_date">
                                     <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.scheduled_date">Date prevue:</strong>
-                                    <span t-esc="single_picking.scheduled_date"/>
+                                    <span t-esc="group_pickings.scheduled_date"/>
                                 </div>
                             </div>
 
@@ -163,4 +163,3 @@
         </template>
     </data>
 </odoo>
- 
