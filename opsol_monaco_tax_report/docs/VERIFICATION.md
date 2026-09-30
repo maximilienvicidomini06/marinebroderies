@@ -7,7 +7,7 @@
 - Extraction du rapport, des 61 lignes, 60 expressions, une colonne, des schémas et des correspondances fiscales.
 - Vérification des 46 noms de tags par nom/pays/applicabilité.
 - Génération du module depuis les fichiers extraits, sans reconstruction manuelle des formules.
-- Exécution de `validate_module.py` : **10 tests réussis** (structure, compilation Python, schéma, références XML, hiérarchie, expressions, graphe des agrégations, noupdate, tags, différences déclarées).
+- Exécution de `validate_module.py` : **11 tests réussis**, dont un contrôle de non-régression excluant le champ optionnel `filter_cash_basis` absent de la cible (structure, compilation Python, schéma, références XML, hiérarchie, expressions, graphe des agrégations, noupdate, tags, différences déclarées).
 
 ## Non exécuté / à faire
 
