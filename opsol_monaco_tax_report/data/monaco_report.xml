@@ -1,0 +1,1681 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <record id="monaco_report" model="account.report">
+            <field name="name">Déclaration Monaco — personnalisable</field>
+            <field name="sequence" eval="17" />
+            <field name="active" eval="True" />
+            <field name="use_sections" eval="False" />
+            <field name="chart_template" eval="False" />
+            <field name="only_tax_exigible" eval="True" />
+            <field name="availability_condition">country</field>
+            <field name="load_more_limit" eval="0" />
+            <field name="search_bar" eval="False" />
+            <field name="prefix_groups_threshold" eval="4000" />
+            <field name="integer_rounding">HALF-UP</field>
+            <field name="allow_foreign_vat" eval="True" />
+            <field name="default_opening_date_filter">previous_month</field>
+            <field name="currency_translation">cta</field>
+            <field name="filter_multi_company">tax_units</field>
+            <field name="filter_date_range" eval="True" />
+            <field name="filter_show_draft" eval="True" />
+            <field name="filter_unreconciled" eval="False" />
+            <field name="filter_unfold_all" eval="False" />
+            <field name="filter_hide_0_lines">optional</field>
+            <field name="filter_period_comparison" eval="True" />
+            <field name="filter_growth_comparison" eval="True" />
+            <field name="filter_journals" eval="False" />
+            <field name="filter_analytic" eval="False" />
+            <field name="filter_hierarchy">optional</field>
+            <field name="filter_account_type">disabled</field>
+            <field name="filter_partner" eval="False" />
+            <field name="filter_aml_ir_filters" eval="False" />
+            <field name="filter_budgets" eval="False" />
+            <field name="filter_analytic_groupby" eval="False" />
+            <field name="filter_cash_basis" eval="False" />
+            <field name="allow_account_audit_status_on_lines" eval="False" />
+            <field name="root_report_id" ref="account.generic_tax_report" />
+            <field name="country_id" ref="base.fr" />
+        </record>
+        <record id="column_balance" model="account.report.column">
+            <field name="report_id" ref="monaco_report" />
+            <field name="name">Balance</field>
+            <field name="expression_label">balance</field>
+            <field name="sequence" eval="0" />
+            <field name="sortable" eval="False" />
+            <field name="figure_type">monetary</field>
+            <field name="blank_if_zero" eval="True" />
+        </record>
+        <record id="line_c_a" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="name">A. Realised operations</field>
+            <field name="hierarchy_level" eval="0" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="1" />
+            <field name="code">C_A</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_c_b" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="name">B. Settlement of VAT to be paid</field>
+            <field name="hierarchy_level" eval="0" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="21" />
+            <field name="code">C_B</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_c_c" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="name">C. VAT breakdown</field>
+            <field name="hierarchy_level" eval="0" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="55" />
+            <field name="code">C_C</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_c_a1" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a" />
+            <field name="name">A1. Taxable Income</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="2" />
+            <field name="code">C_A1</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_c_a2" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a" />
+            <field name="name">A2. Not Taxable income</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="12" />
+            <field name="code">C_A2</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_15" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a" />
+            <field name="name">15 - Total Turnover</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="18" />
+            <field name="code">box_15</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_16" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a" />
+            <field name="name">16 - Turnover made in France (Sales Tax)</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="19" />
+            <field name="code">box_16</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_17" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a" />
+            <field name="name">17 - Real estate work in France</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="20" />
+            <field name="code">box_17</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_c_b1" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b" />
+            <field name="name">B1. Gross VAT</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="22" />
+            <field name="code">C_B1</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_c_b2" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b" />
+            <field name="name">B2. Deductible VAT</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="37" />
+            <field name="code">C_B2</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_c_b3" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b" />
+            <field name="name">B3. Credit</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="45" />
+            <field name="code">C_B3</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_t" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b" />
+            <field name="name">Tax to pay</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="49" />
+            <field name="code">box_T</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_70" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_c" />
+            <field name="name">70 - TVA due in Monaco</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="56" />
+            <field name="code">box_70</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_71" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_c" />
+            <field name="name">71 - TVA due in france</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="57" />
+            <field name="code">box_71</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_72" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_c" />
+            <field name="name">72 - TVA due to Imports</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="58" />
+            <field name="code">box_72</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_73" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_c" />
+            <field name="name">73 - TVA due to reverse charge on imports and other transactions (except VAT deducted on IC acquisitions of goods to be reported on line 75)</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="59" />
+            <field name="code">box_73</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_74" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_c" />
+            <field name="name">74 - TVA non-deductible or non-deducted (related to invoices issued by French Companies or paid at Customs)</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="60" />
+            <field name="code">box_74</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_75" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_c" />
+            <field name="name">75 - TVA due to IC acquisition</field>
+            <field name="hierarchy_level" eval="3" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="61" />
+            <field name="code">box_75</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_01" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a1" />
+            <field name="name">01 - Sales, provision of services</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="3" />
+            <field name="code">box_01</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_03" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a1" />
+            <field name="name">03 - Intra-Community purchases of services</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="4" />
+            <field name="code">box_03</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_04" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a1" />
+            <field name="name">04 - Intra-Community acquisitions</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="5" />
+            <field name="code">box_04</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_05" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a1" />
+            <field name="name">05 - Purchases of services outside the EU</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="6" />
+            <field name="code">box_05</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_06" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a1" />
+            <field name="name">06 - Goods or services for personal use</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="7" />
+            <field name="code">box_06</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_07" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a1" />
+            <field name="name">07 - Purchases of goods or services from a taxable person not established in France or Monaco</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="8" />
+            <field name="code">box_07</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_08" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a1" />
+            <field name="name">08 - Transfer of assets</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="9" />
+            <field name="code">box_08</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_09" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a1" />
+            <field name="name">09 - Other taxable transactions</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="10" />
+            <field name="code">box_09</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_09b" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a1" />
+            <field name="name">09b - Imports (other than petroleum products)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="11" />
+            <field name="code">box_09b</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_10" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a2" />
+            <field name="name">10 - Exports outside the EU</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="13" />
+            <field name="code">box_10</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_11" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a2" />
+            <field name="name">11 - Intracommunity sales (0%)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="14" />
+            <field name="code">box_11</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_12" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a2" />
+            <field name="name">12 - Other non-taxable transactions</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="15" />
+            <field name="code">box_12</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_13" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a2" />
+            <field name="name">13 - International Trade</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="16" />
+            <field name="code">box_13</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_14" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_a2" />
+            <field name="name">14 - Sales of goods or services by a taxable person not established in Monaco</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="17" />
+            <field name="code">box_14</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_30b" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">30b - Transactions taxable at a particular rate (base)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="23" />
+            <field name="code">box_30b</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_30t" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">30t - Transactions taxable at a particular rate (tax)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="24" />
+            <field name="code">box_30t</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_31b" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">31b - Former rates (base)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="25" />
+            <field name="code">box_31b</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_31t" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">31t - Former rates (tax)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="26" />
+            <field name="code">box_31t</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_32bs" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">32b - Reduced rate 5,50% (base)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="27" />
+            <field name="code">box_32bs</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_32ts" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">32t - Reduced rate 5,50% (tax)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="28" />
+            <field name="code">box_32ts</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_32bm" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">32b - Reduced rate 10% (base)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="29" />
+            <field name="code">box_32bm</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_32tm" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">32t - Reduced rate 10% (tax)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="30" />
+            <field name="code">box_32tm</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_32b" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">32b - Standard rate 20% (base)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="31" />
+            <field name="code">box_32b</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_32t" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">32t - Standard rate 20% (tax)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="32" />
+            <field name="code">box_32t</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_34" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b1" />
+            <field name="name">34 - Previously deducted VAT to be repaid</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="33" />
+            <field name="code">box_34</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_40" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b2" />
+            <field name="name">40 - Enter the single tax rate applicable for the period if different from 100%</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="38" />
+            <field name="code">box_40</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_20" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b2" />
+            <field name="name">20 - VAT Credit</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="39" />
+            <field name="code">box_20</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_22" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b2" />
+            <field name="name">22 - TVA deductible omitted on previous declarations</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="40" />
+            <field name="code">box_22</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_23" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b2" />
+            <field name="name">23 - Additional VAT deducted</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="41" />
+            <field name="code">box_23</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_24" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b2" />
+            <field name="name">24 - Transfer of deduction rights received from other companies</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="42" />
+            <field name="code">box_24</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_44" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b2" />
+            <field name="name">44 - Deductible VAT - Assets</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="43" />
+            <field name="code">box_44</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_45" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b2" />
+            <field name="name">45 - Other goods and services</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="44" />
+            <field name="code">box_45</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_27" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b3" />
+            <field name="name">27 - Deductible VAT transfer to other companies</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="46" />
+            <field name="code">box_27</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_28" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b3" />
+            <field name="name">28 - Repayment requested on this form to be attached</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="47" />
+            <field name="code">box_28</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_29" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_c_b3" />
+            <field name="name">29 - Credit to be carried forward</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="48" />
+            <field name="code">box_29</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_48" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_box_t" />
+            <field name="name">48 - Net VAT Due</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="50" />
+            <field name="code">box_48</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_49" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_box_t" />
+            <field name="name">49 - Assimilated taxes TMP Base excluding tax (printed attachment)</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="51" />
+            <field name="code">box_49</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_52" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_box_t" />
+            <field name="name">52 - Installment Payments</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="52" />
+            <field name="code">box_52</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_53" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_box_t" />
+            <field name="name">53 - Additions to be paid</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="53" />
+            <field name="code">box_53</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_60" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_box_t" />
+            <field name="name">60 - Total Tax Payable</field>
+            <field name="hierarchy_level" eval="5" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="54" />
+            <field name="code">box_60</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_35" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_box_34" />
+            <field name="name">35 - incl.VAT from Intrac. Acquisition</field>
+            <field name="hierarchy_level" eval="7" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="34" />
+            <field name="code">box_35</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_36" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_box_34" />
+            <field name="name">36 - incl. VAT on transactions to France</field>
+            <field name="hierarchy_level" eval="7" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="35" />
+            <field name="code">box_36</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_box_37" model="account.report.line">
+            <field name="report_id" ref="monaco_report" />
+            <field name="parent_id" ref="line_box_34" />
+            <field name="name">37 - incl.VAT from Imports</field>
+            <field name="hierarchy_level" eval="7" />
+            <field name="groupby" eval="False" />
+            <field name="user_groupby" eval="False" />
+            <field name="sequence" eval="36" />
+            <field name="code">box_37</field>
+            <field name="foldable" eval="False" />
+            <field name="print_on_new_page" eval="False" />
+            <field name="hide_if_zero" eval="False" />
+            <field name="horizontal_split_side" eval="False" />
+        </record>
+        <record id="line_c_a1_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_c_a1" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">box_01.balance + box_03.balance + box_04.balance + box_05.balance + box_06.balance + box_07.balance + box_08.balance + box_09.balance + box_09b.balance</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_01_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_01" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">-01</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_03_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_03" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">03</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_04_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_04" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">04</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_05_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_05" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">05</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_06_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_06" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">06</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_07_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_07" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">07</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_08_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_08" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">08</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_09_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_09" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">09</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_09b_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_09b" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">09_base</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_c_a2_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_c_a2" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">box_10.balance + box_11.balance + box_12.balance + box_13.balance + box_14.balance</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_10_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_10" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">-10</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_11_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_11" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">-11</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_12_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_12" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">12</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_13_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_13" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">13</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_14_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_14" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">14</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_15_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_15" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">box_01.balance + C_A2.balance</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_16_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_16" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">16</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_17_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_17" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">17</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_c_b1_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_c_b1" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">box_30t.balance + box_31t.balance + box_32ts.balance + box_32tm.balance + box_32t.balance + box_34.balance</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_30b_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_30b" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">30_base</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_30t_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_30t" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">30_taxe</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_31b_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_31b" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">31_base</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_31t_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_31t" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">31_taxe</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_32bs_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_32bs" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">-32_5_5_base</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_32ts_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_32ts" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">-32_5_5_taxe</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_32bm_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_32bm" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">-32_10_base</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_32tm_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_32tm" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">-32_10_taxe</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_32b_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_32b" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">C_A1.balance - box_32bs.balance - box_32bm.balance</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_32t_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_32t" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">box_32b.balance * 0.2</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_34_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_34" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">34</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_35_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_35" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">-35</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_36_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_36" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">36</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_37_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_37" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">37</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_c_b2_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_c_b2" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">box_20.balance + box_44.balance + box_45.balance</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_40_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_40" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">40</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_20_expr__applied_carryover_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_20" />
+            <field name="label">_applied_carryover_balance</field>
+            <field name="engine">external</field>
+            <field name="formula">most_recent</field>
+            <field name="subformula">editable</field>
+            <field name="date_scope">previous_return_period</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_20_expr_tag" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_20" />
+            <field name="label">tag</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">20</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_20_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_20" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">box_20.tag + box_20._applied_carryover_balance</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_22_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_22" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">22</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_23_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_23" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">23</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_24_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_24" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">24</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_44_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_44" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">44</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_45_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_45" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">45</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_c_b3_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_c_b3" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">C_B2.balance - C_B1.balance</field>
+            <field name="subformula">if_above(CUR(0))</field>
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_27_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_27" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">27</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_28_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_28" />
+            <field name="label">balance</field>
+            <field name="engine">external</field>
+            <field name="formula">sum</field>
+            <field name="subformula">editable</field>
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_29_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_29" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">C_B3.balance - box_27.balance - box_28.balance</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_29_expr__carryover_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_29" />
+            <field name="label">_carryover_balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">box_29.balance</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target">box_20._applied_carryover_balance</field>
+        </record>
+        <record id="line_box_48_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_48" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">C_B1.balance - C_B2.balance</field>
+            <field name="subformula">if_above(CUR(0))</field>
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_49_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_49" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">49</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_52_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_52" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">52</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_53_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_53" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">53</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_60_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_60" />
+            <field name="label">balance</field>
+            <field name="engine">aggregation</field>
+            <field name="formula">box_48.balance + box_49.balance + box_52.balance + box_53.balance</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_70_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_70" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">70</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_71_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_71" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">71</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_72_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_72" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">72</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_73_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_73" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">73</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_74_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_74" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">74</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+        <record id="line_box_75_expr_balance" model="account.report.expression">
+            <field name="report_line_id" ref="line_box_75" />
+            <field name="label">balance</field>
+            <field name="engine">tax_tags</field>
+            <field name="formula">75</field>
+            <field name="subformula" eval="False" />
+            <field name="date_scope">strict_range</field>
+            <field name="figure_type" eval="False" />
+            <field name="green_on_positive" eval="True" />
+            <field name="blank_if_zero" eval="False" />
+            <field name="auditable" eval="True" />
+            <field name="carryover_target" eval="False" />
+        </record>
+    </data>
+</odoo>

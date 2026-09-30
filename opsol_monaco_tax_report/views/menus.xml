@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="action_monaco_report" model="ir.actions.client">
+        <field name="name">Déclaration Monaco — personnalisable</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('monaco_report')}" />
+    </record>
+    <menuitem id="menu_monaco_report" name="Déclaration Monaco — personnalisable" parent="account.account_reports_taxes_and_fiscal_menu" action="action_monaco_report" sequence="90" groups="account.group_account_readonly" />
+    <record id="action_monaco_report_configuration" model="ir.actions.act_window">
+        <field name="name">Configurer la déclaration Monaco</field>
+        <field name="res_model">account.report</field>
+        <field name="view_mode">form</field>
+        <field name="res_id" ref="monaco_report" />
+        <field name="target">current</field>
+    </record>
+    <menuitem id="menu_monaco_report_configuration" name="Déclaration Monaco — configuration" parent="account.account_report_folder" action="action_monaco_report_configuration" sequence="90" groups="account.group_account_manager" />
+</odoo>
