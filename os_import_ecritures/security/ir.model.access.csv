@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_os_import_ecritures,os.import.ecritures,model_os_import_ecritures,account.group_account_user,1,1,1,1
+access_os_import_ecritures_journal,os.import.ecritures.journal,model_os_import_ecritures_journal,account.group_account_user,1,1,1,1
+access_os_import_ecritures_partner,os.import.ecritures.partner,model_os_import_ecritures_partner,account.group_account_user,1,1,1,1
+access_os_import_ecritures_account,os.import.ecritures.account,model_os_import_ecritures_account,account.group_account_user,1,1,1,1

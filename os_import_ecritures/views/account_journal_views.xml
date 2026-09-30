@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Bouton d'import directement sur la fiche journal -->
+    <record id="view_account_journal_form_import" model="ir.ui.view">
+        <field name="name">account.journal.form.os.import</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="%(os_import_ecritures.action_os_import_ecritures)d"
+                            type="action"
+                            string="Importer des écritures"
+                            groups="account.group_account_user"
+                            context="{'default_company_id': company_id,
+                                      'default_default_journal_id': id}"
+                            invisible="type not in ('sale', 'purchase', 'general')"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

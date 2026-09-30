@@ -1,0 +1,14 @@
+.o_bank_reconciliation_container {
+    .o_bank_reconciliation_kanban_renderer {
+        .o_bank_reconciliation_quick_create .o_inner_group {
+            @include media-breakpoint-up(md) {
+                grid-template-columns:
+                    7rem
+                    minmax(0, 3fr)
+                    minmax(0, 1fr)
+                    minmax(0, 1fr)
+                    minmax(0, 1fr);
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="opsol_produit_financier.FinancialPartnerLedgerFilters"
+       t-inherit="account_reports.AccountReportFiltersCustomizable">
+        <xpath expr="//div[@id='filter_partner']/t" position="replace">
+            <t t-call="opsol_produit_financier.FinancialPartnerLedgerFilterPartner"/>
+        </xpath>
+    </t>
+
+    <t t-name="opsol_produit_financier.FinancialPartnerLedgerFilterPartner"
+       t-inherit="account_reports.AccountReportFilterPartner">
+        <xpath expr="//button" position="replace">
+            <button class="btn btn-secondary">
+                <i class="fa fa-folder-open me-1"/>Codes ISIN
+            </button>
+        </xpath>
+        <xpath expr="//label" position="replace">
+            <label>Codes ISIN</label>
+        </xpath>
+    </t>
+
+    <t t-name="opsol_produit_financier.FinancialPartnerLedgerLineName"
+       t-inherit="account_reports.PartnerLedgerLineName">
+        <xpath expr="//t[@data-id='line_buttons']//button[1]" position="replace">
+            <button class="btn btn_action"
+                    t-on-click="(ev) => controller.reportAction(ev, 'action_open_partner', { id: props.line.id })">
+                Code ISIN
+            </button>
+        </xpath>
+    </t>
+</templates>

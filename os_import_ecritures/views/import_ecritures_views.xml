@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_os_import_ecritures_form" model="ir.ui.view">
+        <field name="name">os.import.ecritures.form</field>
+        <field name="model">os.import.ecritures</field>
+        <field name="arch" type="xml">
+            <form string="Import d'écritures comptables">
+                <header>
+                    <button name="action_analyse" type="object" string="Analyser le fichier"
+                            class="btn-primary" invisible="state != 'choose'"/>
+                    <button name="action_import" type="object" string="Importer"
+                            class="btn-primary" invisible="state != 'map'"/>
+                    <button name="action_back" type="object" string="Retour"
+                            invisible="state != 'map'"/>
+                    <button name="action_open_moves" type="object"
+                            string="Voir les pièces créées" class="btn-primary"
+                            invisible="state != 'done'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="choose,map,done"/>
+                </header>
+                <sheet>
+
+                    <!-- ÉTAPE 1 : fichier et options -->
+                    <group invisible="state != 'choose'">
+                        <group string="Fichier">
+                            <field name="file_data" filename="file_name" required="1"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="encoding"/>
+                            <field name="separator"/>
+                            <field name="century"/>
+                        </group>
+                        <group string="Options">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="default_journal_id"/>
+                            <field name="create_partners"/>
+                            <field name="post_entries"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info" role="alert" invisible="state != 'choose'">
+                        Le fichier attendu est un export texte sans en-tête, à 29 colonnes
+                        séparées par « ; ». Les pièces sont reconstituées par regroupement
+                        sur le code journal et la référence de pièce, puis contrôlées en
+                        équilibre avant toute écriture.
+                    </div>
+
+                    <!-- ÉTAPE 2 : analyse et correspondances -->
+                    <div invisible="state != 'map'">
+                        <field name="preview_html" readonly="1" nolabel="1"/>
+
+                        <div class="alert alert-danger" role="alert"
+                             invisible="not account_line_ids">
+                            Certains comptes du fichier n'existent pas dans le plan
+                            comptable. Créez-les dans Odoo, puis revenez à l'étape
+                            précédente et relancez l'analyse.
+                        </div>
+
+                        <notebook>
+                            <page string="Journaux" name="journaux">
+                                <field name="journal_line_ids" nolabel="1">
+                                    <list editable="bottom" create="false" delete="false">
+                                        <field name="code_source"/>
+                                        <field name="move_count"/>
+                                        <field name="journal_id"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Tiers" name="tiers">
+                                <field name="partner_line_ids" nolabel="1">
+                                    <list editable="bottom" create="false" delete="false"
+                                          decoration-warning="not partner_id">
+                                        <field name="code_source"/>
+                                        <field name="name_source"/>
+                                        <field name="move_count"/>
+                                        <field name="partner_id"/>
+                                    </list>
+                                </field>
+                                <div class="text-muted">
+                                    Les lignes en orange n'ont pas de correspondance.
+                                    Elles seront importées sans partenaire, sauf si
+                                    l'option « Créer les tiers manquants » est activée.
+                                </div>
+                            </page>
+                            <page string="Comptes introuvables" name="comptes"
+                                  invisible="not account_line_ids">
+                                <field name="account_line_ids" nolabel="1">
+                                    <list create="false" delete="false" edit="false">
+                                        <field name="code_source"/>
+                                        <field name="name_source"/>
+                                        <field name="line_count"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </div>
+
+                    <!-- ÉTAPE 3 : résultat -->
+                    <div invisible="state != 'done'">
+                        <field name="result_html" readonly="1" nolabel="1"/>
+                        <field name="move_ids" invisible="1"/>
+                    </div>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_os_import_ecritures" model="ir.actions.act_window">
+        <field name="name">Importer des écritures</field>
+        <field name="res_model">os.import.ecritures</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_os_import_ecritures"
+              name="Importer des écritures"
+              parent="account.menu_finance_entries"
+              action="action_os_import_ecritures"
+              groups="account.group_account_user"
+              sequence="90"/>
+
+</odoo>

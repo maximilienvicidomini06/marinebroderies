@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.opsol.produit.financier</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='sales_purchases']" position="after">
+                <page string="Produit financier" name="financial_product"
+                      invisible="not financial_mode_enabled">
+                    <field name="financial_mode_enabled" invisible="1"/>
+                    <group>
+                        <field name="is_financial_product"/>
+                        <field name="financial_isin_code" invisible="not is_financial_product" required="is_financial_product"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

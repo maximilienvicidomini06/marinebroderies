@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="opsol_produit_financier.BankRecStatementLine"
+       t-inherit="account_accountant.BankRecStatementLine"
+       t-inherit-mode="extension">
+
+        <xpath expr="//div[hasclass('o_line_amount')]/span[1]" position="before">
+            <span t-if="recordData.financial_mode_enabled and recordData.financial_partner_is_product"
+                  class="d-inline-flex align-items-baseline gap-1 text-muted text-nowrap me-2">
+                <b>Quantite:</b>
+                <span t-esc="recordData.financial_quantity"/>
+            </span>
+        </xpath>
+
+    </t>
+</templates>
