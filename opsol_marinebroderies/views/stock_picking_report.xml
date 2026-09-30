@@ -45,6 +45,7 @@
                     <t t-set="supplier_groups" t-value="docs._get_supplier_groups_multi()"/>
                     <t t-foreach="supplier_groups" t-as="group">
                         <t t-set="group_pickings" t-value="group['moves'].mapped('picking_id')"/>
+                        <t t-set="group_partners" t-value="group_pickings.mapped('partner_id')"/>
                         <div class="page" t-att-style="'page-break-after: always;' if not group_last else 'page-break-after: auto;'">
                             <!-- <h2>
                                 <span t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.title">Produits par fournisseur</span>
@@ -58,9 +59,9 @@
                                     <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.pickings">Pickings:</strong>
                                     <span t-esc="', '.join(group_pickings.mapped('name'))"/>
                                 </div>
-                                <div t-if="len(group_pickings) == 1 and group_pickings.partner_id">
+                                <div t-if="group_partners">
                                     <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.partner">Partenaire:</strong>
-                                    <span t-esc="group_pickings.partner_id.display_name"/>
+                                    <span t-esc="', '.join(group_partners.mapped('display_name'))"/>
                                 </div>
                                 <div t-if="len(group_pickings) == 1 and group_pickings.scheduled_date">
                                     <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.scheduled_date">Date prevue:</strong>
