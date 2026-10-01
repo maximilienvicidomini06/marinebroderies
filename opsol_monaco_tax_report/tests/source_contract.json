@@ -1,0 +1,1021 @@
+{
+  "lines": [
+    {
+      "code": "C_A",
+      "name": "A. Realised operations",
+      "sequence": 1,
+      "hierarchy_level": 0,
+      "parent_code": false
+    },
+    {
+      "code": "C_A1",
+      "name": "A1. Taxable Income",
+      "sequence": 2,
+      "hierarchy_level": 3,
+      "parent_code": "C_A"
+    },
+    {
+      "code": "box_01",
+      "name": "01 - Sales, provision of services",
+      "sequence": 3,
+      "hierarchy_level": 5,
+      "parent_code": "C_A1"
+    },
+    {
+      "code": "box_03",
+      "name": "03 - Intra-Community purchases of services",
+      "sequence": 4,
+      "hierarchy_level": 5,
+      "parent_code": "C_A1"
+    },
+    {
+      "code": "box_04",
+      "name": "04 - Intra-Community acquisitions",
+      "sequence": 5,
+      "hierarchy_level": 5,
+      "parent_code": "C_A1"
+    },
+    {
+      "code": "box_05",
+      "name": "05 - Purchases of services outside the EU",
+      "sequence": 6,
+      "hierarchy_level": 5,
+      "parent_code": "C_A1"
+    },
+    {
+      "code": "box_06",
+      "name": "06 - Goods or services for personal use",
+      "sequence": 7,
+      "hierarchy_level": 5,
+      "parent_code": "C_A1"
+    },
+    {
+      "code": "box_07",
+      "name": "07 - Purchases of goods or services from a taxable person not established in France or Monaco",
+      "sequence": 8,
+      "hierarchy_level": 5,
+      "parent_code": "C_A1"
+    },
+    {
+      "code": "box_08",
+      "name": "08 - Transfer of assets",
+      "sequence": 9,
+      "hierarchy_level": 5,
+      "parent_code": "C_A1"
+    },
+    {
+      "code": "box_09",
+      "name": "09 - Other taxable transactions",
+      "sequence": 10,
+      "hierarchy_level": 5,
+      "parent_code": "C_A1"
+    },
+    {
+      "code": "box_09b",
+      "name": "09b - Imports (other than petroleum products)",
+      "sequence": 11,
+      "hierarchy_level": 5,
+      "parent_code": "C_A1"
+    },
+    {
+      "code": "C_A2",
+      "name": "A2. Not Taxable income",
+      "sequence": 12,
+      "hierarchy_level": 3,
+      "parent_code": "C_A"
+    },
+    {
+      "code": "box_10",
+      "name": "10 - Exports outside the EU",
+      "sequence": 13,
+      "hierarchy_level": 5,
+      "parent_code": "C_A2"
+    },
+    {
+      "code": "box_11",
+      "name": "11 - Intracommunity sales (0%)",
+      "sequence": 14,
+      "hierarchy_level": 5,
+      "parent_code": "C_A2"
+    },
+    {
+      "code": "box_12",
+      "name": "12 - Other non-taxable transactions",
+      "sequence": 15,
+      "hierarchy_level": 5,
+      "parent_code": "C_A2"
+    },
+    {
+      "code": "box_13",
+      "name": "13 - International Trade",
+      "sequence": 16,
+      "hierarchy_level": 5,
+      "parent_code": "C_A2"
+    },
+    {
+      "code": "box_14",
+      "name": "14 - Sales of goods or services by a taxable person not established in Monaco",
+      "sequence": 17,
+      "hierarchy_level": 5,
+      "parent_code": "C_A2"
+    },
+    {
+      "code": "box_15",
+      "name": "15 - Total Turnover",
+      "sequence": 18,
+      "hierarchy_level": 3,
+      "parent_code": "C_A"
+    },
+    {
+      "code": "box_16",
+      "name": "16 - Turnover made in France (Sales Tax)",
+      "sequence": 19,
+      "hierarchy_level": 3,
+      "parent_code": "C_A"
+    },
+    {
+      "code": "box_17",
+      "name": "17 - Real estate work in France",
+      "sequence": 20,
+      "hierarchy_level": 3,
+      "parent_code": "C_A"
+    },
+    {
+      "code": "C_B",
+      "name": "B. Settlement of VAT to be paid",
+      "sequence": 21,
+      "hierarchy_level": 0,
+      "parent_code": false
+    },
+    {
+      "code": "C_B1",
+      "name": "B1. Gross VAT",
+      "sequence": 22,
+      "hierarchy_level": 3,
+      "parent_code": "C_B"
+    },
+    {
+      "code": "box_30b",
+      "name": "30b - Transactions taxable at a particular rate (base)",
+      "sequence": 23,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_30t",
+      "name": "30t - Transactions taxable at a particular rate (tax)",
+      "sequence": 24,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_31b",
+      "name": "31b - Former rates (base)",
+      "sequence": 25,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_31t",
+      "name": "31t - Former rates (tax)",
+      "sequence": 26,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_32bs",
+      "name": "32b - Reduced rate 5,50% (base)",
+      "sequence": 27,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_32ts",
+      "name": "32t - Reduced rate 5,50% (tax)",
+      "sequence": 28,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_32bm",
+      "name": "32b - Reduced rate 10% (base)",
+      "sequence": 29,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_32tm",
+      "name": "32t - Reduced rate 10% (tax)",
+      "sequence": 30,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_32b",
+      "name": "32b - Standard rate 20% (base)",
+      "sequence": 31,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_32t",
+      "name": "32t - Standard rate 20% (tax)",
+      "sequence": 32,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_34",
+      "name": "34 - Previously deducted VAT to be repaid",
+      "sequence": 33,
+      "hierarchy_level": 5,
+      "parent_code": "C_B1"
+    },
+    {
+      "code": "box_35",
+      "name": "35 - incl.VAT from Intrac. Acquisition",
+      "sequence": 34,
+      "hierarchy_level": 7,
+      "parent_code": "box_34"
+    },
+    {
+      "code": "box_36",
+      "name": "36 - incl. VAT on transactions to France",
+      "sequence": 35,
+      "hierarchy_level": 7,
+      "parent_code": "box_34"
+    },
+    {
+      "code": "box_37",
+      "name": "37 - incl.VAT from Imports",
+      "sequence": 36,
+      "hierarchy_level": 7,
+      "parent_code": "box_34"
+    },
+    {
+      "code": "C_B2",
+      "name": "B2. Deductible VAT",
+      "sequence": 37,
+      "hierarchy_level": 3,
+      "parent_code": "C_B"
+    },
+    {
+      "code": "box_40",
+      "name": "40 - Enter the single tax rate applicable for the period if different from 100%",
+      "sequence": 38,
+      "hierarchy_level": 5,
+      "parent_code": "C_B2"
+    },
+    {
+      "code": "box_20",
+      "name": "20 - VAT Credit",
+      "sequence": 39,
+      "hierarchy_level": 5,
+      "parent_code": "C_B2"
+    },
+    {
+      "code": "box_22",
+      "name": "22 - TVA deductible omitted on previous declarations",
+      "sequence": 40,
+      "hierarchy_level": 5,
+      "parent_code": "C_B2"
+    },
+    {
+      "code": "box_23",
+      "name": "23 - Additional VAT deducted",
+      "sequence": 41,
+      "hierarchy_level": 5,
+      "parent_code": "C_B2"
+    },
+    {
+      "code": "box_24",
+      "name": "24 - Transfer of deduction rights received from other companies",
+      "sequence": 42,
+      "hierarchy_level": 5,
+      "parent_code": "C_B2"
+    },
+    {
+      "code": "box_44",
+      "name": "44 - Deductible VAT - Assets",
+      "sequence": 43,
+      "hierarchy_level": 5,
+      "parent_code": "C_B2"
+    },
+    {
+      "code": "box_45",
+      "name": "45 - Other goods and services",
+      "sequence": 44,
+      "hierarchy_level": 5,
+      "parent_code": "C_B2"
+    },
+    {
+      "code": "C_B3",
+      "name": "B3. Credit",
+      "sequence": 45,
+      "hierarchy_level": 3,
+      "parent_code": "C_B"
+    },
+    {
+      "code": "box_27",
+      "name": "27 - Deductible VAT transfer to other companies",
+      "sequence": 46,
+      "hierarchy_level": 5,
+      "parent_code": "C_B3"
+    },
+    {
+      "code": "box_28",
+      "name": "28 - Repayment requested on this form to be attached",
+      "sequence": 47,
+      "hierarchy_level": 5,
+      "parent_code": "C_B3"
+    },
+    {
+      "code": "box_29",
+      "name": "29 - Credit to be carried forward",
+      "sequence": 48,
+      "hierarchy_level": 5,
+      "parent_code": "C_B3"
+    },
+    {
+      "code": "box_T",
+      "name": "Tax to pay",
+      "sequence": 49,
+      "hierarchy_level": 3,
+      "parent_code": "C_B"
+    },
+    {
+      "code": "box_48",
+      "name": "48 - Net VAT Due",
+      "sequence": 50,
+      "hierarchy_level": 5,
+      "parent_code": "box_T"
+    },
+    {
+      "code": "box_49",
+      "name": "49 - Assimilated taxes TMP Base excluding tax (printed attachment)",
+      "sequence": 51,
+      "hierarchy_level": 5,
+      "parent_code": "box_T"
+    },
+    {
+      "code": "box_52",
+      "name": "52 - Installment Payments",
+      "sequence": 52,
+      "hierarchy_level": 5,
+      "parent_code": "box_T"
+    },
+    {
+      "code": "box_53",
+      "name": "53 - Additions to be paid",
+      "sequence": 53,
+      "hierarchy_level": 5,
+      "parent_code": "box_T"
+    },
+    {
+      "code": "box_60",
+      "name": "60 - Total Tax Payable",
+      "sequence": 54,
+      "hierarchy_level": 5,
+      "parent_code": "box_T"
+    },
+    {
+      "code": "C_C",
+      "name": "C. VAT breakdown",
+      "sequence": 55,
+      "hierarchy_level": 0,
+      "parent_code": false
+    },
+    {
+      "code": "box_70",
+      "name": "70 - TVA due in Monaco",
+      "sequence": 56,
+      "hierarchy_level": 3,
+      "parent_code": "C_C"
+    },
+    {
+      "code": "box_71",
+      "name": "71 - TVA due in france",
+      "sequence": 57,
+      "hierarchy_level": 3,
+      "parent_code": "C_C"
+    },
+    {
+      "code": "box_72",
+      "name": "72 - TVA due to Imports",
+      "sequence": 58,
+      "hierarchy_level": 3,
+      "parent_code": "C_C"
+    },
+    {
+      "code": "box_73",
+      "name": "73 - TVA due to reverse charge on imports and other transactions (except VAT deducted on IC acquisitions of goods to be reported on line 75)",
+      "sequence": 59,
+      "hierarchy_level": 3,
+      "parent_code": "C_C"
+    },
+    {
+      "code": "box_74",
+      "name": "74 - TVA non-deductible or non-deducted (related to invoices issued by French Companies or paid at Customs)",
+      "sequence": 60,
+      "hierarchy_level": 3,
+      "parent_code": "C_C"
+    },
+    {
+      "code": "box_75",
+      "name": "75 - TVA due to IC acquisition",
+      "sequence": 61,
+      "hierarchy_level": 3,
+      "parent_code": "C_C"
+    }
+  ],
+  "expressions": [
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "box_01.balance + box_03.balance + box_04.balance + box_05.balance + box_06.balance + box_07.balance + box_08.balance + box_09.balance + box_09b.balance",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "C_A1"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "-01",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_01"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "03",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_03"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "04",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_04"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "05",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_05"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "06",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_06"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "07",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_07"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "08",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_08"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "09",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_09"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "09_base",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_09b"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "box_10.balance + box_11.balance + box_12.balance + box_13.balance + box_14.balance",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "C_A2"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "-10",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_10"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "-11",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_11"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "12",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_12"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "13",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_13"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "14",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_14"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "box_01.balance + C_A2.balance",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_15"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "16",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_16"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "17",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_17"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "box_30t.balance + box_31t.balance + box_32ts.balance + box_32tm.balance + box_32t.balance + box_34.balance",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "C_B1"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "30_base",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_30b"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "30_taxe",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_30t"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "31_base",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_31b"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "31_taxe",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_31t"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "-32_5_5_base",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_32bs"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "-32_5_5_taxe",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_32ts"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "-32_10_base",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_32bm"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "-32_10_taxe",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_32tm"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "C_A1.balance - box_32bs.balance - box_32bm.balance",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_32b"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "box_32b.balance * 0.2",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_32t"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "34",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_34"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "-35",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_35"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "36",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_36"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "37",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_37"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "box_20.balance + box_44.balance + box_45.balance",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "C_B2"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "40",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_40"
+    },
+    {
+      "label": "_applied_carryover_balance",
+      "engine": "external",
+      "formula": "most_recent",
+      "subformula": "editable",
+      "date_scope": "previous_return_period",
+      "carryover_target": false,
+      "line_code": "box_20"
+    },
+    {
+      "label": "tag",
+      "engine": "tax_tags",
+      "formula": "20",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_20"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "box_20.tag + box_20._applied_carryover_balance",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_20"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "22",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_22"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "23",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_23"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "24",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_24"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "44",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_44"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "45",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_45"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "C_B2.balance - C_B1.balance",
+      "subformula": "if_above(CUR(0))",
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "C_B3"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "27",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_27"
+    },
+    {
+      "label": "balance",
+      "engine": "external",
+      "formula": "sum",
+      "subformula": "editable",
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_28"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "C_B3.balance - box_27.balance - box_28.balance",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_29"
+    },
+    {
+      "label": "_carryover_balance",
+      "engine": "tax_tags",
+      "formula": "box_29.balance",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": "box_20._applied_carryover_balance",
+      "line_code": "box_29"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "C_B1.balance - C_B2.balance",
+      "subformula": "if_above(CUR(0))",
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_48"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "49",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_49"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "52",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_52"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "53",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_53"
+    },
+    {
+      "label": "balance",
+      "engine": "aggregation",
+      "formula": "box_48.balance + box_49.balance + box_52.balance + box_53.balance",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_60"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "70",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_70"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "71",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_71"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "72",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_72"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "73",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_73"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "74",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_74"
+    },
+    {
+      "label": "balance",
+      "engine": "tax_tags",
+      "formula": "75",
+      "subformula": false,
+      "date_scope": "strict_range",
+      "carryover_target": false,
+      "line_code": "box_75"
+    }
+  ],
+  "tag_names": [
+    "01",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "09_base",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "16",
+    "17",
+    "20",
+    "22",
+    "23",
+    "24",
+    "27",
+    "30_base",
+    "30_taxe",
+    "31_base",
+    "31_taxe",
+    "32_10_base",
+    "32_10_taxe",
+    "32_5_5_base",
+    "32_5_5_taxe",
+    "34",
+    "35",
+    "36",
+    "37",
+    "40",
+    "44",
+    "45",
+    "49",
+    "52",
+    "53",
+    "70",
+    "71",
+    "72",
+    "73",
+    "74",
+    "75",
+    "box_29.balance"
+  ]
+}

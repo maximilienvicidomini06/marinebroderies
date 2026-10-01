@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="action_purchase_print_receipts_by_supplier" model="ir.actions.server">
-            <field name="name">Produit par fournisseur</field>
-            <field name="model_id" ref="purchase.model_purchase_order"/>
-            <field name="binding_model_id" ref="purchase.model_purchase_order"/>
-            <field name="binding_type">report</field>
-            <field name="binding_view_types">list,form</field>
-            <field name="state">code</field>
-            <field name="code">action = records.action_print_receipts_by_supplier()</field>
-        </record>
-
-        <record id="action_purchase_print_receipts_by_customer_available" model="ir.actions.server">
-            <field name="name">Produit par Client (Disponible)</field>
-            <field name="model_id" ref="purchase.model_purchase_order"/>
-            <field name="binding_model_id" ref="purchase.model_purchase_order"/>
-            <field name="binding_type">report</field>
-            <field name="binding_view_types">list,form</field>
-            <field name="state">code</field>
-            <field name="code">action = records.action_print_receipts_by_customer_available()</field>
-        </record>
-
         <record id="action_report_stock_picking_by_supplier" model="ir.actions.report">
             <field name="name">Produit par fournisseur</field>
             <field name="model">stock.picking</field>
@@ -52,7 +32,7 @@
                             </h2> -->
                             <div class="mb16">
                                 <div t-if="len(group_pickings) == 1">
-                                    <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.reference">Reference:</strong>
+                                    <strong t-translate="opsol_marinebroderies.report_stock_picking_by_supplier.reference">Picking:</strong>
                                     <span t-esc="group_pickings.name"/>
                                 </div>
                                 <div t-else="">

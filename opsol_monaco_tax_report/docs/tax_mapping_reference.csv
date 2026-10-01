@@ -1,0 +1,127 @@
+﻿tax_name_source;tax_use;rate;amount_type;active;document_type;repartition_type;factor_percent;monaco_tag_names
+TVA 20% Intracomm. (Services);purchase;20;percent;True;invoice;base;100;03
+20% MC;sale;20;percent;True;invoice;base;100;01
+10% MC;sale;10;percent;True;invoice;base;100;01|32_10_base
+5.5% MC;sale;5.5;percent;True;invoice;base;100;01|32_5_5_base
+5.5% G INC;sale;5.5;percent;False;invoice;base;100;09_base
+5.5% S;sale;5.5;percent;False;invoice;base;100;09_base
+5.5% S INC;sale;5.5;percent;False;invoice;base;100;09_base
+5.5% EU G;purchase;5.5;percent;False;invoice;base;100;09_base
+5.5% EU S;purchase;5.5;percent;False;invoice;base;100;09_base
+TVA 20% Intracom. (Goods);purchase;20;percent;False;invoice;base;100;04
+TVA 20% Intracomm. (Goods);purchase;20;percent;True;invoice;base;100;04
+TVA 20% MC;purchase;20;percent;True;invoice;tax;100;45|70
+TVA 10% MC;purchase;10;percent;True;invoice;tax;100;45|70
+TVA 10% FR;purchase;10;percent;True;invoice;tax;100;45|71
+TVA 5,5% MC;purchase;5.5;percent;True;invoice;tax;100;45|70
+TVA 5,5% FR;purchase;5.5;percent;True;invoice;tax;100;45|71
+20% F;purchase;20;percent;False;invoice;tax;80;20
+20% F INC;purchase;20;percent;False;invoice;tax;80;20
+20% G INC;purchase;20;percent;False;invoice;tax;100;20
+8.5% G INC;purchase;8.5;percent;False;invoice;tax;100;20
+10% G INC;purchase;10;percent;False;invoice;tax;100;20
+5.5% G INC;purchase;5.5;percent;False;invoice;tax;100;20
+2.1% TVA FR;purchase;2.1;percent;True;invoice;tax;100;45|71
+20% EX O EU;purchase;20;percent;False;invoice;tax;100;20|24
+10% EX;purchase;10;percent;False;invoice;tax;100;20|24
+8.5% EX;purchase;8.5;percent;False;invoice;tax;100;20|24
+5.5% EX;purchase;5.5;percent;False;invoice;tax;100;20|24
+2.1% EX;purchase;2.1;percent;False;invoice;tax;100;20|24
+21% EU NL;purchase;21;percent;False;invoice;tax;100;20
+21% EU NL;purchase;21;percent;False;invoice;tax;-100;17
+TVA 20% Intracomm. (Services);purchase;20;percent;True;invoice;tax;100;45|73
+20% EX;purchase;20;percent;False;invoice;tax;100;20
+20% S;purchase;20;percent;False;invoice;tax;100;20
+10% S;purchase;10;percent;False;invoice;tax;100;20
+5.5% S;purchase;5.5;percent;False;invoice;tax;100;20
+2.1% S;purchase;2.1;percent;False;invoice;tax;100;20
+20% S INC;purchase;20;percent;False;invoice;tax;100;20
+10% S INC;purchase;10;percent;False;invoice;tax;100;20
+5.5% S INC;purchase;5.5;percent;False;invoice;tax;100;20
+2.1% S INC;purchase;2.1;percent;False;invoice;tax;100;20
+10% MC;sale;10;percent;True;invoice;tax;100;32_10_taxe
+5.5% MC;sale;5.5;percent;True;invoice;tax;100;32_5_5_taxe
+8.5% EU G;purchase;8.5;percent;False;invoice;tax;100;20
+8.5% EU G;purchase;8.5;percent;False;invoice;tax;-100;17
+8.5% EU S;purchase;8.5;percent;False;invoice;tax;100;17
+8.5% EU S;purchase;8.5;percent;False;invoice;tax;-100;20
+10% EU G;purchase;10;percent;False;invoice;tax;100;20
+10% EU G;purchase;10;percent;False;invoice;tax;-100;17
+10% EU S;purchase;10;percent;False;invoice;tax;100;20
+5.5% EU G;purchase;5.5;percent;False;invoice;tax;100;20
+5.5% EU G;purchase;5.5;percent;False;invoice;tax;-100;17
+5.5% EU S;purchase;5.5;percent;False;invoice;tax;100;20
+2.1% EU G;purchase;2.1;percent;False;invoice;tax;100;20
+2.1% EU G;purchase;2.1;percent;False;invoice;tax;-100;17
+2.1% EU S;purchase;2.1;percent;False;invoice;tax;100;20
+TVA 20% FR;purchase;20;percent;True;invoice;tax;100;45|71
+TVA 20% Intracom. (Goods);purchase;20;percent;False;invoice;tax;100;35|45|75
+TVA déd/immobilisations 20% (FR);purchase;20;percent;True;invoice;tax;100;44|71
+TVA déd/immobilisations 20% (MC);purchase;20;percent;True;invoice;tax;100;44|70
+2.1% TVA MC;purchase;2.1;percent;True;invoice;tax;100;45|70
+TVA déd/immobilisations 10% (MC);purchase;10;percent;True;invoice;tax;100;44|70
+TVA 20% Intracomm. (Goods);purchase;20;percent;True;invoice;tax;100;45|75
+TVA 20% Intracomm. (Goods);purchase;20;percent;True;invoice;tax;-100;35
+TVA 20% Intracomm. (Services);purchase;20;percent;True;refund;base;100;03
+20% MC;sale;20;percent;True;refund;base;100;01
+10% MC;sale;10;percent;True;refund;base;100;01|32_10_base
+5.5% MC;sale;5.5;percent;True;refund;base;100;01|32_5_5_base
+5.5% G INC;sale;5.5;percent;False;refund;base;100;09_base
+5.5% S;sale;5.5;percent;False;refund;base;100;09_base
+5.5% S INC;sale;5.5;percent;False;refund;base;100;09_base
+5.5% EU G;purchase;5.5;percent;False;refund;base;100;09_base
+5.5% EU S;purchase;5.5;percent;False;refund;base;100;09_base
+TVA 20% Intracom. (Goods);purchase;20;percent;False;refund;base;100;04
+TVA 20% Intracomm. (Goods);purchase;20;percent;True;refund;base;100;04
+TVA 20% MC;purchase;20;percent;True;refund;tax;100;45|70
+TVA 10% MC;purchase;10;percent;True;refund;tax;100;45|70
+TVA 10% FR;purchase;10;percent;True;refund;tax;100;45|71
+TVA 5,5% MC;purchase;5.5;percent;True;refund;tax;100;45|70
+TVA 5,5% FR;purchase;5.5;percent;True;refund;tax;100;45|71
+20% F;purchase;20;percent;False;refund;tax;80;20
+20% F INC;purchase;20;percent;False;refund;tax;80;20
+20% G INC;purchase;20;percent;False;refund;tax;100;20
+8.5% G INC;purchase;8.5;percent;False;refund;tax;100;20
+10% G INC;purchase;10;percent;False;refund;tax;100;20
+5.5% G INC;purchase;5.5;percent;False;refund;tax;100;20
+2.1% TVA FR;purchase;2.1;percent;True;refund;tax;100;45|71
+20% EX O EU;purchase;20;percent;False;refund;tax;100;20|24
+10% EX;purchase;10;percent;False;refund;tax;100;20|24
+8.5% EX;purchase;8.5;percent;False;refund;tax;100;20|24
+5.5% EX;purchase;5.5;percent;False;refund;tax;100;20|24
+2.1% EX;purchase;2.1;percent;False;refund;tax;100;20|24
+21% EU NL;purchase;21;percent;False;refund;tax;100;20
+21% EU NL;purchase;21;percent;False;refund;tax;-100;17
+TVA 20% Intracomm. (Services);purchase;20;percent;True;refund;tax;100;45|73
+20% EX;purchase;20;percent;False;refund;tax;100;20
+20% S;purchase;20;percent;False;refund;tax;100;20
+10% S;purchase;10;percent;False;refund;tax;100;20
+5.5% S;purchase;5.5;percent;False;refund;tax;100;20
+2.1% S;purchase;2.1;percent;False;refund;tax;100;20
+20% S INC;purchase;20;percent;False;refund;tax;100;20
+10% S INC;purchase;10;percent;False;refund;tax;100;20
+5.5% S INC;purchase;5.5;percent;False;refund;tax;100;20
+2.1% S INC;purchase;2.1;percent;False;refund;tax;100;20
+10% MC;sale;10;percent;True;refund;tax;100;32_10_taxe
+5.5% MC;sale;5.5;percent;True;refund;tax;100;32_5_5_taxe
+8.5% EU G;purchase;8.5;percent;False;refund;tax;100;20
+8.5% EU G;purchase;8.5;percent;False;refund;tax;-100;17
+8.5% EU S;purchase;8.5;percent;False;refund;tax;100;17
+8.5% EU S;purchase;8.5;percent;False;refund;tax;-100;20
+10% EU G;purchase;10;percent;False;refund;tax;100;20
+10% EU G;purchase;10;percent;False;refund;tax;-100;17
+10% EU S;purchase;10;percent;False;refund;tax;100;20
+5.5% EU G;purchase;5.5;percent;False;refund;tax;100;20
+5.5% EU G;purchase;5.5;percent;False;refund;tax;-100;17
+5.5% EU S;purchase;5.5;percent;False;refund;tax;100;20
+2.1% EU G;purchase;2.1;percent;False;refund;tax;100;20
+2.1% EU G;purchase;2.1;percent;False;refund;tax;-100;17
+2.1% EU S;purchase;2.1;percent;False;refund;tax;100;20
+TVA 20% FR;purchase;20;percent;True;refund;tax;100;45|71
+TVA 20% Intracom. (Goods);purchase;20;percent;False;refund;tax;100;35|45|75
+TVA déd/immobilisations 20% (FR);purchase;20;percent;True;refund;tax;100;44|71
+TVA déd/immobilisations 20% (MC);purchase;20;percent;True;refund;tax;100;44|70
+2.1% TVA MC;purchase;2.1;percent;True;refund;tax;100;45|70
+TVA déd/immobilisations 10% (MC);purchase;10;percent;True;refund;tax;100;44|70
+TVA 20% Intracomm. (Goods);purchase;20;percent;True;refund;tax;100;45|75
+TVA 20% Intracomm. (Goods);purchase;20;percent;True;refund;tax;-100;35
