@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="action_purchase_print_receipts_by_supplier" model="ir.actions.server">
+        <field name="name">Produit par fournisseur</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_print_receipts_by_supplier()</field>
+    </record>
+
+    <record id="action_purchase_print_receipts_by_customer_available" model="ir.actions.server">
+        <field name="name">Produit par Client</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_print_receipts_by_customer_available()</field>
+    </record>
+
+    <record id="action_report_purchase_by_supplier" model="ir.actions.report">
+        <field name="name">Produit par fournisseur</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">opsol_marinebroderies.report_purchase_by_supplier</field>
+        <field name="report_file">opsol_marinebroderies.report_purchase_by_supplier</field>
+        <field name="print_report_name">'Achat - %s' % (object.name)</field>
+    </record>
+    <record id="action_report_purchase_by_customer_available" model="ir.actions.report">
+        <field name="name">Produit par Client</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">opsol_marinebroderies.report_purchase_by_customer_available</field>
+        <field name="report_file">opsol_marinebroderies.report_purchase_by_customer_available</field>
+        <field name="print_report_name">'Achat - %s' % (object.name)</field>
+    </record>
+
+    <template id="report_purchase_by_supplier">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="supplier_groups" t-value="docs._get_purchase_report_groups()"/>
+                <t t-foreach="supplier_groups" t-as="group">
+                    <t t-set="group_orders" t-value="group['orders']"/>
+                    <t t-set="group_partners" t-value="group_orders.mapped('partner_id')"/>
+                    <div class="page" t-att-style="'page-break-after: always;' if not group_last else 'page-break-after: auto;'">
+                        <div class="mb16">
+                            <div t-if="len(group_orders) == 1">
+                                <strong t-translate="opsol_marinebroderies.report_purchase_by_supplier.reference">Commande :</strong>
+                                <span t-esc="group_orders.name"/>
+                            </div>
+                            <div t-else="">
+                                <strong t-translate="opsol_marinebroderies.report_purchase_by_supplier.pickings">Commandes :</strong>
+                                <span t-esc="', '.join(group_orders.mapped('name'))"/>
+                            </div>
+                            <div t-if="group_partners">
+                                <strong t-translate="opsol_marinebroderies.report_purchase_by_supplier.partner">Partenaire:</strong>
+                                <span t-esc="', '.join(group_partners.mapped('display_name'))"/>
+                            </div>
+                            <div t-if="len(group_orders) == 1 and group_orders.date_planned">
+                                <strong t-translate="opsol_marinebroderies.report_purchase_by_supplier.date_planned">Date prevue:</strong>
+                                <span t-esc="group_orders.date_planned"/>
+                            </div>
+                        </div>
+
+                        <h3>
+                            <span t-translate="opsol_marinebroderies.report_purchase_by_supplier.supplier">Fournisseur:</span>
+                            <t t-if="group['partner']">
+                                <span t-esc="group['partner'].display_name"/>
+                            </t>
+                            <t t-else="">
+                                <span t-translate="opsol_marinebroderies.report_purchase_by_supplier.unavailable">Non disponible</span>
+                            </t>
+                        </h3>
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.product">Produit</th>
+                                    <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.description">Description</th>
+                                    <th class="" t-translate="opsol_marinebroderies.report_purchase_by_supplier.quantity">Quantite</th>
+                                    <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.uom">UdM</th>
+                                    <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.customer">Client</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="group['lines']" t-as="line">
+                                    <td t-esc="line['product'].display_name"/>
+                                    <td>
+                                        <span t-esc="line['description']"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])"/>
+                                    </td>
+                                    <td t-esc="line['uom'].name"/>
+                                    <td>
+                                        <span t-if="line['_customer_ids']" t-esc="', '.join([customer.display_name for customer in line['_customer_ids']])"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_purchase_by_customer_available">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="single_order" t-value="docs[0] if len(docs) == 1 else False"/>
+                <t t-set="customer_groups" t-value="docs._get_purchase_report_groups(by_customer=True)"/>
+                <div class="page">
+                    <h2>
+                        <span>Produits par client</span>
+                    </h2>
+                    <div class="mb16">
+                        <div t-if="single_order">
+                            <strong>Commande :</strong>
+                            <span t-esc="single_order.name"/>
+                        </div>
+                        <div t-else="">
+                            <strong>Commandes :</strong>
+                            <span t-esc="', '.join(docs.mapped('name'))"/>
+                        </div>
+                        <div t-if="single_order and single_order.partner_id">
+                            <strong>Partenaire:</strong>
+                            <span t-esc="single_order.partner_id.display_name"/>
+                        </div>
+                        <div t-if="single_order and single_order.date_planned">
+                            <strong>Date prevue:</strong>
+                            <span t-esc="single_order.date_planned"/>
+                        </div>
+                    </div>
+
+                    <t t-foreach="customer_groups" t-as="group">
+                        <h3>
+                            <span>Client:</span>
+                            <t t-if="group['partner']">
+                                <span t-esc="group['partner'].display_name"/>
+                            </t>
+                            <t t-else="">
+                                <span>Non disponible</span>
+                            </t>
+                        </h3>
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Description</th>
+                                    <th class="">Quantite commandee</th>
+                                    <th>UdM</th>
+                                    <th>Observation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="group['lines']" t-as="line">
+                                    <t t-set="is_waiting" t-value="any(pol.qty_received &lt; pol.product_qty for pol in line['purchase_lines'])"/>
+                                    <tr>
+                                        <td t-esc="line['product'].display_name"/>
+                                        <td>
+                                            <span t-esc="line['description']"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])"/>
+                                        </td>
+                                        <td t-esc="line['uom'].name"/>
+                                        <td>
+                                            <span t-if="is_waiting">En attente de reception</span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

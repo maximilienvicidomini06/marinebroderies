@@ -1,28 +1,60 @@
 # -*- coding: utf-8 -*-
 
-from odoo import _, models, fields
-from odoo.exceptions import UserError
+from odoo import models
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    def _print_receipt_report(self, report_xmlid):
-        pickings = self.mapped('picking_ids').filtered(
-            lambda picking: picking.picking_type_id.code == 'incoming'
-            and picking.state != 'cancel'
-        )
-        if not pickings:
-            raise UserError(_("Aucun bon de réception non annulé n'est associé aux commandes sélectionnées."))
-        return self.env.ref(report_xmlid).report_action(pickings)
-
     def action_print_receipts_by_supplier(self):
-        return self._print_receipt_report(
-            'opsol_marinebroderies.action_report_stock_picking_by_supplier'
-        )
+        return self.env.ref(
+            'opsol_marinebroderies.action_report_purchase_by_supplier'
+        ).report_action(self)
 
     def action_print_receipts_by_customer_available(self):
-        return self._print_receipt_report(
-            'opsol_marinebroderies.action_report_stock_picking_by_supplier_available'
+        return self.env.ref(
+            'opsol_marinebroderies.action_report_purchase_by_customer_available'
+        ).report_action(self)
+
+    def _get_purchase_report_groups(self, by_customer=False):
+        groups = {}
+        lines = self.mapped('order_line').filtered(
+            lambda line: not line.display_type and line.product_id
+            and line.order_id.state != 'cancel'
+        )
+        for line in lines:
+            customer = line.x_sale_partner_id or line.sale_line_id.order_id.partner_id
+            partner = customer if by_customer else line.order_id.partner_id
+            key = (line.company_id.id, partner.id)
+            if key not in groups:
+                groups[key] = {
+                    'partner': partner,
+                    'orders': self.env['purchase.order'],
+                    'lines': {},
+                }
+            group = groups[key]
+            group['orders'] |= line.order_id
+            line_key = (line.product_id.id, line.product_uom_id.id, line.name)
+            if line_key not in group['lines']:
+                group['lines'][line_key] = {
+                    'product': line.product_id,
+                    'description': line.name,
+                    'uom': line.product_uom_id,
+                    'qty': 0.0,
+                    '_customer_ids': self.env['res.partner'],
+                    'purchase_lines': self.env['purchase.order.line'],
+                }
+            values = group['lines'][line_key]
+            values['qty'] += line.product_qty
+            values['_customer_ids'] |= customer
+            values['purchase_lines'] |= line
+        for group in groups.values():
+            group['lines'] = sorted(
+                group['lines'].values(),
+                key=lambda line: (line['product'].display_name, line['description']),
+            )
+        return sorted(
+            groups.values(),
+            key=lambda group: (not group['partner'], group['partner'].display_name or ''),
         )
 
     def _prepare_picking(self):
