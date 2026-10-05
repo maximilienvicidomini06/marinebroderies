@@ -181,7 +181,7 @@
                             <th>Tiers</th>
                             <th>Banque</th>
                             <th>Identifiant</th>
-                            <th>N° facture</th>
+                            <th>Référence Facture</th>
                             <th>N° de compte</th>
                             <th>BIC</th>
                             <th class="text-end">Montant</th>
@@ -200,7 +200,7 @@
                                     <t t-set="invoices" t-value="payment.reconciled_bill_ids | payment.reconciled_invoice_ids"/>
                                     <t t-if="invoices">
                                         <a t-att-href="payment._get_reconciled_invoices_url()">
-                                            <span t-esc="&quot;, &quot;.join(invoices.mapped(&quot;name&quot;))"/>
+                                            <span t-esc="&quot;, &quot;.join(invoice.ref or invoice.name for invoice in invoices)"/>
                                         </a>
                                     </t>
                                     <t t-else="">
