@@ -1,9 +1,25 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models
+from odoo import api, fields, models
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
+
+    x_sale_partner_ids = fields.Many2many(
+        'res.partner',
+        string='Clients',
+        compute='_compute_sale_partner_ids',
+        store=True,
+        groups='sales_team.group_sale_salesman',
+    )
+
+    @api.depends(
+        'order_line.sale_order_id.partner_id',
+        'reference_ids.sale_ids.partner_id',
+    )
+    def _compute_sale_partner_ids(self):
+        for order in self:
+            order.x_sale_partner_ids = order._get_sale_orders().mapped('partner_id')
 
     def action_print_receipts_by_supplier(self):
         return self.env.ref(
