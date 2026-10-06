@@ -64,6 +64,10 @@ class PurchaseOrder(models.Model):
             values['_customer_ids'] |= customer
             values['purchase_lines'] |= line
         for group in groups.values():
+            for values in group['lines'].values():
+                values['x_note'] = '\n'.join(dict.fromkeys(
+                    note for note in values['purchase_lines'].mapped('x_note') if note
+                ))
             group['lines'] = sorted(
                 group['lines'].values(),
                 key=lambda line: (line['product'].display_name, line['description']),
