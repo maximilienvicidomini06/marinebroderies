@@ -98,7 +98,7 @@
                                 <tr t-foreach="group['lines']" t-as="line">
                                     <td t-esc="line['product'].display_name"/>
                                     <td>
-                                        <span t-esc="line['description']"/>
+                                        <span t-esc="line['x_note'] or 'Aucune Note'"/>
                                     </td>
                                     <td class="text-end">
                                         <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])"/>
