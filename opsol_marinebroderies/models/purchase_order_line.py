@@ -6,6 +6,8 @@ from odoo import api, fields, models
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
+    x_note = fields.Text(string='Note')
+
     x_customer_delivery_date = fields.Date(
         string='Date de livraison Client',
         readonly=False,
