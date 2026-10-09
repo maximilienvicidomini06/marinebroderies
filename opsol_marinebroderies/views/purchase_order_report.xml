@@ -91,23 +91,29 @@
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.description">Description</th>
                                     <th class="" t-translate="opsol_marinebroderies.report_purchase_by_supplier.quantity">Quantite</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.uom">UdM</th>
-                                    <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.customer">Client</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="group['lines']" t-as="line">
-                                    <td t-esc="line['product'].display_name"/>
-                                    <td>
-                                        <span t-esc="line['x_note'] or 'Aucune Note'"/>
-                                    </td>
-                                    <td class="text-end">
-                                        <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])"/>
-                                    </td>
-                                    <td t-esc="line['uom'].name"/>
-                                    <td>
-                                        <span t-if="line['_customer_ids']" t-esc="', '.join([customer.display_name for customer in line['_customer_ids']])"/>
-                                    </td>
-                                </tr>
+                                <t t-set="previous_customer" t-value="False"/>
+                                <t t-foreach="group['lines']" t-as="line">
+                                    <t t-set="customer" t-value="line['_customer_ids']"/>
+                                    <tr t-if="line_first or customer != previous_customer" class="table-light">
+                                        <td colspan="4">
+                                            <strong>Client : <span t-esc="customer.display_name or 'Non disponible'"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td t-esc="line['product'].display_name"/>
+                                        <td>
+                                            <span t-esc="line['x_note'] or 'Aucune Note'"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])"/>
+                                        </td>
+                                        <td t-esc="line['uom'].name"/>
+                                    </tr>
+                                    <t t-set="previous_customer" t-value="customer"/>
+                                </t>
                             </tbody>
                         </table>
                     </div>
@@ -119,32 +125,33 @@
     <template id="report_purchase_by_customer_available">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
-                <t t-set="single_order" t-value="docs[0] if len(docs) == 1 else False"/>
                 <t t-set="customer_groups" t-value="docs._get_purchase_report_groups(by_customer=True)"/>
-                <div class="page">
-                    <h2>
-                        <span>Produits par client</span>
-                    </h2>
-                    <div class="mb16">
-                        <div t-if="single_order">
-                            <strong>Commande :</strong>
-                            <span t-esc="single_order.name"/>
+                <t t-foreach="customer_groups" t-as="group">
+                    <t t-set="group_orders" t-value="group['orders']"/>
+                    <t t-set="single_order" t-value="group_orders[0] if len(group_orders) == 1 else False"/>
+                    <div class="page" t-att-style="'page-break-after: always;' if not group_last else 'page-break-after: auto;'">
+                        <h2>
+                            <span>Produits par client</span>
+                        </h2>
+                        <div class="mb16">
+                            <div t-if="single_order">
+                                <strong>Commande :</strong>
+                                <span t-esc="single_order.name"/>
+                            </div>
+                            <div t-else="">
+                                <strong>Commandes :</strong>
+                                <span t-esc="', '.join(group_orders.mapped('name'))"/>
+                            </div>
+                            <div t-if="single_order and single_order.partner_id">
+                                <strong>Partenaire:</strong>
+                                <span t-esc="single_order.partner_id.display_name"/>
+                            </div>
+                            <div t-if="single_order and single_order.date_planned">
+                                <strong>Date prevue:</strong>
+                                <span t-esc="single_order.date_planned"/>
+                            </div>
                         </div>
-                        <div t-else="">
-                            <strong>Commandes :</strong>
-                            <span t-esc="', '.join(docs.mapped('name'))"/>
-                        </div>
-                        <div t-if="single_order and single_order.partner_id">
-                            <strong>Partenaire:</strong>
-                            <span t-esc="single_order.partner_id.display_name"/>
-                        </div>
-                        <div t-if="single_order and single_order.date_planned">
-                            <strong>Date prevue:</strong>
-                            <span t-esc="single_order.date_planned"/>
-                        </div>
-                    </div>
 
-                    <t t-foreach="customer_groups" t-as="group">
                         <h3>
                             <span>Client:</span>
                             <t t-if="group['partner']">
@@ -165,7 +172,14 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <t t-set="previous_supplier" t-value="False"/>
                                 <t t-foreach="group['lines']" t-as="line">
+                                    <t t-set="supplier" t-value="line['supplier']"/>
+                                    <tr t-if="line_first or supplier != previous_supplier" class="table-light">
+                                        <td colspan="5">
+                                            <strong>Fournisseur : <span t-esc="supplier.display_name or 'Non disponible'"/></strong>
+                                        </td>
+                                    </tr>
                                     <t t-set="is_waiting" t-value="any(pol.qty_received &lt; pol.product_qty for pol in line['purchase_lines'])"/>
                                     <tr>
                                         <td t-esc="line['product'].display_name"/>
@@ -180,11 +194,12 @@
                                             <span t-if="is_waiting">En attente de reception</span>
                                         </td>
                                     </tr>
+                                    <t t-set="previous_supplier" t-value="supplier"/>
                                 </t>
                             </tbody>
                         </table>
-                    </t>
-                </div>
+                    </div>
+                </t>
             </t>
         </t>
     </template>

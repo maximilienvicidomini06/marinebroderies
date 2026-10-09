@@ -49,9 +49,13 @@ class PurchaseOrder(models.Model):
                 }
             group = groups[key]
             group['orders'] |= line.order_id
-            line_key = (line.product_id.id, line.product_uom_id.id, line.name)
+            line_key = (
+                customer.id, line.order_id.partner_id.id,
+                line.product_id.id, line.product_uom_id.id, line.name,
+            )
             if line_key not in group['lines']:
                 group['lines'][line_key] = {
+                    'supplier': line.order_id.partner_id,
                     'product': line.product_id,
                     'description': line.name,
                     'uom': line.product_uom_id,
@@ -70,7 +74,15 @@ class PurchaseOrder(models.Model):
                 ))
             group['lines'] = sorted(
                 group['lines'].values(),
-                key=lambda line: (line['product'].display_name, line['description']),
+                key=lambda line: (
+                    not line['_customer_ids'],
+                    line['_customer_ids'].display_name or '',
+                    line['_customer_ids'].id or 0,
+                    line['supplier'].display_name or '',
+                    line['supplier'].id or 0,
+                    line['product'].display_name,
+                    line['description'],
+                ),
             )
         return sorted(
             groups.values(),
