@@ -23,20 +23,11 @@
                 <xpath expr="//header/button[@name='action_confirm'][not(@id)]" position="attributes">
                     <attribute name="invisible">state != 'draft' or not client_validation_date</attribute>
                 </xpath>
-                <xpath expr="//header/button[@name='action_confirm']" position="after">
-                    <button
-                        name="action_request_client_confirmation"
-                        type="object"
-                        string="Demander Confirmation Client"
-                        class="btn-secondary"
-                        invisible="client_validation_date"
-                    />
-                </xpath>
 
-                <xpath expr="//field[@name='order_line']/list/field[@name='name']" position="after">
-                    <field name="type_broderie_id" optional="show" />
+                <!-- <xpath expr="//field[@name='order_line']/list/field[@name='name']" position="after">
+                    <field name="type_broderie_id" optional="hide" />
                     <field name="broderie_service" optional="hide" />
-                </xpath>
+                </xpath> -->
 
                 <xpath expr="//field[@name='order_line']" position="attributes">
                     <attribute name="aggregated_fields">product_uom_qty,price_subtotal,price_total</attribute>

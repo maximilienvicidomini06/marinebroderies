@@ -36,28 +36,32 @@ class SaleOrderLine(models.Model):
         if existing:
             existing.unlink()
 
-    @api.constrains('display_type', 'type_broderie_id', 'name', 'product_id', 'product_uom_qty')
     def update_related_broderie_line(self):
-        for line in self:
+        """Keep existing callers compatible while service generation is disabled."""
+        return None
+
+    # @api.constrains('display_type', 'type_broderie_id', 'name', 'product_id', 'product_uom_qty')
+    # def update_related_broderie_line(self):
+    #     for line in self:
     
-            order = line.order_id
-            existing = order.order_line.filtered(lambda l: l.broderie_service and l.broderie_source_id == line.id)
-            if existing:
-                existing.unlink()
+    #         order = line.order_id
+    #         existing = order.order_line.filtered(lambda l: l.broderie_service and l.broderie_source_id == line.id)
+    #         if existing:
+    #             existing.unlink()
 
-            type_broderie = line.type_broderie_id
-            if not type_broderie:
-                continue
+    #         type_broderie = line.type_broderie_id
+    #         if not type_broderie:
+    #             continue
             
-            service_product = type_broderie.related_product_id
-            if not service_product:
-                raise UserError(_("le type de boderie (%s) n'a pas de service rattache"), type_broderie.name)
+    #         service_product = type_broderie.related_product_id
+    #         if not service_product:
+    #             raise UserError(_("le type de boderie (%s) n'a pas de service rattache", type_broderie.name))
 
-            self.env['sale.order.line'].sudo().create({
-                'name': f"{type_broderie.name}: {line.product_uom_qty} x {line.name.replace('\n', '').replace('\r', '')} - date limite: {order.commitment_date and order.commitment_date.strftime('%d/%m/%Y') or 'N/A'}",
-                'sequence': line.sequence + 1, 'order_id': order.id,
-                'product_id': service_product.id,
-                'product_uom_qty': line.product_uom_qty, 
-                'price_unit': service_product.lst_price,
-                'broderie_source_id': line.id, 'broderie_service': True,
-            })
+    #         self.env['sale.order.line'].sudo().create({
+    #             'name': f"{type_broderie.name}: {line.product_uom_qty} x {line.name.replace('\n', '').replace('\r', '')} - date limite: {order.commitment_date and order.commitment_date.strftime('%d/%m/%Y') or 'N/A'}",
+    #             'sequence': line.sequence + 1, 'order_id': order.id,
+    #             'product_id': service_product.id,
+    #             'product_uom_qty': line.product_uom_qty,
+    #             'price_unit': service_product.lst_price,
+    #             'broderie_source_id': line.id, 'broderie_service': True,
+    #         })
