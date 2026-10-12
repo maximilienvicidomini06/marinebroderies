@@ -23,28 +23,16 @@ class SaleOrder(models.Model):
     #     logger.info(fields_spec)
     #     return super(SaleOrder, self).onchange(values, field_names, fields_spec)
 
-    def action_request_client_confirmation(self):
+    def _find_mail_template(self):
         self.ensure_one()
-        template = self.env.ref(
-            "opsol_marinebroderies.mail_template_sale_order_client_validation",
-            raise_if_not_found=False,
-        )
-        if not template:
-            return False
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": "mail.compose.message",
-            "view_mode": "form",
-            "target": "new",
-            "context": {
-                "default_model": "sale.order",
-                "default_res_ids": [self.id],
-                "default_use_template": True,
-                "default_template_id": template.id,
-                "default_composition_mode": "comment",
-                "force_email": True,
-            },
-        }
+        if self.state in ("draft", "sent") and not self.env.context.get("proforma"):
+            template = self.env.ref(
+                "opsol_marinebroderies.mail_template_sale_order_client_validation",
+                raise_if_not_found=False,
+            )
+            if template:
+                return template
+        return super()._find_mail_template()
 
     def action_confirm(self):
         for order in self:
