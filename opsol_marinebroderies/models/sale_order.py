@@ -11,7 +11,6 @@ class SaleOrder(models.Model):
 
     client_validation_date = fields.Datetime(
         string="Validation client",
-        readonly=True,
         copy=False,
     )
 
