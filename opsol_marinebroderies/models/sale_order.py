@@ -47,14 +47,14 @@ class SaleOrder(models.Model):
                         "Only the salesperson, the sales team manager."
                     )
                 )
-        for rec in self:
-            if not rec.commitment_date:
-                if rec.team_id and rec.team_id.delivery_time_days:
-                    rec.commitment_date = fields.Date.today() + timedelta(days=rec.team_id.delivery_time_days)
-                else:
-                    rec.commitment_date = fields.Date.today()
+        # for rec in self:
+        #     if not rec.commitment_date:
+        #         if rec.team_id and rec.team_id.delivery_time_days:
+        #             rec.commitment_date = fields.Date.today() + timedelta(days=rec.team_id.delivery_time_days)
+        #         else:
+        #             rec.commitment_date = fields.Date.today()
 
-            rec.broderie_lines()
+        #     rec.broderie_lines()
         return super().action_confirm()
 
     def action_draft(self):
