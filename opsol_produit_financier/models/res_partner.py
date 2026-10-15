@@ -81,6 +81,9 @@ class ResPartner(models.Model):
 
     @api.constrains("is_financial_product", "financial_isin_code")
     def _check_financial_isin_code(self):
+        if self.env.context.get("skip_financial_isin_check"):
+            return
+
         for partner in self:
             if partner.is_financial_product and not partner.financial_isin_code:
                 raise ValidationError(_("Le code ISIN est obligatoire pour les produits financiers."))
