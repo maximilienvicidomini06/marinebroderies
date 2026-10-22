@@ -7,13 +7,15 @@ from odoo import models, api
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    @api.model_create_multi
-    def create(self, vals):
-
-        res = super(SaleOrderLine, self).create(vals)
-        count = len(res.order_id.order_line.ids)
-        res.sequence = count
-        return res
+    # Disabled because this override replaced the sequence provided by the
+    # sale order onchange/context (for example, 24) with the number of lines
+    # after creation (for example, 22), which shifted sections and lines.
+    # @api.model_create_multi
+    # def create(self, vals):
+    #     res = super(SaleOrderLine, self).create(vals)
+    #     count = len(res.order_id.order_line.ids)
+    #     res.sequence = count
+    #     return res
 
     def line_copy(self):
         seq = self.sequence
