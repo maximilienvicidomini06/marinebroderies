@@ -7,7 +7,7 @@
     'website': 'https://www.softhealer.com',
     'support': 'support@softhealer.com',
     'license': 'OPL-1',
-    'version': '0.0.1',
+    'version': '0.0.2',
     'category': 'Extra Tools',
     'summary': 'Sale Order Copy Order Lines Sale Copy Order Lines Sales Copy Order Lines Sale Copy Product Lines Copy Sale Order Copy Purchase Order Copy Invoice Copy Invoice Lines Copy RFQ Lines Copy Request For Quotation Copy Bill Lines Duplicate Line Duplicate Order Line Duplicate Sale Order Line Duplicate Purchase Order Line Duplicate Invoice Order Line Copy Sale Order Line Copy Purchase Order Line Copy Invoice Order Line Sale Order Line Copy Purchase Order Line Copy Invoice Order Line Copy Quick Copy Sale Order Line Quick Copy Purchse Order Line Quick Copy Invoice Order Line Odoo Sale Order Quick Copy Order Lines Purchase Order Quick Copy Order Lines Invoice Quick Copy Order Lines',
     'description': """This module allows you to quickly copy order lines in sale order, purchase order and invoice so you can easily manage order lines. That's it. Cheers!""",
