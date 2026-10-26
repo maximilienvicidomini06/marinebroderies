@@ -49,6 +49,11 @@ class PurchaseOrderLine(models.Model):
         res = super(PurchaseOrderLine, self)._prepare_purchase_order_line_from_procurement(
             product_id, product_qty, product_uom, location_dest_id, name, origin, company_id, values, po)
         res['sale_line_id'] = values.get('sale_line_id')
+        sale_line_id = values.get('sale_line_id')
+        if sale_line_id:
+            sale_line = self.env['sale.order.line'].browse(sale_line_id).exists()
+            if sale_line:
+                res['name'] = sale_line.name
         return res
 
     def _prepare_stock_moves(self, picking):

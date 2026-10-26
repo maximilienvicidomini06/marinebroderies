@@ -1,6 +1,6 @@
 {
     'name': 'opsol_marinebroderies',
-    'version': '1.3.50',
+    'version': '1.3.51',
     'summary': 'Add custom modification for Marine Broderies',
     'description': 'Add custom modification for Marine Broderies',
     'category': 'Uncategorized',
