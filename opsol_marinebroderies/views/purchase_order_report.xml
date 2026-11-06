@@ -87,7 +87,7 @@
                         <table class="table table-sm o_main_table">
                             <thead>
                                 <tr>
-                                    <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.line_number">N°</th>
+                                    <th>N°</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.product">Produit</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.description">Description</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.note">Note</th>
@@ -170,6 +170,7 @@
                         <table class="table table-sm o_main_table">
                             <thead>
                                 <tr>
+                                    <th>N°</th>
                                     <th>Produit</th>
                                     <th>Description</th>
                                     <th class="">Quantite commandee</th>
@@ -182,12 +183,13 @@
                                 <t t-foreach="group['lines']" t-as="line">
                                     <t t-set="supplier" t-value="line['supplier']"/>
                                     <tr t-if="line_first or supplier != previous_supplier" class="table-light">
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <strong>Fournisseur : <span t-esc="supplier.display_name or 'Non disponible'"/></strong>
                                         </td>
                                     </tr>
                                     <t t-set="is_waiting" t-value="any(pol.qty_received &lt; pol.product_qty for pol in line['purchase_lines'])"/>
                                     <tr>
+                                        <td t-esc="line_index + 1"/>
                                         <td t-esc="line['product'].display_name"/>
                                         <td>
                                             <span t-esc="line['description']"/>
