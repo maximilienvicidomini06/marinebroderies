@@ -88,7 +88,7 @@
                             <thead>
                                 <tr>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.line_number">N°</th>
-                                    <!-- <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.product">Produit</th> -->
+                                    <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.product">Produit</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.description">Description</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.note">Note</th>
                                     <th class="" t-translate="opsol_marinebroderies.report_purchase_by_supplier.quantity">Quantite</th>
@@ -100,13 +100,13 @@
                                 <t t-foreach="group['lines']" t-as="line">
                                     <t t-set="customer" t-value="line['_customer_ids']"/>
                                     <tr t-if="line_first or customer != previous_customer" class="table-light">
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <strong>Client : <span t-esc="customer.display_name or 'Non disponible'"/></strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td t-esc="line_index + 1"/>
-                                        <!-- <td t-esc="line['product'].display_name"/> -->
+                                        <td t-esc="line['product'].display_name"/>
                                         <td>
                                             <span t-esc="line['description']"/>
                                         </td>
