@@ -97,6 +97,13 @@ class StockPicking(models.Model):
         self.ensure_one()
         return self._get_supplier_groups_multi()
 
+    def _get_stock_report_description(self, move):
+        description = move.description_picking or ''
+        product_name = move.product_id.with_context(
+            lang=move._get_lang(),
+        ).display_name
+        return '' if description == product_name else description
+
     def _get_supplier_groups_multi(self):
         moves = self.mapped('move_ids').filtered(lambda m: m.state != 'cancel')
         groups = {}
@@ -118,7 +125,7 @@ class StockPicking(models.Model):
         for group in groups.values():
             aggregated = {}
             for move in group['moves']:
-                description = move.description_picking or ''
+                description = self._get_stock_report_description(move)
                 line_key = (move.product_id.id, move.product_uom.id, description)
                 if line_key not in aggregated:
                     aggregated[line_key] = {
@@ -178,7 +185,7 @@ class StockPicking(models.Model):
         for group in groups.values():
             aggregated = {}
             for move in group['moves']:
-                description = move.description_picking or ''
+                description = self._get_stock_report_description(move)
                 line_key = (move.product_id.id, move.product_uom.id, description)
                 if line_key not in aggregated:
                     aggregated[line_key] = {
@@ -219,7 +226,7 @@ class StockPicking(models.Model):
         for group in groups.values():
             aggregated = {}
             for move in group['moves']:
-                description = move.description_picking or ''
+                description = self._get_stock_report_description(move)
                 line_key = (move.product_id.id, move.product_uom.id, description)
                 if line_key not in aggregated:
                     aggregated[line_key] = {

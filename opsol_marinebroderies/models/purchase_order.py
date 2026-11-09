@@ -31,6 +31,15 @@ class PurchaseOrder(models.Model):
             'opsol_marinebroderies.action_report_purchase_by_customer_available'
         ).report_action(self)
 
+    def _get_purchase_report_description(self, line):
+        description = line.name or ''
+        partner = line.order_id.partner_id
+        product = line.product_id.with_context(
+            lang=partner.lang or self.env.user.lang,
+            partner_id=partner.id,
+        )
+        return '' if description == product.display_name else description
+
     def _get_purchase_report_groups(self, by_customer=False):
         groups = {}
         lines = self.mapped('order_line').filtered(
@@ -49,15 +58,17 @@ class PurchaseOrder(models.Model):
                 }
             group = groups[key]
             group['orders'] |= line.order_id
+            description = self._get_purchase_report_description(line)
             line_key = (
                 customer.id, line.order_id.partner_id.id,
-                line.product_id.id, line.product_uom_id.id, line.name,
+                line.product_id.id, line.product_uom_id.id,
+                description,
             )
             if line_key not in group['lines']:
                 group['lines'][line_key] = {
                     'supplier': line.order_id.partner_id,
                     'product': line.product_id,
-                    'description': line.name,
+                    'description': description,
                     'uom': line.product_uom_id,
                     'qty': 0.0,
                     '_customer_ids': self.env['res.partner'],
