@@ -90,7 +90,6 @@
                                     <th>N°</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.product">Produit</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.description">Description</th>
-                                    <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.note">Note</th>
                                     <th class="" t-translate="opsol_marinebroderies.report_purchase_by_supplier.quantity">Quantite</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.uom">UdM</th>
                                 </tr>
@@ -100,7 +99,7 @@
                                 <t t-foreach="group['lines']" t-as="line">
                                     <t t-set="customer" t-value="line['_customer_ids']"/>
                                     <tr t-if="line_first or customer != previous_customer" class="table-light">
-                                        <td colspan="6">
+                                        <td colspan="5">
                                             <strong>Client : <span t-esc="customer.display_name or 'Non disponible'"/></strong>
                                         </td>
                                     </tr>
@@ -109,9 +108,6 @@
                                         <td t-esc="line['product'].display_name"/>
                                         <td>
                                             <span t-esc="line['description']"/>
-                                        </td>
-                                        <td>
-                                            <span t-esc="line['x_note'] or 'Aucune Note'"/>
                                         </td>
                                         <td class="text-end">
                                             <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])"/>
@@ -173,7 +169,6 @@
                                     <th>N°</th>
                                     <th>Produit</th>
                                     <th>Description</th>
-                                    <th>Note</th>
                                     <th class="">Quantite commandee</th>
                                     <th>UdM</th>
                                     <th>Observation</th>
@@ -184,7 +179,7 @@
                                 <t t-foreach="group['lines']" t-as="line">
                                     <t t-set="supplier" t-value="line['supplier']"/>
                                     <tr t-if="line_first or supplier != previous_supplier" class="table-light">
-                                        <td colspan="7">
+                                        <td colspan="6">
                                             <strong>Fournisseur : <span t-esc="supplier.display_name or 'Non disponible'"/></strong>
                                         </td>
                                     </tr>
@@ -194,9 +189,6 @@
                                         <td t-esc="line['product'].display_name"/>
                                         <td>
                                             <span t-esc="line['description']"/>
-                                        </td>
-                                        <td>
-                                            <span t-esc="line['x_note'] or 'Aucune Note'"/>
                                         </td>
                                         <td class="text-end">
                                             <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])"/>
