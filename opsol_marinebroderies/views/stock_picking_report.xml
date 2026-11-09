@@ -72,7 +72,7 @@
                                     <tr t-foreach="group['lines']" t-as="line">
                                         <td t-esc="line['product'].display_name"/>
                                         <td>
-                                            <span t-esc="line['description']"/>
+                                            <span t-if="line['description'] != line['product'].display_name" t-esc="line['description']"/>
                                         </td>
                                         <td class="text-end">
                                             <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])" />
@@ -144,7 +144,7 @@
                                         <tr t-if="line['available_qty'] != 0">
                                             <td t-esc="line['product'].display_name"/>
                                             <td>
-                                                <span t-esc="line['description']"/>
+                                                <span t-if="line['description'] != line['product'].display_name" t-esc="line['description']"/>
                                             </td>
                                             <td class="text-end">
                                                 <span t-esc="('%.0f' % line['available_qty']) if line['available_qty'] % 1 == 0 else ('%.2f' % line['available_qty'])" />
