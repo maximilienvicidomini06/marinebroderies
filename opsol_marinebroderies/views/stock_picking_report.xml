@@ -279,12 +279,12 @@
                                             </td>
                                             <td class="o_td_quantity text-end">
                                                 <span t-out="format_number(line.product_uom_qty if line else moves.product_uom_qty)"/>
-                                                <span t-field="line.product_uom" t-if="line"/>
+                                                <span t-field="line.product_uom_id" t-if="line"/>
                                                 <span t-field="moves.product_uom" t-else=""/>
                                             </td>
                                             <td class="o_td_quantity text-end">
                                                 <span t-out="format_number(sum(moves.mapped('quantity')))"/>
-                                                <span t-field="line.product_uom" t-if="line"/>
+                                                <span t-field="line.product_uom_id" t-if="line"/>
                                                 <span t-field="moves.product_uom" t-else=""/>
                                             </td>
                                         </tr>
