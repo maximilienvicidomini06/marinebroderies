@@ -164,7 +164,7 @@
         </template>
 
         <record id="action_report_delivery_slip_sale_style" model="ir.actions.report">
-            <field name="name">Bon de livraison (style devis)</field>
+            <field name="name">Bon de livraison (avec sections)</field>
             <field name="model">stock.picking</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">opsol_marinebroderies.report_delivery_slip_sale_style</field>
@@ -181,7 +181,7 @@
                     <t t-set="partner" t-value="o.partner_id or (o.move_ids and o.move_ids[0].partner_id) or False"/>
                     <t t-call="web.external_layout">
                         <t t-set="address">
-                            <div t-if="partner" t-field="partner"
+                            <div t-if="partner" t-out="partner"
                                  t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                         </t>
                         <t t-set="information_block">
