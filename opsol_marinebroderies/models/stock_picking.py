@@ -157,6 +157,70 @@ class StockPicking(models.Model):
         )
         return max(quantity and quantity[product.id]['qty_available'] or 0.0, 0.0)
 
+    def _get_delivery_report_lines(self):
+        """Return delivery lines in the same order as the related sale order.
+
+        Stock moves do not contain section/subsection lines.  Rebuild the
+        report rows from the sale order when the picking comes from a single
+        sale order, while keeping a move-only fallback for other pickings.
+        """
+        self.ensure_one()
+        moves = self.move_ids.filtered(lambda move: move.state != 'cancel' and move.product_uom_qty)
+        sale_orders = moves.mapped('sale_line_id.order_id')
+        if self.sale_id:
+            sale_orders |= self.sale_id
+
+        if len(sale_orders) != 1:
+            return [
+                {'type': 'product', 'line': False, 'moves': move}
+                for move in moves
+            ]
+
+        sale_order = sale_orders[0]
+        sale_lines = sale_order.order_line
+        delivered_sale_line_ids = set(moves.mapped('sale_line_id').ids)
+        report_lines = []
+
+        for index, line in enumerate(sale_lines):
+            if line.display_type:
+                if line.display_type == 'line_section':
+                    boundary_types = {'line_section'}
+                elif line.display_type == 'line_subsection':
+                    boundary_types = {'line_section', 'line_subsection'}
+                else:
+                    boundary_types = {'line_section', 'line_subsection'}
+
+                has_related_product = False
+                for following in sale_lines[index + 1:]:
+                    if following.display_type in boundary_types:
+                        break
+                    if not following.display_type and following.id in delivered_sale_line_ids:
+                        has_related_product = True
+                        break
+                if has_related_product:
+                    report_lines.append({
+                        'type': line.display_type,
+                        'line': line,
+                        'moves': self.env['stock.move'],
+                    })
+                continue
+
+            line_moves = moves.filtered(lambda move: move.sale_line_id == line)
+            if line_moves:
+                report_lines.append({
+                    'type': 'product',
+                    'line': line,
+                    'moves': line_moves,
+                })
+
+        # Preserve products that are not linked to a sale order line.
+        linked_move_ids = set(moves.filtered(lambda move: move.sale_line_id).ids)
+        for move in moves:
+            if move.id not in linked_move_ids:
+                report_lines.append({'type': 'product', 'line': False, 'moves': move})
+
+        return report_lines
+
     def _get_supplier_groups_multi_available(self):
         moves = self.mapped('move_ids').filtered(lambda m: m.state != 'cancel')
         groups = {}

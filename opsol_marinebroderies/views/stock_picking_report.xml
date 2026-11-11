@@ -162,5 +162,140 @@
                 </t>
             </t>
         </template>
+
+        <record id="action_report_delivery_slip_sale_style" model="ir.actions.report">
+            <field name="name">Bon de livraison (style devis)</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">opsol_marinebroderies.report_delivery_slip_sale_style</field>
+            <field name="report_file">opsol_marinebroderies.report_delivery_slip_sale_style</field>
+            <field name="print_report_name">'Bon de livraison - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_delivery_slip_sale_style">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="o" t-value="o.with_context(lang=o._get_report_lang())"/>
+                    <t t-set="partner" t-value="o.partner_id or (o.move_ids and o.move_ids[0].partner_id) or False"/>
+                    <t t-call="web.external_layout">
+                        <t t-set="address">
+                            <div t-if="partner" t-field="partner"
+                                 t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </t>
+                        <t t-set="information_block">
+                            <div class="row">
+                                <div class="col-7" t-if="partner and partner != partner.commercial_partner_id">
+                                    <strong>Adresse du client</strong>
+                                    <div t-field="partner.commercial_partner_id"
+                                         t-options='{"widget": "contact", "fields": ["address", "name", "phone", "vat"], "no_marker": True, "phone_icons": True}'/>
+                                </div>
+                            </div>
+                        </t>
+
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <t t-set="sale_order" t-value="o.sale_id or o.move_ids.mapped('sale_line_id.order_id')[:1]"/>
+                            <h2>
+                                <span>Bon de livraison #</span>
+                                <span t-field="o.name"/>
+                            </h2>
+
+                            <div class="row mb-4" id="informations">
+                                <div t-if="o.origin" class="col" name="informations_origin">
+                                    <strong>Commande</strong>
+                                    <div t-field="o.origin"/>
+                                </div>
+                                <div t-if="o.state" class="col" name="informations_date">
+                                    <strong>Date de livraison</strong>
+                                    <div t-if="o.state == 'done'" t-field="o.date_done" t-options="{'widget': 'date'}"/>
+                                    <div t-else="" t-field="o.scheduled_date" t-options="{'widget': 'date'}"/>
+                                </div>
+                                <div t-if="sale_order and sale_order.client_order_ref" class="col" name="informations_reference">
+                                    <strong>Référence client</strong>
+                                    <div t-field="sale_order.client_order_ref"/>
+                                </div>
+                                <div t-if="o.user_id" class="col" name="informations_operator">
+                                    <strong>Responsable</strong>
+                                    <div t-field="o.user_id"/>
+                                </div>
+                            </div>
+
+                            <t t-set="format_number" t-value="lambda value: int(value) if value == int(value) else value"/>
+                            <table class="o_has_total_table table o_main_table table-borderless">
+                                <thead style="display: table-row-group">
+                                    <tr>
+                                        <th name="th_description" class="text-start">Description</th>
+                                        <th name="th_ordered" class="text-end text-nowrap">Commandé</th>
+                                        <th name="th_delivered" class="text-end text-nowrap">Livré</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <t t-set="current_section" t-value="None"/>
+                                    <t t-set="current_subsection" t-value="None"/>
+                                    <t t-foreach="o._get_delivery_report_lines()" t-as="report_line">
+                                        <t t-set="line" t-value="report_line['line']"/>
+                                        <t t-set="is_section" t-value="report_line['type'] == 'line_section'"/>
+                                        <t t-set="is_subsection" t-value="report_line['type'] == 'line_subsection'"/>
+                                        <t t-set="is_note" t-value="report_line['type'] == 'line_note'"/>
+                                        <t t-if="is_section">
+                                            <t t-set="current_section" t-value="line"/>
+                                            <t t-set="current_subsection" t-value="None"/>
+                                            <t t-set="line_padding" t-value="0"/>
+                                        </t>
+                                        <t t-elif="is_subsection">
+                                            <t t-set="current_subsection" t-value="line"/>
+                                            <t t-set="line_padding" t-value="2"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="line_padding" t-value="3 if current_subsection else (2 if current_section else 0)"/>
+                                        </t>
+                                        <t t-set="padding_class" t-value="line_padding and ('px-' + str(line_padding)) or ''"/>
+
+                                        <tr t-if="is_section or is_subsection" name="tr_section"
+                                            t-att-class="'fw-bolder o_line_section' if is_section else 'fw-bold o_line_subsection'">
+                                            <td colspan="3" t-att-class="padding_class">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr t-elif="is_note" name="tr_note" class="fst-italic o_line_note">
+                                            <td colspan="3" t-att-class="padding_class">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr t-else="" name="tr_product">
+                                            <t t-set="moves" t-value="report_line['moves']"/>
+                                            <td t-att-class="padding_class">
+                                                <t t-if="line">
+                                                    <span t-field="line.name"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span t-field="moves.product_id"/>
+                                                    <p t-if="moves.description_picking">
+                                                        <span t-out="moves.description_picking" t-options="{'widget': 'text'}"/>
+                                                    </p>
+                                                </t>
+                                            </td>
+                                            <td class="o_td_quantity text-end">
+                                                <span t-out="format_number(line.product_uom_qty if line else moves.product_uom_qty)"/>
+                                                <span t-field="line.product_uom" t-if="line"/>
+                                                <span t-field="moves.product_uom" t-else=""/>
+                                            </td>
+                                            <td class="o_td_quantity text-end">
+                                                <span t-out="format_number(sum(moves.mapped('quantity')))"/>
+                                                <span t-field="line.product_uom" t-if="line"/>
+                                                <span t-field="moves.product_uom" t-else=""/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <div class="oe_structure"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
     </data>
 </odoo>
