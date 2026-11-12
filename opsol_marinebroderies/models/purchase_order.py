@@ -103,6 +103,8 @@ class PurchaseOrder(models.Model):
                 group['lines'].values(),
                 key=sort_key,
             )
+            if not by_customer:
+                self._set_purchase_report_line_spans(group['lines'])
         return sorted(
             groups.values(),
             key=lambda group: (not group['partner'], group['partner'].display_name or ''),
@@ -128,6 +130,33 @@ class PurchaseOrder(models.Model):
             ', '.join(dict.fromkeys(values_by_attribute.get('couleur', []))) or 'Autres',
             ', '.join(dict.fromkeys(values_by_attribute.get('taille hf', []))) or 'Autres',
         )
+
+    @staticmethod
+    def _set_purchase_report_line_spans(lines):
+        """Add rowspan metadata for the supplier report's grouped columns."""
+        span_groups = (
+            ('show_color', 'color_rowspan', lambda line: line['color']),
+            ('show_size', 'size_rowspan', lambda line: (line['color'], line['size'])),
+            (
+                'show_customer',
+                'customer_rowspan',
+                lambda line: (
+                    line['color'], line['size'], tuple(line['_customer_ids'].ids)
+                ),
+            ),
+        )
+        for show_field, rowspan_field, key_function in span_groups:
+            start = 0
+            while start < len(lines):
+                group_key = key_function(lines[start])
+                end = start + 1
+                while end < len(lines) and key_function(lines[end]) == group_key:
+                    end += 1
+                lines[start][show_field] = True
+                lines[start][rowspan_field] = end - start
+                for line in lines[start + 1:end]:
+                    line[show_field] = False
+                start = end
 
     def _prepare_picking(self):
         res = super(PurchaseOrder, self)._prepare_picking()

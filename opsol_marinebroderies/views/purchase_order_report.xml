@@ -88,6 +88,9 @@
                             <thead>
                                 <tr>
                                     <th>N°</th>
+                                    <th>Couleur</th>
+                                    <th>Taille HF</th>
+                                    <th>Client</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.product">Produit</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.description">Description</th>
                                     <th class="" t-translate="opsol_marinebroderies.report_purchase_by_supplier.quantity">Quantite</th>
@@ -95,28 +98,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <t t-set="previous_customer" t-value="False"/>
-                                <t t-set="previous_color" t-value="False"/>
-                                <t t-set="previous_size" t-value="False"/>
                                 <t t-foreach="group['lines']" t-as="line">
-                                    <tr t-if="line_first or line['color'] != previous_color" class="table-secondary">
-                                        <td colspan="5">
-                                            <strong>Couleur : <span t-esc="line['color']"/></strong>
-                                        </td>
-                                    </tr>
-                                    <tr t-if="line_first or line['color'] != previous_color or line['size'] != previous_size" class="table-light">
-                                        <td colspan="5">
-                                            <strong>Taille HF : <span t-esc="line['size']"/></strong>
-                                        </td>
-                                    </tr>
-                                    <t t-set="customer" t-value="line['_customer_ids']"/>
-                                    <tr t-if="line_first or customer != previous_customer" class="table-light">
-                                        <td colspan="5">
-                                            <strong>Client : <span t-esc="customer.display_name or 'Non disponible'"/></strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                    <tr style="page-break-inside: avoid;">
                                         <td t-esc="line_index + 1"/>
+                                        <td t-if="line['show_color']" t-att-rowspan="line['color_rowspan']" t-esc="line['color']"/>
+                                        <td t-if="line['show_size']" t-att-rowspan="line['size_rowspan']" t-esc="line['size']"/>
+                                        <td t-if="line['show_customer']" t-att-rowspan="line['customer_rowspan']" t-esc="line['_customer_ids'].display_name or 'Non disponible'"/>
                                         <td t-esc="line['product'].display_name"/>
                                         <td>
                                             <span t-if="line['description'] != line['product'].display_name" t-esc="line['description']"/>
@@ -126,9 +113,6 @@
                                         </td>
                                         <td t-esc="line['uom'].name"/>
                                     </tr>
-                                    <t t-set="previous_customer" t-value="customer"/>
-                                    <t t-set="previous_color" t-value="line['color']"/>
-                                    <t t-set="previous_size" t-value="line['size']"/>
                                 </t>
                             </tbody>
                         </table>
