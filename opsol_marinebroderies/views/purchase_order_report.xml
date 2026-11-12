@@ -96,7 +96,19 @@
                             </thead>
                             <tbody>
                                 <t t-set="previous_customer" t-value="False"/>
+                                <t t-set="previous_color" t-value="False"/>
+                                <t t-set="previous_size" t-value="False"/>
                                 <t t-foreach="group['lines']" t-as="line">
+                                    <tr t-if="line_first or line['color'] != previous_color" class="table-secondary">
+                                        <td colspan="5">
+                                            <strong>Couleur : <span t-esc="line['color']"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="line_first or line['color'] != previous_color or line['size'] != previous_size" class="table-light">
+                                        <td colspan="5">
+                                            <strong>Taille HF : <span t-esc="line['size']"/></strong>
+                                        </td>
+                                    </tr>
                                     <t t-set="customer" t-value="line['_customer_ids']"/>
                                     <tr t-if="line_first or customer != previous_customer" class="table-light">
                                         <td colspan="5">
@@ -115,6 +127,8 @@
                                         <td t-esc="line['uom'].name"/>
                                     </tr>
                                     <t t-set="previous_customer" t-value="customer"/>
+                                    <t t-set="previous_color" t-value="line['color']"/>
+                                    <t t-set="previous_size" t-value="line['size']"/>
                                 </t>
                             </tbody>
                         </table>

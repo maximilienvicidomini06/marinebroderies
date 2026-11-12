@@ -50,16 +50,21 @@ class PurchaseOrder(models.Model):
             group = groups[key]
             group['orders'] |= line.order_id
             description = line.name or ''
+            color, size = self._get_purchase_report_variant_groups(line.product_id)
             line_key = (
                 customer.id, line.order_id.partner_id.id,
                 line.product_id.id, line.product_uom_id.id,
                 description,
             )
+            if not by_customer:
+                line_key += (color, size)
             if line_key not in group['lines']:
                 group['lines'][line_key] = {
                     'supplier': line.order_id.partner_id,
                     'product': line.product_id,
                     'description': description,
+                    'color': color,
+                    'size': size,
                     'uom': line.product_uom_id,
                     'qty': 0.0,
                     '_customer_ids': self.env['res.partner'],
@@ -74,21 +79,54 @@ class PurchaseOrder(models.Model):
                 values['x_note'] = '\n'.join(dict.fromkeys(
                     note for note in values['purchase_lines'].mapped('x_note') if note
                 ))
-            group['lines'] = sorted(
-                group['lines'].values(),
-                key=lambda line: (
+            if by_customer:
+                sort_key = lambda line: (
                     not line['_customer_ids'],
                     line['_customer_ids'].display_name or '',
                     line['_customer_ids'].id or 0,
-                    line['supplier'].display_name or '',
-                    line['supplier'].id or 0,
                     line['product'].display_name,
                     line['description'],
-                ),
+                )
+            else:
+                sort_key = lambda line: (
+                    line['color'] == 'Autres',
+                    line['color'],
+                    line['size'] == 'Autres',
+                    line['size'],
+                    not line['_customer_ids'],
+                    line['_customer_ids'].display_name or '',
+                    line['_customer_ids'].id or 0,
+                    line['product'].display_name,
+                    line['description'],
+                )
+            group['lines'] = sorted(
+                group['lines'].values(),
+                key=sort_key,
             )
         return sorted(
             groups.values(),
             key=lambda group: (not group['partner'], group['partner'].display_name or ''),
+        )
+
+    @staticmethod
+    def _get_purchase_report_variant_groups(product):
+        """Return the Couleur and Taille HF values used by the supplier report."""
+        values_by_attribute = {}
+        for ptav in product.product_template_attribute_value_ids:
+            attribute_name = (ptav.attribute_id.name or '').strip().casefold()
+            if attribute_name not in ('couleur', 'taille hf'):
+                continue
+            value_name = (
+                ptav.product_attribute_value_id.name
+                or ptav.name
+                or ''
+            ).strip()
+            if value_name:
+                values_by_attribute.setdefault(attribute_name, []).append(value_name)
+
+        return (
+            ', '.join(dict.fromkeys(values_by_attribute.get('couleur', []))) or 'Autres',
+            ', '.join(dict.fromkeys(values_by_attribute.get('taille hf', []))) or 'Autres',
         )
 
     def _prepare_picking(self):
