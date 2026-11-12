@@ -84,13 +84,29 @@
                                 <span t-translate="opsol_marinebroderies.report_purchase_by_supplier.unavailable">Non disponible</span>
                             </t>
                         </h3>
-                        <table class="table table-sm o_main_table">
+                        <style>
+                            .purchase_supplier_report_table {
+                                border-collapse: collapse !important;
+                            }
+                            .purchase_supplier_report_table th,
+                            .purchase_supplier_report_table td {
+                                border: 1px solid #adb5bd !important;
+                                background-color: #ffffff !important;
+                            }
+                            .purchase_supplier_report_table tbody tr.supplier-color-group td {
+                                border-top: 2px solid #343a40 !important;
+                            }
+                            .purchase_supplier_report_table tbody tr.supplier-size-group td {
+                                border-top: 1px solid #6c757d !important;
+                            }
+                        </style>
+                        <table class="table table-sm o_main_table purchase_supplier_report_table">
                             <thead>
                                 <tr>
-                                    <th>N°</th>
                                     <th>Couleur</th>
                                     <th>Taille HF</th>
                                     <th>Client</th>
+                                    <th>N°</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.product">Produit</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.description">Description</th>
                                     <th class="" t-translate="opsol_marinebroderies.report_purchase_by_supplier.quantity">Quantite</th>
@@ -99,11 +115,11 @@
                             </thead>
                             <tbody>
                                 <t t-foreach="group['lines']" t-as="line">
-                                    <tr style="page-break-inside: avoid;">
-                                        <td t-esc="line_index + 1"/>
+                                    <tr t-att-class="'supplier-color-group' if line['show_color'] else ('supplier-size-group' if line['show_size'] else '')" style="page-break-inside: avoid;">
                                         <td t-if="line['show_color']" t-att-rowspan="line['color_rowspan']" t-esc="line['color']"/>
                                         <td t-if="line['show_size']" t-att-rowspan="line['size_rowspan']" t-esc="line['size']"/>
                                         <td t-if="line['show_customer']" t-att-rowspan="line['customer_rowspan']" t-esc="line['_customer_ids'].display_name or 'Non disponible'"/>
+                                        <td t-esc="line_index + 1"/>
                                         <td t-esc="line['product'].display_name"/>
                                         <td>
                                             <span t-if="line['description'] != line['product'].display_name" t-esc="line['description']"/>
