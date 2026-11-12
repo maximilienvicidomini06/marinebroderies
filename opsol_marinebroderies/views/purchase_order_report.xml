@@ -91,7 +91,20 @@
                             .purchase_supplier_report_table th,
                             .purchase_supplier_report_table td {
                                 border: 1px solid #adb5bd !important;
+                            }
+                            .purchase_supplier_report_table tbody tr:nth-child(odd) td {
+                                background-color: #f2f2f2 !important;
+                            }
+                            .purchase_supplier_report_table tbody tr:nth-child(even) td {
                                 background-color: #ffffff !important;
+                            }
+                            .purchase_supplier_report_table td.supplier-color-column {
+                                background-color: #e9ecef !important;
+                                font-weight: 700;
+                            }
+                            .purchase_supplier_report_table td.supplier-size-column {
+                                background-color: #f8f9fa !important;
+                                font-weight: 700;
                             }
                             .purchase_supplier_report_table tbody tr.supplier-color-group td {
                                 border-top: 2px solid #343a40 !important;
@@ -104,7 +117,7 @@
                             <thead>
                                 <tr>
                                     <th>Couleur</th>
-                                    <th>Taille HF</th>
+                                    <th>Taille</th>
                                     <th>Client</th>
                                     <th>N°</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.product">Produit</th>
@@ -116,8 +129,8 @@
                             <tbody>
                                 <t t-foreach="group['lines']" t-as="line">
                                     <tr t-att-class="'supplier-color-group' if line['show_color'] else ('supplier-size-group' if line['show_size'] else '')" style="page-break-inside: avoid;">
-                                        <td t-if="line['show_color']" t-att-rowspan="line['color_rowspan']" t-esc="line['color']"/>
-                                        <td t-if="line['show_size']" t-att-rowspan="line['size_rowspan']" t-esc="line['size']"/>
+                                        <td t-if="line['show_color']" class="supplier-color-column" t-att-rowspan="line['color_rowspan']" t-esc="line['color']"/>
+                                        <td t-if="line['show_size']" class="supplier-size-column" t-att-rowspan="line['size_rowspan']" t-esc="line['size']"/>
                                         <td t-if="line['show_customer']" t-att-rowspan="line['customer_rowspan']" t-esc="line['_customer_ids'].display_name or 'Non disponible'"/>
                                         <td t-esc="line_index + 1"/>
                                         <td t-esc="line['product'].display_name"/>

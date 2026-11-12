@@ -116,7 +116,7 @@ class PurchaseOrder(models.Model):
         values_by_attribute = {}
         for ptav in product.product_template_attribute_value_ids:
             attribute_name = (ptav.attribute_id.name or '').strip().casefold()
-            if attribute_name not in ('couleur', 'taille hf'):
+            if attribute_name != 'couleur' and 'taille' not in attribute_name:
                 continue
             value_name = (
                 ptav.product_attribute_value_id.name
@@ -124,11 +124,12 @@ class PurchaseOrder(models.Model):
                 or ''
             ).strip()
             if value_name:
-                values_by_attribute.setdefault(attribute_name, []).append(value_name)
+                attribute_group = 'couleur' if attribute_name == 'couleur' else 'taille'
+                values_by_attribute.setdefault(attribute_group, []).append(value_name)
 
         return (
             ', '.join(dict.fromkeys(values_by_attribute.get('couleur', []))) or 'Autres',
-            ', '.join(dict.fromkeys(values_by_attribute.get('taille hf', []))) or 'Autres',
+            ', '.join(dict.fromkeys(values_by_attribute.get('taille', []))) or 'Autres',
         )
 
     @staticmethod
