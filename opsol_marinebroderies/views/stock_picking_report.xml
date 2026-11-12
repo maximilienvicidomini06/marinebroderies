@@ -226,6 +226,7 @@
                             <table class="o_has_total_table table o_main_table table-borderless">
                                 <thead style="display: table-row-group">
                                     <tr>
+                                        <th name="th_line_number" class="text-center">N°</th>
                                         <th name="th_description" class="text-start">Description</th>
                                         <th name="th_ordered" class="text-end text-nowrap">Commandé</th>
                                         <th name="th_delivered" class="text-end text-nowrap">Livré</th>
@@ -234,6 +235,7 @@
                                 <tbody class="sale_tbody">
                                     <t t-set="current_section" t-value="None"/>
                                     <t t-set="current_subsection" t-value="None"/>
+                                    <t t-set="line_number" t-value="0"/>
                                     <t t-foreach="o._get_delivery_report_lines()" t-as="report_line">
                                         <t t-set="line" t-value="report_line['line']"/>
                                         <t t-set="is_section" t-value="report_line['type'] == 'line_section'"/>
@@ -255,17 +257,21 @@
 
                                         <tr t-if="is_section or is_subsection" name="tr_section"
                                             t-att-class="'fw-bolder o_line_section' if is_section else 'fw-bold o_line_subsection'">
-                                            <td colspan="3" t-att-class="padding_class">
+                                            <td colspan="4" t-att-class="padding_class">
                                                 <span t-field="line.name"/>
                                             </td>
                                         </tr>
                                         <tr t-elif="is_note" name="tr_note" class="fst-italic o_line_note">
-                                            <td colspan="3" t-att-class="padding_class">
+                                            <td colspan="4" t-att-class="padding_class">
                                                 <span t-field="line.name"/>
                                             </td>
                                         </tr>
                                         <tr t-else="" name="tr_product">
                                             <t t-set="moves" t-value="report_line['moves']"/>
+                                            <t t-set="line_number" t-value="line_number + 1"/>
+                                            <td class="text-center">
+                                                <span t-esc="line_number"/>
+                                            </td>
                                             <td t-att-class="padding_class">
                                                 <t t-if="line">
                                                     <span t-field="line.name"/>
