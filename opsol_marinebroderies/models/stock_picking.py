@@ -183,6 +183,12 @@ class StockPicking(models.Model):
 
         for index, line in enumerate(sale_lines):
             if line.display_type:
+                # Empty notes/sections are often used as visual separators on
+                # the sale order. They must not become empty rows in the
+                # delivery slip.
+                if not line.name or not line.name.strip():
+                    continue
+
                 if line.display_type == 'line_section':
                     boundary_types = {'line_section'}
                 elif line.display_type == 'line_subsection':
