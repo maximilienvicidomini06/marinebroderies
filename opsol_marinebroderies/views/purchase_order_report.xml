@@ -84,56 +84,9 @@
                                 <span t-translate="opsol_marinebroderies.report_purchase_by_supplier.unavailable">Non disponible</span>
                             </t>
                         </h3>
-                        <style>
-                            .purchase_supplier_report_table {
-                                border-collapse: collapse !important;
-                                page-break-inside: auto;
-                            }
-                            .purchase_supplier_report_table thead {
-                                display: table-header-group;
-                            }
-                            .purchase_supplier_report_table tbody {
-                                display: table-row-group;
-                            }
-                            .purchase_supplier_report_table tr {
-                                page-break-inside: avoid;
-                                break-inside: avoid;
-                                page-break-after: auto;
-                            }
-                            .purchase_supplier_report_table th,
-                            .purchase_supplier_report_table td {
-                                border: 1px solid #adb5bd !important;
-                            }
-                            .purchase_supplier_report_table tbody tr:nth-child(odd) td {
-                                background-color: #f2f2f2 !important;
-                            }
-                            .purchase_supplier_report_table tbody tr:nth-child(even) td {
-                                background-color: #ffffff !important;
-                            }
-                            .purchase_supplier_report_table td.supplier-color-column {
-                                background-color: #e9ecef !important;
-                                font-weight: 700;
-                            }
-                            .purchase_supplier_report_table td.supplier-size-column {
-                                background-color: #f8f9fa !important;
-                                font-weight: 700;
-                            }
-                            .purchase_supplier_report_table tbody tr.supplier-client-group td[colspan="5"] {
-                                background-color: #f8f9fa !important;
-                                font-weight: 700;
-                            }
-                            .purchase_supplier_report_table tbody tr.supplier-color-group td {
-                                border-top: 2px solid #343a40 !important;
-                            }
-                            .purchase_supplier_report_table tbody tr.supplier-size-group td {
-                                border-top: 1px solid #6c757d !important;
-                            }
-                        </style>
-                        <table class="table table-sm o_main_table purchase_supplier_report_table">
+                        <table class="table table-sm o_main_table">
                             <thead>
                                 <tr>
-                                    <th>Couleur</th>
-                                    <th>Taille</th>
                                     <th>N°</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.product">Produit</th>
                                     <th t-translate="opsol_marinebroderies.report_purchase_by_supplier.description">Description</th>
@@ -142,33 +95,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <t t-foreach="group['variant_groups']" t-as="color_group">
-                                    <t t-foreach="color_group['tailles']" t-as="size_group">
-                                        <t t-foreach="size_group['lines']" t-as="client_group">
-                                            <t t-foreach="client_group['articles']" t-as="line">
-                                                <tr t-att-class="'supplier-client-group'" t-if="line_first">
-                                                    <td t-if="size_group_first and client_group_first" t-att-rowspan="color_group['color_span'] + 1" t-esc="color_group['color']" />
-                                                    <td t-if="client_group_first" t-att-rowspan="size_group['size_span'] + 1" t-esc="size_group['taille']" />
-                                                    <td colspan="5">
-                                                        Client : <span t-esc="client_group['client'].display_name or 'Non disponible'"/>
-                                                    </td>
-                                                </tr>
-                                                <tr style="page-break-inside: avoid; break-inside: avoid;">
-                                                    <td t-esc="line.get('report_index', line_index + 1)"/>
-                                                    <td>
-                                                        <span t-esc="line['product'].display_name"/>
-                                                    </td>
-                                                    <td>
-                                                        <span t-if="line['description'] != line['product'].display_name" t-esc="line['description']"/>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])"/>
-                                                    </td>
-                                                    <td t-esc="line['uom'].name"/>
-                                                </tr>
-                                            </t>
-                                        </t>
-                                    </t>
+                                <t t-set="previous_customer" t-value="False"/>
+                                <t t-foreach="group['lines']" t-as="line">
+                                    <t t-set="customer" t-value="line['_customer_ids']"/>
+                                    <tr t-if="line_first or customer != previous_customer" class="table-light">
+                                        <td colspan="5">
+                                            <strong>Client : <span t-esc="customer.display_name or 'Non disponible'"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td t-esc="line_index + 1"/>
+                                        <td t-esc="line['product'].display_name"/>
+                                        <td>
+                                            <span t-if="line['description'] != line['product'].display_name" t-esc="line['description']"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-esc="('%.0f' % line['qty']) if line['qty'] % 1 == 0 else ('%.2f' % line['qty'])"/>
+                                        </td>
+                                        <td t-esc="line['uom'].name"/>
+                                    </tr>
+                                    <t t-set="previous_customer" t-value="customer"/>
                                 </t>
                             </tbody>
                         </table>
