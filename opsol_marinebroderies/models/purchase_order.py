@@ -74,17 +74,35 @@ class PurchaseOrder(models.Model):
                 values['x_note'] = '\n'.join(dict.fromkeys(
                     note for note in values['purchase_lines'].mapped('x_note') if note
                 ))
-            group['lines'] = sorted(
-                group['lines'].values(),
-                key=lambda line: (
+                taille_values = values[
+                    'product'
+                ].taille_product_template_attribute_value_ids.sorted(
+                    key=lambda value: (
+                        value.product_attribute_value_id.sequence,
+                        value.product_attribute_value_id.id,
+                    )
+                )
+                values['taille_sequence'] = (
+                    taille_values[:1].product_attribute_value_id.sequence
+                    if taille_values else False
+                )
+
+            def _line_sort_key(line):
+                return (
+                    line['supplier'].display_name or '',
+                                        line['supplier'].id or 0,
                     not line['_customer_ids'],
                     line['_customer_ids'].display_name or '',
                     line['_customer_ids'].id or 0,
-                    line['supplier'].display_name or '',
-                    line['supplier'].id or 0,
-                    line['product'].display_name,
-                    line['description'],
-                ),
+                    line['product'].product_tmpl_id.display_name,
+                    line['taille_sequence'] is False,
+                    line['taille_sequence'] or 0,
+                    line['description']
+                )
+
+            group['lines'] = sorted(
+                group['lines'].values(),
+                key=_line_sort_key,
             )
         return sorted(
             groups.values(),
