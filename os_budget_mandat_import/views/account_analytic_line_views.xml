@@ -8,7 +8,7 @@
             <list create="false">
                 <field name="date"/>
                 <field name="mandat_ref"/>
-                <field name="mandat_budget_code"/>
+                <field name="general_account_id"/>
                 <field name="name"/>
                 <field name="partner_id"/>
                 <field name="analytic_distribution" widget="analytic_distribution" optional="hide"/>
@@ -28,7 +28,8 @@
                 <field name="mandat_budget_code"/>
                 <field name="partner_id"/>
                 <field name="name"/>
-                <filter name="group_code" string="Code budgétaire" context="{'group_by': 'mandat_budget_code'}"/>
+                <field name="general_account_id"/>
+                <filter name="group_code" string="Compte comptable" context="{'group_by': 'general_account_id'}"/>
                 <filter name="group_partner" string="Fournisseur" context="{'group_by': 'partner_id'}"/>
                 <filter name="group_month" string="Mois" context="{'group_by': 'date:month'}"/>
             </search>

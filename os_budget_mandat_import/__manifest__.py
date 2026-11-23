@@ -1,7 +1,7 @@
 {
     "name": "Import des mandats budgétaires",
     "summary": "Importe les exports MANDAT en lignes analytiques pour le suivi budgétaire",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Accounting/Accounting",
     "author": "Open Solution",
     "website": "https://www.opensolution.mc",

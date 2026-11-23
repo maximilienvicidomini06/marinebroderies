@@ -34,6 +34,7 @@ class MandatImportWizard(models.TransientModel):
     count_ok = fields.Integer(compute="_compute_stats")
     count_duplicate = fields.Integer(compute="_compute_stats")
     count_unmapped = fields.Integer(compute="_compute_stats")
+    count_no_account = fields.Integer(compute="_compute_stats")
     summary_html = fields.Html(compute="_compute_stats", sanitize=False)
 
     @api.depends("line_ids.status", "line_ids.amount", "line_ids.analytic_account_id")
@@ -43,6 +44,7 @@ class MandatImportWizard(models.TransientModel):
             wiz.count_ok = status["ok"]
             wiz.count_duplicate = status["duplicate"]
             wiz.count_unmapped = status["unmapped"]
+            wiz.count_no_account = status["no_account"]
             totals = defaultdict(Decimal)
             for line in wiz.line_ids.filtered(lambda l: l.status == "ok"):
                 key = (line.budget_code, line.analytic_account_id.display_name)
@@ -118,7 +120,10 @@ class MandatImportWizard(models.TransientModel):
     def action_parse(self):
         self.ensure_one()
         parsed = self._make_keys(self._parse_file())
-        mapping = self.env["mandat.budget.mapping"]._get_mapping(self.company_id)
+        Mapping = self.env["mandat.budget.mapping"]
+        mapping = Mapping._get_mapping(self.company_id)
+        accounts = {code: Mapping._find_account(code, self.company_id)
+                    for code in {r["budget_code"] for r in parsed}}
         existing = set(self.env["account.analytic.line"].search([
             ("company_id", "=", self.company_id.id),
             ("mandat_key", "in", [r["key"] for r in parsed]),
@@ -133,6 +138,7 @@ class MandatImportWizard(models.TransientModel):
                 "amount": float(r["amount"]),
                 "key": r["key"],
                 "analytic_account_id": mapping.get(r["budget_code"], self.env["account.analytic.account"]).id,
+                "general_account_id": accounts[r["budget_code"]].id,
                 "is_duplicate": r["key"] in existing,
             })
             for r in parsed
@@ -176,6 +182,12 @@ class MandatImportWizard(models.TransientModel):
             raise UserError(self.env._(
                 "%s ligne(s) n'ont pas de compte analytique. Renseignez-le dans l'aperçu "
                 "ou créez la correspondance avant d'importer.", self.count_unmapped))
+        if self.count_no_account:
+            missing = ", ".join(sorted(set(self.line_ids.filtered(
+                lambda l: l.status == "no_account").mapped("budget_code"))))
+            raise UserError(self.env._(
+                "Imputation(s) absente(s) du plan comptable : %s. Créez le compte comptable "
+                "portant ce code puis relancez l'analyse.", missing))
         if not lines:
             raise UserError(self.env._("Rien à importer : toutes les lignes ont déjà été importées."))
 
@@ -198,6 +210,7 @@ class MandatImportWizard(models.TransientModel):
                 "date": line.date,
                 "amount": -line.amount,  # dépense = montant négatif en analytique
                 column: account.id,
+                "general_account_id": line.general_account_id.id,
                 "partner_id": partners.get(line.supplier, self.env["res.partner"]).id or False,
                 "ref": line.piece,
                 "company_id": self.company_id.id,
@@ -233,17 +246,21 @@ class MandatImportWizardLine(models.TransientModel):
     key = fields.Char(readonly=True)
     is_duplicate = fields.Boolean(readonly=True)
     analytic_account_id = fields.Many2one("account.analytic.account", "Compte analytique")
+    general_account_id = fields.Many2one("account.account", "Compte comptable", readonly=True)
     status = fields.Selection([
         ("ok", "À importer"),
+        ("no_account", "Compte comptable inconnu"),
         ("unmapped", "Compte analytique manquant"),
         ("duplicate", "Déjà importée"),
     ], compute="_compute_status")
 
-    @api.depends("is_duplicate", "analytic_account_id")
+    @api.depends("is_duplicate", "analytic_account_id", "general_account_id")
     def _compute_status(self):
         for line in self:
             if line.is_duplicate:
                 line.status = "duplicate"
+            elif not line.general_account_id:
+                line.status = "no_account"
             elif not line.analytic_account_id:
                 line.status = "unmapped"
             else:

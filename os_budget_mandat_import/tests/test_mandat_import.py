@@ -17,6 +17,10 @@ class TestMandatImport(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.gl_entretien, cls.gl_travaux = cls.env["account.account"].create([
+            {"code": "691332", "name": "Entretien", "account_type": "expense"},
+            {"code": "691380", "name": "Travaux neufs", "account_type": "expense"},
+        ])
         plan = cls.env["account.analytic.plan"].create({"name": "Budget test"})
         cls.acc_entretien = cls.env["account.analytic.account"].create(
             {"name": "Entretien", "plan_id": plan.id})
@@ -46,6 +50,9 @@ class TestMandatImport(TransactionCase):
         self.assertEqual(lines.filtered(lambda l: l.mandat_ref == "CP-2")[plan_col], self.acc_entretien)
         self.assertEqual(lines.filtered(lambda l: l.mandat_ref == "CP-2").amount, 20)
         self.assertTrue(lines.partner_id)
+        self.assertEqual(lines.filtered(lambda l: l.mandat_ref == "CP-3").general_account_id, self.gl_travaux)
+        self.assertEqual(self.env["mandat.budget.mapping"].search([("code", "=", "691332")]).general_account_id,
+                         self.gl_entretien)
         # correspondance 691380 mémorisée
         self.assertTrue(self.env["mandat.budget.mapping"].search([("code", "=", "691380")]))
 
@@ -59,3 +66,13 @@ class TestMandatImport(TransactionCase):
     def test_bad_file(self):
         with self.assertRaises(UserError):
             self._wizard(content="foo;bar\n").action_parse()
+
+    def test_unknown_gl_account(self):
+        content = SAMPLE.replace("691332", "ZZ0001")
+        self.env["mandat.budget.mapping"].create(
+            {"code": "ZZ0001", "analytic_account_id": self.acc_entretien.id})
+        wiz = self._wizard(content)
+        wiz.action_parse()
+        self.assertEqual(wiz.count_no_account, 3)
+        with self.assertRaises(UserError):
+            wiz.action_import()

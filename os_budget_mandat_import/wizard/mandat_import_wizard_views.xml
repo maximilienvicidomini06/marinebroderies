@@ -17,7 +17,12 @@
                     <div class="alert alert-info" role="status">
                         <field name="count_ok" class="oe_inline"/> ligne(s) à importer,
                         <field name="count_duplicate" class="oe_inline"/> déjà importée(s) (ignorées),
-                        <field name="count_unmapped" class="oe_inline"/> sans compte analytique.
+                        <field name="count_unmapped" class="oe_inline"/> sans compte analytique,
+                        <field name="count_no_account" class="oe_inline"/> avec une imputation absente du plan comptable.
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="count_no_account == 0">
+                        Certaines imputations n'existent pas dans le plan comptable (lignes en rouge) :
+                        créez les comptes correspondants, puis cliquez sur « Changer de fichier » et relancez l'analyse.
                     </div>
                     <div class="alert alert-warning" role="alert" invisible="count_unmapped == 0">
                         Choisissez un compte analytique pour les lignes en orange avant d'importer.
@@ -26,18 +31,21 @@
                     <field name="line_ids" nolabel="1">
                         <list editable="bottom" create="false" delete="false"
                               decoration-muted="status == 'duplicate'"
-                              decoration-warning="status == 'unmapped'">
+                              decoration-warning="status == 'unmapped'"
+                              decoration-danger="status == 'no_account'">
                             <field name="date"/>
                             <field name="piece"/>
                             <field name="supplier"/>
                             <field name="budget_code"/>
                             <field name="budget_label" optional="hide"/>
+                            <field name="general_account_id"/>
                             <field name="analytic_account_id" readonly="status == 'duplicate'"/>
                             <field name="amount" sum="Total"/>
                             <field name="status" widget="badge"
                                    decoration-success="status == 'ok'"
                                    decoration-warning="status == 'unmapped'"
-                                   decoration-muted="status == 'duplicate'"/>
+                                   decoration-muted="status == 'duplicate'"
+                                   decoration-danger="status == 'no_account'"/>
                             <field name="is_duplicate" column_invisible="True"/>
                         </list>
                     </field>
