@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mandat_import_wizard_form" model="ir.ui.view">
+        <field name="name">mandat.import.wizard.form</field>
+        <field name="model">mandat.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Importer des mandats">
+                <field name="state" invisible="1"/>
+                <group invisible="state != 'upload'">
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="create_partners"/>
+                    <field name="remember_mapping"/>
+                </group>
+                <div invisible="state != 'preview'">
+                    <div class="alert alert-info" role="status">
+                        <field name="count_ok" class="oe_inline"/> ligne(s) à importer,
+                        <field name="count_duplicate" class="oe_inline"/> déjà importée(s) (ignorées),
+                        <field name="count_unmapped" class="oe_inline"/> sans compte analytique.
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="count_unmapped == 0">
+                        Choisissez un compte analytique pour les lignes en orange avant d'importer.
+                    </div>
+                    <field name="summary_html" nolabel="1"/>
+                    <field name="line_ids" nolabel="1">
+                        <list editable="bottom" create="false" delete="false"
+                              decoration-muted="status == 'duplicate'"
+                              decoration-warning="status == 'unmapped'">
+                            <field name="date"/>
+                            <field name="piece"/>
+                            <field name="supplier"/>
+                            <field name="budget_code"/>
+                            <field name="budget_label" optional="hide"/>
+                            <field name="analytic_account_id" readonly="status == 'duplicate'"/>
+                            <field name="amount" sum="Total"/>
+                            <field name="status" widget="badge"
+                                   decoration-success="status == 'ok'"
+                                   decoration-warning="status == 'unmapped'"
+                                   decoration-muted="status == 'duplicate'"/>
+                            <field name="is_duplicate" column_invisible="True"/>
+                        </list>
+                    </field>
+                </div>
+                <footer>
+                    <button name="action_parse" string="Analyser le fichier" type="object"
+                            class="btn-primary" invisible="state != 'upload'"/>
+                    <button name="action_import" string="Importer" type="object"
+                            class="btn-primary" invisible="state != 'preview'"/>
+                    <button name="action_back" string="Changer de fichier" type="object"
+                            class="btn-secondary" invisible="state != 'preview'"/>
+                    <button string="Annuler" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mandat_import_wizard" model="ir.actions.act_window">
+        <field name="name">Importer des mandats</field>
+        <field name="res_model">mandat.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

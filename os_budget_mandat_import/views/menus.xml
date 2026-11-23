@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_mandat_root" name="Mandats budgétaires"
+              parent="account.menu_finance_entries" sequence="90"
+              groups="account.group_account_manager"/>
+    <menuitem id="menu_mandat_import" name="Importer des mandats"
+              parent="menu_mandat_root" action="action_mandat_import_wizard" sequence="10"/>
+    <menuitem id="menu_mandat_lines" name="Mandats importés"
+              parent="menu_mandat_root" action="action_analytic_line_mandat" sequence="20"/>
+    <menuitem id="menu_mandat_mapping" name="Correspondances budgétaires"
+              parent="account.menu_finance_configuration" action="action_mandat_budget_mapping"
+              sequence="90" groups="account.group_account_manager"/>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mandat_budget_mapping_user,mandat.budget.mapping user,model_mandat_budget_mapping,account.group_account_invoice,1,0,0,0
+access_mandat_budget_mapping_manager,mandat.budget.mapping manager,model_mandat_budget_mapping,account.group_account_manager,1,1,1,1
+access_mandat_import_wizard_manager,mandat.import.wizard manager,model_mandat_import_wizard,account.group_account_manager,1,1,1,1
+access_mandat_import_wizard_line_manager,mandat.import.wizard.line manager,model_mandat_import_wizard_line,account.group_account_manager,1,1,1,1
