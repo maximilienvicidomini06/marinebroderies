@@ -14,6 +14,7 @@
 
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="sale_id" invisible="not sale_id"/>
+                    <field name="calendar_color"/>
                 </xpath>
 
                 <xpath expr="//field[@name='move_ids']//list//field[@name='product_uom_qty']" position="before">
@@ -80,8 +81,13 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.stock_picking_calendar"/>
             <field name="arch" type="xml">
+                <xpath expr="//calendar" position="attributes">
+                    <attribute name="color">calendar_color</attribute>
+                    <attribute name="edit">1</attribute>
+                </xpath>
                 <xpath expr="//calendar/field[@name='partner_id']" position="after">
                     <field name="location_dest_id" string="Destination" groups="stock.group_stock_multi_locations"/>
+                    <field name="calendar_color"/>
                 </xpath>
             </field>
         </record>
