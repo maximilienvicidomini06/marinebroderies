@@ -4,17 +4,9 @@ from odoo import api, fields, models
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    calendar_color = fields.Selection(
-        selection=[
-            ('0', 'Bleu'),
-            ('1', 'Rouge'),
-            ('2', 'Turquoise'),
-            ('3', 'Orange'),
-            ('4', 'Violet'),
-            ('5', 'Jaune'),
-        ],
+    calendar_color = fields.Integer(
         string='Couleur calendrier',
-        default='0',
+        default=0,
     )
     x_customer_id = fields.Many2one(
         'res.partner',

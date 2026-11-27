@@ -14,7 +14,7 @@
 
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="sale_id" invisible="not sale_id"/>
-                    <field name="calendar_color"/>
+                    <field name="calendar_color" widget="color_picker"/>
                 </xpath>
 
                 <xpath expr="//field[@name='move_ids']//list//field[@name='product_uom_qty']" position="before">
@@ -87,7 +87,7 @@
                 </xpath>
                 <xpath expr="//calendar/field[@name='partner_id']" position="after">
                     <field name="location_dest_id" string="Destination" groups="stock.group_stock_multi_locations"/>
-                    <field name="calendar_color"/>
+                    <field name="calendar_color" widget="color_picker"/>
                 </xpath>
             </field>
         </record>
